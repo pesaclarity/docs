@@ -11,6 +11,7 @@ This repo is the source of truth for what we build and how it looks.
 | [spec/PRODUCT-SPEC.md](spec/PRODUCT-SPEC.md) | Product spec: principles, users, screens, MVP, data capture, debts, Financial Health Index, architecture, privacy, open source, roadmap, risks |
 | [BRAND.md](BRAND.md) | Name, voice, logo, colour, type |
 | [REPOS.md](REPOS.md) | The organisation's repositories, their licences, and when each is created |
+| [research/INTERVIEW-GUIDE.md](research/INTERVIEW-GUIDE.md) | Phase 0 user interviews: who, script, scoring and the go/no-go gate |
 | [brand/](brand/) | Logo files and design tokens |
 
 ## Principles
