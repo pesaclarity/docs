@@ -381,6 +381,22 @@ What open source requires:
 - **Contributor terms.** A contributor licence agreement (or copyright assignment) keeps the commercial licence option legally possible; a code of conduct, contributing guide, and security policy with a private disclosure address.
 - **Public roadmap and issues** on GitHub; parser packs accept community pull requests for new banks, SACCOs and wallets, each gated by its test suite.
 
+### Repositories
+
+All code lives under the GitHub organisation `pesaclarity`. All seven repositories exist from the start; each is built in the phase shown. See [REPOS.md](../REPOS.md) for the full table.
+
+| Repo | Codename | Licence |
+| --- | --- | --- |
+| `.github` | | CC BY 4.0 |
+| `docs` | | CC BY 4.0 (name and logo excluded) |
+| `ujumbe-parsers` | ujumbe (message) | Apache-2.0 |
+| `pesaclarity-app` | | AGPL-3.0 + commercial on request |
+| `pesaclarity-web` | dirisha (window) | AGPL-3.0 (code), CC BY 4.0 (text) |
+| `pesaclarity-backend` | ngome (fortress) | AGPL-3.0 + commercial on request |
+| `pesaclarity-ml` | akili (intelligence) | AGPL-3.0 (code); weights under a separate model licence |
+
+`pesaclarity-app` depends on `ujumbe-parsers` (Dart package `ujumbe`), so parser packs can be versioned, tested and contributed independently of app releases.
+
 ## Roadmap
 
 Working evenings, a solo developer can reach a private beta in about 14 weeks, with each phase gated on one result.
