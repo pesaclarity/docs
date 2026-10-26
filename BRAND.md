@@ -54,7 +54,19 @@ The brand colour is **Pesa Red**, the red used across the app designs. It is Pes
 
 **Red means brand, so "over budget" can't rely on colour alone.** Every over or failed state also carries a label or icon ("Over", ⚠ icon). Green stays a status colour only, which also keeps us visually distinct from M-Pesa.
 
-Dark mode: background `#1A1214`, surface `#251B1E`, text `#EDE4E6`, muted `#B3A5A9`, brand `#FF6B7A`.
+Dark mode:
+
+| Token | Hex |
+| --- | --- |
+| Background / surface / border | `#1A1214` / `#251B1E` / `#3D2E32` |
+| Text / muted | `#EDE4E6` / `#B3A5A9` |
+| Brand (text on it `#1A1214`) | `#FF6B7A` |
+| Link red | `#FF8592` |
+| Red soft | `#3A1D23` |
+| Success (text `#6EE7B7`) | `#34D399` |
+| Warning | `#FBBF24` |
+
+All text pairs are 6:1 or better on the dark surface. On dark, text on brand fills is dark (`#1A1214`), not white.
 
 Machine-readable values: [`brand/tokens.json`](brand/tokens.json) (W3C design-token format).
 
