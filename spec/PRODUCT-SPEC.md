@@ -390,7 +390,7 @@ All code lives under the GitHub organisation `pesaclarity`. All seven repositori
 | `.github` | | CC BY 4.0 |
 | `docs` | | CC BY 4.0 (name and logo excluded) |
 | `ujumbe-parsers` | ujumbe (message) | Apache-2.0 |
-| `pesaclarity-app` | mfuko (pocket) | AGPL-3.0 + commercial on request |
+| `pesaclarity-app` | | AGPL-3.0 + commercial on request |
 | `pesaclarity-web` | dirisha (window) | AGPL-3.0 (code), CC BY 4.0 (text) |
 | `pesaclarity-backend` | ngome (fortress) | AGPL-3.0 + commercial on request |
 | `pesaclarity-ml` | akili (intelligence) | AGPL-3.0 (code); weights under a separate model licence |
