@@ -10,4 +10,4 @@ Architecture decision records (ADRs): one short file per decision that is expens
 | [0004](0004-eu-hosting-and-email-sign-in.md) | EU hosting and email sign-in | Accepted |
 | [0005](0005-pin-certificate-authorities.md) | Pin certificate authorities, not keys | Accepted |
 | [0006](0006-fdroid-build-without-prebuilt-libraries.md) | F-Droid build without prebuilt libraries | Accepted |
-| [0007](0007-statement-engine-in-dart.md) | Statement engine in Dart | Proposed |
+| [0007](0007-statement-engine-in-dart.md) | Statement engine in Dart | Accepted |

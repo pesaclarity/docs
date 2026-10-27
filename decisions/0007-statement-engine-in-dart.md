@@ -1,6 +1,6 @@
 # 0007. Statement engine in Dart
 
-Date: 2026-10-27 · Status: Proposed
+Date: 2026-10-27 · Status: Accepted
 
 ## Context
 

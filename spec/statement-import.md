@@ -120,7 +120,7 @@ The F-Droid build has no PDFium ([0006](../decisions/0006-fdroid-build-without-p
 
 ## Rust
 
-Proposed in [0007](../decisions/0007-statement-engine-in-dart.md): the engine stays in Dart. Parsing a statement's text takes milliseconds, and the SMS and statement packs rely on Dart regular expressions (look-behind among them) that Rust's regex engine does not support. Rust is worth a time-boxed experiment for PDF extraction only, where a pure-Rust library could bring statement import to the F-Droid build. The experiment compares it with PDFium on synthetic statements for accuracy, speed, APK size and encrypted-PDF support.
+Decided in [0007](../decisions/0007-statement-engine-in-dart.md): the engine stays in Dart. Parsing a statement's text takes milliseconds, and the SMS and statement packs rely on Dart regular expressions (look-behind among them) that Rust's regex engine does not support. Rust is worth a time-boxed experiment for PDF extraction only, where a pure-Rust library could bring statement import to the F-Droid build. The experiment compares it with PDFium on synthetic statements for accuracy, speed, APK size and encrypted-PDF support.
 
 ## Rollout
 
