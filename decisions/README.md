@@ -11,3 +11,4 @@ Architecture decision records (ADRs): one short file per decision that is expens
 | [0005](0005-pin-certificate-authorities.md) | Pin certificate authorities, not keys | Accepted |
 | [0006](0006-fdroid-build-without-prebuilt-libraries.md) | F-Droid build without prebuilt libraries | Accepted |
 | [0007](0007-statement-engine-in-dart.md) | Statement engine in Dart | Accepted |
+| [0008](0008-dev-branch-and-release-please.md) | dev branch and release-please | Accepted |
