@@ -32,7 +32,7 @@ Text order alone loses table structure: columns merge, wrapped descriptions spli
 
 1. **Lines:** words whose vertical centres fall within half a line height of each other form one line, sorted left to right.
 2. **Header row:** the first line on a page where the pack's column header patterns all match. Headers repeat on later pages and are skipped there.
-3. **Columns:** each header's horizontal span defines its column; the boundary between two columns is the midpoint of the gap between their headers. A word belongs to the column its centre falls in. Packs can set a column's alignment (`left`, `right`) when values sit wider than their header.
+3. **Columns:** a left-aligned column (text, dates) starts just left of its header, since its values start where the header does and can run far to the right. A right-aligned column (amounts) starts halfway across the gap after the header to its left, since its values end where its header ends and can start to its left. A word belongs to the column its centre falls in, except that only numbers go in amount columns: other text reaching into one stays in the text column to its left, as a long description does.
 4. **Rows:** a line starts a new row when the pack's `row_starts_with` column (usually the date or reference) is not empty. Other lines are continuations, and their cells are appended to the row above, so wrapped descriptions join.
 5. **Chrome:** lines matching the pack's `skip` patterns (page numbers, disclaimers, summary tables) are dropped, and so is anything above the header row.
 
