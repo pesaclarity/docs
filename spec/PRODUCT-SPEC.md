@@ -154,7 +154,7 @@ Phase 2: invoices and timesheets, multi-currency income at actual rates, tax res
 
 ## Getting data in
 
-SMS is the live source on Android; statements backfill history and verify balances; manual entry covers cash.
+SMS is the live source on Android; statements backfill history and verify balances; manual entry covers cash. How statements are read, including passwords and per-bank statement packs, is in [Statement import](statement-import.md).
 
 **My accounts, not account linking.** During setup the user ticks the institutions they actually transact with (M-Pesa, I&M, KCB, Equity, Airtel Money and so on). Each tick activates that institution's parser pack and adds its sender IDs to the watch list; the app then scans past messages from those senders and listens for new ones. There are no bank logins, no credentials and no connections to any institution's systems; accounts can be added or switched off any time in Profile.
 
@@ -270,7 +270,7 @@ Infra (decided, [0004](../decisions/0004-eu-hosting-and-email-sign-in.md)): in t
 
 - **Kenya Data Protection Act 2019:** register with the ODPC; file a data protection impact assessment for federated training; honour access and deletion requests within 30 days.
 - **Lost passphrase = lost backup:** offer a printable recovery key at setup.
-- **Statement passwords** are used once in memory, then discarded; PDFs never leave the phone.
+- **Statement passwords** are used once in memory, then discarded; PDFs never leave the phone. See [Statement import](statement-import.md#passwords).
 - **App lock:** PIN or biometric, auto-lock, hide balances on open, remote sign-out of devices.
 - **No analytics:** product decisions rely on interviews and opt-in feedback; an opt-in, anonymous crash report is the one exception.
 
