@@ -90,9 +90,9 @@ Amount styles a pack can describe: separate in and out columns (as above), one s
 M-Pesa statements and most bank statements are encrypted PDFs.
 
 - The app asks for the password when PDFium reports one is needed. It goes straight to PDFium, is not logged or stored, and the field is cleared once used.
-- **Hints:** each pack names an approved hint message, for example where Safaricom sends the M-Pesa password. The app never guesses or tries passwords on the person's behalf.
-- **Several files at once:** when a person imports a batch from one institution, the password is kept in memory for that batch only, then dropped.
-- **Wrong passwords:** after three wrong tries, a short wait before the next.
+- **Hints:** each pack names an approved hint message, for example where Safaricom sends the M-Pesa password. A locked PDF cannot be read before it opens, so the app shows the hints of the institutions ticked in My accounts (all of them when none is ticked). The app never guesses passwords.
+- **Several files at once:** a person can pick several PDFs together. The first password that opens one is tried quietly on the rest of that batch, then dropped when the batch ends, is cancelled or the screen closes. A file it does not open asks for its own, and can be skipped.
+- **Wrong passwords:** after three wrong tries in a row, a 30-second wait before the next.
 - **Later, to confirm first:** if Safaricom's statement SMS carries the password, the app could offer to fill it in from that message, with the person's tap. Nothing is stored.
 
 All new wording goes through the usual approval.
