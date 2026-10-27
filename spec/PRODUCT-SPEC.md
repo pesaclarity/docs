@@ -264,7 +264,7 @@ The phone does all the work and holds all the data; the server has three narrow 
 | Backup vault | Backups encrypted on the phone (AES-256-GCM, key from the user's passphrase via Argon2id) | Keys or readable data |
 | Federated learning | Clipped, noised model updates combined by secure aggregation | Raw data or individual updates in the clear |
 
-Infra: Docker on a small VPS or Cloud Run, GitHub Actions CI, signed parser-pack and model releases tracked in MLflow.
+Infra (decided, [0004](../decisions/0004-eu-hosting-and-email-sign-in.md)): in the EU, the API on Google Cloud Run, Postgres on Neon, backup ciphertext on Cloudflare R2 (EU jurisdiction) and sign-in emails through Brevo; all fit free tiers at proof-of-concept traffic. GitHub Actions CI; signed parser-pack and model releases tracked in MLflow.
 
 ### Privacy and compliance
 
@@ -284,10 +284,10 @@ Target OWASP MASVS level 2 (the standard for apps handling financial data), veri
 | Unlock | BiometricPrompt (strong class) with PIN fallback; increasing delays after failed attempts; auto-lock when the app goes to the background |
 | Screen | FLAG_SECURE blocks screenshots, screen recording and previews in the app switcher; hide-balances mode |
 | SMS handling | Only selected senders are read; raw message text is discarded after parsing, keeping fields and a hash for dedupe |
-| Permissions | SMS and notifications only; no contacts, location or broad storage access |
+| Permissions | SMS, notifications, restoring reminders after a restart, and the network (sign-in, backups, the privacy policy) only; no contacts, location or broad storage access. A test fails the build if the list changes |
 | OS backups | Android auto-backup off, so the database never lands in Google Drive; only the app's own end-to-end encrypted backup |
-| Network | TLS 1.3 with certificate pinning to the three server endpoints; no third-party SDKs or trackers |
-| Device integrity | Play Integrity API: warn on rooted or tampered devices; the server accepts backups and model updates only from genuine app installs |
+| Network | TLS with cleartext off. Our servers are pinned to their certificate authorities, not their keys, because the hosts renew certificates with new keys every few months ([0005](../decisions/0005-pin-certificate-authorities.md)); Google Drive uses the phone's own authorities. No third-party SDKs or trackers |
+| Device integrity | A light root and tamper check warns once in Profile and never blocks use. Play builds attach a Play Integrity token, bound to the request, to backup uploads (and later model updates); the server refuses a token that fails. F-Droid builds cannot attest, so uploads without a token follow a server setting, set to allow |
 | Code | R8 and Flutter obfuscation; no secrets in the app; dependency scanning in CI |
 | Updates | Parser packs and models signed (Ed25519) and verified on the phone before use |
 | Sessions | Short-lived tokens, refresh token in the Keystore, device list with remote sign-out |
@@ -311,7 +311,7 @@ Restore: on a new phone, choose the source, pick a backup by date, enter the pas
 
 | Moment | What happens |
 | --- | --- |
-| Welcome | Phone number with SMS code, Continue with Google, Sign in with Apple (iPhone), or Use without an account; links to Terms and Privacy Policy |
+| Welcome | Email with a one-time code, Continue with Google (Play build only), Sign in with Apple (iPhone, later), or Use without an account; a link to the Privacy Policy. No SMS codes: they cost too much for an open-source project |
 | First run | Plain-language privacy summary and three choices: improve the app (federated updates, on), contribute to licensed models (off), crash reports (off) |
 | Any time | Profile > Privacy shows the same summary and switches, the full policy, and its version and date |
 | Email me a copy | Sends the full policy as text plus PDF to the Google account's email, or to an address the user types; a typed address is used only for that send and then discarded |
@@ -373,7 +373,7 @@ Everything is open source: the app, the server, the parser packs and this spec. 
 
 What open source requires:
 
-- **Two build flavours.** A Play Store build (Google Sign-In, Play Integrity) and a FOSS build for F-Droid with no Google services; phone sign-in and local backup work in both.
+- **Two build flavours.** A Play Store build (Google Sign-In, Play Integrity) and a FOSS build for F-Droid with no Google services; email sign-in and backups work in both. F-Droid accepts no prebuilt native libraries, so its build compiles SQLCipher from source and leaves out PDFium, which means no statement PDF import there for now ([0006](../decisions/0006-fdroid-build-without-prebuilt-libraries.md)).
 - **Reproducible builds,** so anyone can confirm the Play Store app matches the public source.
 - **Synthetic test data only.** Every SMS sample in the repo is generated or fully anonymised; never commit real messages.
 - **Protected keys.** App signing, parser-pack signing and server secrets stay outside the repo, in a hardware key or secrets manager.
