@@ -2,7 +2,7 @@
 
 How the app reads M-Pesa and bank statement PDFs on the phone. Part of [Getting data in](PRODUCT-SPEC.md#getting-data-in): SMS is the live source, and statements backfill history and check balances.
 
-Status: proposed, 27 Oct 2026. Replaces the text-only M-Pesa reader with a layout-aware reader driven by statement packs, so banks can be added without app code. Checked against a real 36-page M-Pesa statement on the owner's machine (never committed): 1,262 rows read, none unread, one balance break where the period starts mid-second.
+Status: proposed, 27 Oct 2026. Replaces the text-only M-Pesa reader with a layout-aware reader driven by statement packs, so banks can be added without app code.
 
 ## Principles
 
@@ -30,9 +30,9 @@ Steps 3 to 7 are plain Dart with no Flutter dependency, so they run in CI agains
 
 Text order alone loses table structure: columns merge, wrapped descriptions split rows, and amounts land in the wrong column. The layout step rebuilds the table from positions:
 
-1. **Lines:** words whose vertical centres fall within half a line height of each other form one line, sorted left to right.
+1. **Lines:** a word joins a line when their vertical spans overlap by at least half the shorter one, so small marks (commas, hyphens, asterisks) stay on their line; words are sorted left to right.
 2. **Header row:** the first line on a page where the pack's column header patterns all match. Headers repeat on later pages and are skipped there.
-3. **Columns:** the headers give a first guess, then each boundary moves to the gutter, the widest strip between the two headers' centres that no word of the table body crosses. Real M-Pesa statements centre their headers over the columns, so values start well left of their header or end well right of it; the gutters show where the columns really are. A word belongs to the column its centre falls in, except that only numbers go in amount columns.
+3. **Columns:** the headers give a first guess, then each boundary moves to the gutter, the widest strip between the two headers' centres that no word of the table body crosses. M-Pesa statements centre their headers over the columns, so values start well left of their header or end well right of it; the gutters show where the columns really are. A word belongs to the column its centre falls in, except that only numbers go in amount columns.
 4. **Rows:** a line starts a new row when the pack's `row_starts_with` cell has text and, if that column has a `pattern`, matches it (an M-Pesa receipt is ten letters and digits). Other lines continue the row above when they sit within two line heights of it, so wrapped descriptions join and page footers stay out.
 5. **Chrome:** lines matching the pack's `skip` patterns (page numbers, disclaimers) are dropped, and so is anything above the header row.
 6. **Order:** statements print rows from the same second in no reliable order (an overdraft draw, the payment it funds and its fee). Each such group is put in the order in which the balances follow.
