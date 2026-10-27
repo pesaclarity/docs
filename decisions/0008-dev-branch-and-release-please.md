@@ -1,0 +1,19 @@
+# 0008. dev branch and release-please
+
+Date: 2026-10-27 · Status: Accepted
+
+## Context
+
+In `pesaclarity-app`, `pesaclarity-backend` and `ujumbe-parsers`, `main` is published: it releases to Google Play, deploys the server, or signs the packs phones download. Changes merged straight to `main` reach people before anyone has tried them together. Versions were bumped by hand and changelogs written by hand, so they drifted.
+
+## Decision
+
+Pull requests go to `dev`, titled in Conventional Commits form and squash-merged. `dev` reaches `main` only through a pull request that passes CI and a QA approval (the `qa` environment), merged with a merge commit. release-please on `main` sets the next SemVer version from the titles, writes the changelog and tags `vX.Y.Z`; the tag runs the release (Play upload or pack signing) and the release is merged back into `dev`.
+
+## Consequences
+
+- `main` only moves through tested, approved batches; `dev` builds give QA a test APK for every push.
+- Versions and changelogs follow from pull request titles; a `PR title` check enforces the form.
+- dev-to-main merges must keep the individual commits (merge commit, not squash), or release-please sees one untyped change.
+- Branch protection on `main`, required checks and environment reviewers need GitHub Pro or public repositories; until then the release gate and QA checks show red but cannot block a merge, so following them is by agreement.
+- Other repos keep merging to `main`.

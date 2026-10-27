@@ -19,4 +19,6 @@ The `pesaclarity` GitHub organisation holds one repository per licence boundary 
 - Synthetic or fully anonymised test data only. Never commit real SMS, statements or phone numbers.
 - No secrets in any repo. App signing, pack signing and server keys live in a hardware key or secrets manager.
 - `main` is protected: pull requests, passing CI, no force-push.
+- Pull request titles follow Conventional Commits; they set versions and changelogs.
+- `pesaclarity-app`, `pesaclarity-backend` and `ujumbe-parsers` publish from `main`, so changes go to `dev` and reach `main` after CI and QA ([0008](decisions/0008-dev-branch-and-release-please.md)).
 - Every repo links back here for the spec and brand.
