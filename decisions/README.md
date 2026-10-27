@@ -12,3 +12,4 @@ Architecture decision records (ADRs): one short file per decision that is expens
 | [0006](0006-fdroid-build-without-prebuilt-libraries.md) | F-Droid build without prebuilt libraries | Accepted |
 | [0007](0007-statement-engine-in-dart.md) | Statement engine in Dart | Accepted |
 | [0008](0008-dev-branch-and-release-please.md) | dev branch and release-please | Accepted |
+| [0009](0009-base-currency.md) | Base currency, converted on read | Accepted |

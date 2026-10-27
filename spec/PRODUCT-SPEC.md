@@ -69,11 +69,19 @@ Remaining balance, payoff strategy (avalanche, snowball, custom), this payday's 
 
 ### Insights
 
-Leakage total and share of income, where it goes (lifestyle, friends, family, fees), six-month trend, and a one-page PDF report.
+Leakage total and share of income, spending by category as a ring and so far against the period before (week, month or year), where it goes (lifestyle, friends, family, fees), six-month trend, and a one-page PDF report.
 
 ### Profile
 
-Account details, my accounts (the institutions whose messages the app reads), payday and currency, import, export and backup, security, sign out and delete account.
+Account details, my accounts (the institutions whose messages the app reads), base currency, subscriptions, payday, import, export and backup, security, sign out and delete account.
+
+### Subscriptions
+
+What repeats and what it costs a month and a year. Repeat charges found in messages (same payee, a month apart, similar amount) are offered to track or mark as a one-off; tracked ones follow their latest charge, flag price changes, and are reminded before they fall due.
+
+### Currency
+
+Setup asks which currency the person counts in, suggesting their phone region's; Profile switches it. Transactions keep the currency they were paid in and are converted at today's rate from a public rates service, or a rate the person sets; plan, goals, debts and subscriptions are in the base currency. See [0009](../decisions/0009-base-currency.md).
 
 ### Backup and restore
 
@@ -331,6 +339,7 @@ The policy itself must cover, per the Data Protection Act: the controller and OD
 | budget_items and snapshots | one-offs and carried-forward arrears; frozen month-end results |
 | debts | lender, type, starting balance, rate, minimum, planned, formal or family |
 | goals | target, currency, date, priority, status |
+| subscriptions | name, payee, amount, currency, frequency, next date, tracking or one-off |
 | imports and parser_packs | file hash, period, reconciliation result; pack versions and test status |
 
 ## Federated learning and model licensing
