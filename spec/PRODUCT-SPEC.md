@@ -101,7 +101,9 @@ Plain-language promises, the three consent switches (improve the app on, license
 
 ### iPhone: connect M-Pesa
 
-Three steps: add the shortcut (one tap), create the message automation with the guided steps, then wait for confirmation. Statement import fills any gaps.
+Connect your messages: three steps, once (open Shortcuts › Automation › Message; pick MPESA and the bank as senders, Run Immediately; add "Add transaction from message" with the message and sender), an Open Shortcuts button, and the status: "Connected · Last message 2 min ago" or "Waiting for your first message". Statement import fills any gaps.
+
+The iPhone design follows iOS rather than the Android one: large titles, a full-width tab bar, inset grouped lists with coloured icons in Profile, the sliding segmented control, date wheels, ticked option lists and the system font, with figures in Space Grotesk. Boards are in the design canvas under "iPhone".
 
 ### Design system
 
@@ -191,23 +193,22 @@ Google Play allows SMS access under its "SMS-based money management" exception, 
 
 ### iOS capture via Shortcuts
 
-iOS lets no app read SMS, so the iOS version (after the Android MVP) captures messages through Apple's Shortcuts automations, with statement import as the safety net. Processing stays on the phone.
+iOS lets no app read SMS, so the iPhone app captures messages through Apple's Shortcuts automations, with statement import as the safety net. Processing stays on the phone. Built; see decision 0011.
 
 | Piece | Who does it | Effort |
 | --- | --- | --- |
-| "Add transaction from message" App Intent | Built into the app; appears in Shortcuts automatically | None |
-| Ready-made Pesa Clarity shortcut | User taps a link and "Add Shortcut" | One tap, once |
-| Message automation per sender (Message, Sender: MPESA, Run Immediately, choose the shortcut) | User, guided step by step from My accounts | About 30 seconds per institution |
-| Connection check | App shows "Connected, last message 2 min ago" once messages arrive, or "Not receiving yet" | None |
+| "Add transaction from message" App Intent | Built into the app; appears in Shortcuts automatically. Takes the message and its sender, runs without opening the app | None |
+| Message automation (Message, senders MPESA and the bank, Run Immediately, the action above) | User, guided by Connect your messages | About a minute, once |
+| Connection check | App shows "Connected · Last message 2 min ago", or "Waiting for your first message" | None |
 
-Apple does not let apps create automations, so the trigger step stays manual. One shortcut serves every institution; only the trigger repeats per sender. Before building, confirm the current iOS version still runs message automations without asking each time.
+Apple does not let apps create automations, so the trigger step stays manual. The action queues each message in a file protected until the iPhone's first unlock, so messages that land while it is locked still count. The app reads the queue like an inbox (same parser, review inbox and deduplication) and drops each message once read, or after 35 days unread. Still to confirm on a device: that current iOS runs message automations without asking each time.
 
 #### iOS onboarding flow
 
-1. **Sign in:** phone number with SMS code, Sign in with Apple, or Continue with Google; or use without an account.
-2. **My accounts:** tick the institutions used.
-3. **Backfill:** share M-Pesa and bank statement PDFs covering the history wanted, up to today; the app shows the 60-second first insight.
-4. **Connect:** add the Pesa Clarity shortcut (one tap), then create one message automation per institution with the guided setup.
+1. **Sign in:** email with a one-time code, or use without an account. Sign in with Apple comes later; it needs a server endpoint.
+2. **Currency and My accounts:** as on Android.
+3. **Connect:** Connect your messages, in place of the Android SMS scan. "Do this later" carries on; Profile links back to it.
+4. **Backfill:** import M-Pesa and bank statement PDFs from Profile for the history wanted.
 5. **Live:** new messages arrive through the automation; receipt numbers deduplicate any overlap with statements, which can lag a day or two.
 6. **Catch-up:** a monthly reminder to import the latest statement fills any messages the automation missed; reconciliation shows any gap.
 
@@ -215,7 +216,7 @@ Apple does not let apps create automations, so the trigger step stays manual. On
 
 | Requirement | How the app meets it |
 | --- | --- |
-| Sign in with Apple | Offered on iPhone alongside Google sign-in, as Apple requires when third-party sign-in exists |
+| Sign in with Apple | Required only if third-party sign-in is offered; the iPhone app has email sign-in only for now, so Apple sign-in comes with Google sign-in on iPhone |
 | In-app account deletion | Profile > Delete account |
 | Privacy nutrition labels | Declares sign-in details and encrypted backups only; no tracking |
 | Purpose of statement files | Explained in the import screen: used on the phone, never uploaded |
