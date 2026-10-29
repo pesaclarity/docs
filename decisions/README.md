@@ -14,3 +14,4 @@ Architecture decision records (ADRs): one short file per decision that is expens
 | [0008](0008-dev-branch-and-release-please.md) | dev branch and release-please | Accepted |
 | [0009](0009-base-currency.md) | Base currency, converted on read | Accepted |
 | [0010](0010-dates-in-the-users-timezone.md) | Dates in the user's timezone | Accepted |
+| [0011](0011-iphone-app.md) | The iPhone app | Accepted |
