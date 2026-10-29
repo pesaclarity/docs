@@ -73,7 +73,7 @@ Leakage total and share of income, spending by category as a ring and so far aga
 
 ### Profile
 
-Account details, my accounts (the institutions whose messages the app reads), base currency, subscriptions, payday, import, export and backup, security, sign out and delete account.
+Account details, my accounts (the institutions whose messages the app reads), base currency, timezone, subscriptions, payday, import, export and backup, security, sign out and delete account.
 
 ### Subscriptions
 
@@ -136,7 +136,9 @@ The Android MVP ships ten features; everything else waits until beta users ask f
 | Reminders | Local notifications before bills, card charges and payday tasks |
 | Export and backup | CSV, Excel, PDF from any screen; full backup zip; encrypted cloud backup |
 
-**Tags and categories are separate.** A category says what kind of spending a transaction is (one per transaction, drives budgets); tags say what it is part of (#roadtrip, #wedding, #reimbursable, any number per transaction). Tags work with or without a category; uncategorised transactions still count in totals as Uncategorised; new categories can be created inline from a transaction; tags filter Activity, total on Insights and appear in exports. The app ships a default Kenyan category set so nobody starts empty.
+**Tags and categories are separate.** A category says what kind of spending a transaction is (one per transaction, drives budgets); tags say what it is part of (#roadtrip, #wedding, #reimbursable, any number per transaction). Tags work with or without a category; uncategorised transactions still count in totals as Uncategorised; new categories can be created inline from a transaction; tags filter Activity, total on Insights and appear in exports. The app ships a default Kenyan category set so nobody starts empty; Eating out and Snacks are separate, and so are Loan repayment and Fuliza repayment.
+
+**Categories are applied automatically when the app is confident.** The person's own earlier choice for the payee always applies; message-type rules and well-known payees apply at 60% confidence or more; weaker guesses stay one-tap suggestions. An automatic category shows as Auto, is stored apart from the person's choice, and never overrides it.
 
 ### What makes it win
 
@@ -228,7 +230,7 @@ Debt management promises one thing: a realistic debt-free date, and a payday pla
 
 | Feature | What it does |
 | --- | --- |
-| Every debt type | Bank loans, cards, overdrafts, salary advances, Fuliza, mobile loans, SACCO loans, family and friend loans without interest |
+| Every debt type | Bank loans, cards, overdrafts (Fuliza is M-Pesa's overdraft), salary advances, mobile loans, SACCO loans, family and friend loans without interest |
 | Auto-detection | SMS and statements spot repayments and suggest which debt they belong to |
 | Strategies | Avalanche (highest rate first), snowball (smallest first) or custom; each shows the debt-free date and total interest |
 | Payday split | Minimums first, the rest to the target debt, on each payday |
@@ -236,6 +238,8 @@ Debt management promises one thing: a realistic debt-free date, and a payday pla
 | Fuliza tracker | Draws, fees and days overdrawn per month, with a nudge when usage climbs |
 | What-ifs | "Add 5,000 a month" or "clear the overdraft first" recalculates instantly |
 | Progress | Paid, remaining, debts cleared, interest saved vs minimums only |
+
+Fuliza is treated as an overdraft, like a bank or card overdraft: its daily charges are overdraft interest, shown today as Fuliza fees. Open: rename the category to Overdraft repayment and the fees to Overdraft fees once bank and card overdrafts are parsed the same way.
 
 ## Financial Health Index
 
