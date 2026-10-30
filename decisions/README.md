@@ -15,3 +15,4 @@ Architecture decision records (ADRs): one short file per decision that is expens
 | [0009](0009-base-currency.md) | Base currency, converted on read | Accepted |
 | [0010](0010-dates-in-the-users-timezone.md) | Dates in the user's timezone | Accepted |
 | [0011](0011-iphone-app.md) | The iPhone app | Accepted |
+| [0012](0012-message-reader.md) | A message reader for unmatched messages | Accepted |

@@ -180,7 +180,7 @@ Google Play allows SMS access under its "SMS-based money management" exception, 
 | Parser pack per sender | Regex rules with named groups (receipt, amount, direction, counterparty, account, balance, fee, time), one per message type: sent, received, paybill, till, Fuliza, reversal |
 | Test suite | Every rule ships with anonymised samples and expected fields; a pack releases only when all pass |
 | Signed updates | New packs download as signed rule files, without an app update |
-| Review inbox | Unmatched messages from known senders wait for the user to tag fields once, creating a local rule |
+| Review inbox | Unmatched messages from known senders wait on Home as "N messages to check". The on-phone message reader suggests amount, payee, date, balance and receipt for the person to confirm or change; "Read messages like this the same way" saves the layout so later ones are added during capture. The reader trains on synthetic messages only |
 | Dedupe | Receipt number, amount and time match SMS against later statement imports |
 
 ### Rules that keep the numbers honest
