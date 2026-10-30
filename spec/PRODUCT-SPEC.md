@@ -439,6 +439,6 @@ Open questions:
 
 - ~~Brand red~~ — resolved: #C8102E is Pesa Clarity's own red (see BRAND.md)
 - Product name: Pesa Clarity is the working name; decide after the proof of concept
-- Which banks after M-Pesa, Equity, I&M and KCB?
+- Which banks after M-Pesa, Equity, I&M and KCB? Loop and Airtel Money are review-only until their wording is known (decision 0013).
 - Flutter or React Native: decided, Flutter (26 Oct 2026)
 - Which grant programmes to apply to for the beta?
