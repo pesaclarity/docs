@@ -99,7 +99,7 @@ The promise up front, phone number with SMS code, Google, or no account at all. 
 
 ### Onboarding: my accounts
 
-The user ticks the institutions they transact with; each tick activates a parser pack. No logins. The main button starts the 90-day scan behind the 60-second first insight.
+The user ticks the institutions they transact with; each tick activates a parser pack. No logins. "Read messages from" sets how far back the first scan reads: every message (the default), the last 3, 6 or 12 months, or from a date; it can be changed later in Profile, and a wider choice reads the older messages on the next scan. The main button starts that scan behind the 60-second first insight.
 
 ### Privacy
 
@@ -154,7 +154,7 @@ Features that set it apart, split by when they ship. Value in the first minute d
 
 | Feature | Ships | Why it wins |
 | --- | --- | --- |
-| 60-second first insight | MVP | On setup, scans the last 90 days and shows income, spending, leakages and overdraft fees before any configuration |
+| 60-second first insight | MVP | On setup, scans the chosen period (every message by default) and shows income, spending, leakages and overdraft fees before any configuration |
 | Cash-flow forecast | MVP | "At this pace you hit zero on the 18th" and "your card charge on the 20th will fail": prevents overdrafts instead of reporting them |
 | Payday autopilot | MVP | When the salary message lands, proposes the split (rent, debts, set-asides, savings) as a checklist |
 | Lent and borrowed | MVP | Who owes whom among friends and family, with a polite WhatsApp reminder |
