@@ -17,6 +17,6 @@ iOS lets no app read SMS, and the iPhone design should feel like iOS, not like t
 ## Consequences
 
 - Capture needs a one-time manual automation; statement import covers anything missed.
-- Queued message text sits on the phone, under iOS data protection, until read; privacy policy 1.3 says so.
+- Queued message text sits on the phone, under iOS data protection, until read; the privacy policy (from 1.3) says so.
 - Vault uploads from iPhone carry an Apple App Attest assertion in place of a Play Integrity token: the install registers a Secure Enclave key once, then signs each upload's hash with a rising counter. The server needs the Apple team id to switch it on.
 - Release needs an Apple Developer account, signing and App Review notes explaining the automation.
