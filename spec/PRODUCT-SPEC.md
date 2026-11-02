@@ -69,7 +69,13 @@ Remaining balance, payoff strategy (avalanche, snowball, custom), this payday's 
 
 ### Insights
 
-Leakage total and share of income, spending by category as a ring and so far against the period before (week, month or year), where it goes (lifestyle, friends, family, fees), six-month trend, and a one-page PDF report.
+- **What changed:** up to three findings for the month so far against the same days of last month: the category that moved most, fees, and money in.
+- **Spending:** week, month or year; spending by category as a ring, and so far against the period before. The year adds spending month by month.
+- **Leakage:** total, share of income and change on last month, with what goes to lifestyle, friends, family and fees.
+- **Financial Health Index:** the score, the four pillars and what helps most. A pillar opens its two indicators and what brings each to full marks.
+- **Tags** and a one-page PDF report.
+
+Every finding, category and month opens Activity filtered to the transactions behind it. Before any transactions, one card points to My accounts and statement import.
 
 ### Profile
 
