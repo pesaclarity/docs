@@ -20,7 +20,7 @@ Voice rules, from the spec's principles:
 - One number first, detail one tap deeper.
 - Calm about money problems. No shaming, no alarm emojis, no "Oops!".
 - Honest about privacy: say exactly what leaves the phone.
-- Kenyan English by default; Swahili and Sheng-friendly wording after beta.
+- Plain Kenyan English that anyone can read. No Swahili or Sheng terms; product names (M-Pesa, Fuliza, Pochi la Biashara) stay as they are.
 
 ## Logo
 
