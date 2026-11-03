@@ -103,7 +103,7 @@ Safe to spend today:
 
 - An optional simple Home: today's amount and the next important thing.
 - Chama contributions and mobile-loan repayments are first-class categories.
-- Swahili.
+- Local words stay where people use them (chama, Fuliza, kibubu, jua kali); the app itself stays in English, since it is used beyond East Africa.
 
 ## Stages
 
@@ -112,7 +112,7 @@ Safe to spend today:
 2. "What was this?" for mixed senders, new income categories (with pesaclarity-ml), make-it-last
    and week-by-week plans, the smoothing pot.
 3. Spaces for personal and business.
-4. The fair health score, simple Home, Swahili, the nil-return reminder.
+4. The fair health score, simple Home, the nil-return reminder.
 
 ## Privacy
 
