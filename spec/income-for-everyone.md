@@ -86,6 +86,10 @@ Safe to spend today:
   Home's figure ("Your plan for today") through that last day, until newer money arrives.
 - **Week by week:** for business and gigs. Good days suggest a share into a smoothing pot
   (kibubu); lean days may draw from it. Its target is a typical bad week.
+  Built: weeks run Monday to Sunday, and a usual week is the median of the 8 before. A good week
+  suggests half the extra, once a week, up to a target of one usual week's spending. A lean week
+  offers to take what it falls short of usual spending. The kibubu stays in the accounts and is
+  set aside in the app, so safe to spend leaves it out.
 
 ### 5. Spaces: personal and business (stage 3)
 
