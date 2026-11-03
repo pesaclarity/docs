@@ -80,6 +80,10 @@ Safe to spend today:
 - **Monthly plan:** today's Plan.
 - **Make it last:** when money arrives, a split is suggested (rent and fees first, then a daily
   amount until the next money), with an early warning if it will run out first.
+  Built: Home offers it for a few days after money arrives. Bills due before the next money come
+  first, then the tenth kept back, then the daily amount to the last day. If the usual pace would
+  use it up sooner, it says when. "Use this plan", or a daily amount the person picks, fixes
+  Home's figure ("Your plan for today") through that last day, until newer money arrives.
 - **Week by week:** for business and gigs. Good days suggest a share into a smoothing pot
   (kibubu); lean days may draw from it. Its target is a typical bad week.
 
