@@ -6,7 +6,7 @@
 
 Pesa Clarity assumes a monthly salary: Plan is a month with expected income, safe to spend divides
 the month's day-to-day budget by the days left, and "payday" is a salary-sized deposit. Interviews
-with students, jua kali and small-business people and gig workers showed most of them have no
+with students, informal workers and small-business people and gig workers showed most of them have no
 payday. Money comes from parents at uneven gaps, from customers every day, from gigs now and then,
 or at harvest. Many file nil tax returns. Today they see "—" where safe to spend should be.
 
@@ -15,8 +15,8 @@ or at harvest. Many file nil tax returns. Today they see "—" where safe to spe
 | Pattern | Who | How money comes |
 | --- | --- | --- |
 | Salary | Employees | Monthly, every two weeks or weekly |
-| Business or hustle | Jua kali, mama mboga, boda, shops, tills | Many small payments, most days |
-| Gigs and casual work | Freelance, mjengo, delivery | Now and then, amounts vary |
+| Business or hustle | Shops, stalls, tills, motorbike or taxi | Many small payments, most days |
+| Gigs and casual work | Freelance, building sites, delivery | Now and then, amounts vary |
 | Family or sponsor support | Students, dependants | From a few people, uneven gaps |
 | Allowance, bursary or HELB | Students | A few times a term |
 | Seasonal | Farmers | A few times a year |
@@ -85,10 +85,10 @@ Safe to spend today:
   use it up sooner, it says when. "Use this plan", or a daily amount the person picks, fixes
   Home's figure ("Your plan for today") through that last day, until newer money arrives.
 - **Week by week:** for business and gigs. Good days suggest a share into a smoothing pot
-  (kibubu); lean days may draw from it. Its target is a typical bad week.
+  (the rainy day fund); lean days may draw from it. Its target is a typical bad week.
   Built: weeks run Monday to Sunday, and a usual week is the median of the 8 before. A good week
   suggests half the extra, once a week, up to a target of one usual week's spending. A lean week
-  offers to take what it falls short of usual spending. The kibubu stays in the accounts and is
+  offers to take what it falls short of usual spending. The rainy day fund stays in the accounts and is
   set aside in the app, so safe to spend leaves it out.
 
 ### 5. Spaces: personal and business (stage 3)
@@ -124,8 +124,8 @@ Safe to spend today:
 ### 8. Simple use (stage 4)
 
 - An optional simple Home: today's amount and the next important thing.
-- Chama contributions and mobile-loan repayments are first-class categories.
-- Local words stay where people use them (chama, Fuliza, kibubu, jua kali); the app itself stays in English, since it is used beyond East Africa.
+- Savings group contributions and mobile-loan repayments are first-class categories.
+- Wording is plain English that any Kenyan can read, with no Swahili or slang terms. Only product names stay as they are (M-Pesa, Fuliza, Pochi la Biashara). Decided 2026-11-03.
 
 ## Stages
 
