@@ -100,6 +100,14 @@ Safe to spend today:
   Pochi la Biashara payments on a shared M-PESA line to Business.
 - Moving money from Business to Personal is the owner's pay: income in Personal, a draw in Business.
 - Business gets sales, stock, supplier and wages categories, and a monthly profit view.
+- Decided (2026-11-03):
+  - All spaces open with the one device key and PIN; each still has its own encrypted file.
+  - Till and Pochi la Biashara routing waits for the layout of the messages a till or Pochi owner
+    receives (masked samples). Until then, money is routed by account (an account belongs to one
+    space) and any transaction can be moved to another space by hand.
+- Built (stage 3a): spaces with their own database files, the Home chip to switch, and Add a
+  space. Personal's database keeps app-wide settings (onboarding, timezone, consent) and the list
+  of spaces. Backup and restore act on the open space until per-space backup lands.
 
 ### 6. A fair health score (stage 4)
 
