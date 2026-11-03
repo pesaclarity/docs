@@ -107,7 +107,22 @@ Safe to spend today:
     space) and any transaction can be moved to another space by hand.
 - Built (stage 3a): spaces with their own database files, the Home chip to switch, and Add a
   space. Personal's database keeps app-wide settings (onboarding, timezone, consent) and the list
-  of spaces. Backup and restore act on the open space until per-space backup lands.
+  of spaces.
+- Built (stage 3b):
+  - Kinds of space: Personal, Business, Household, Savings group, Rental property, Farm and
+    Something else. Each starts with its own categories; business, rental and farm get "Paid
+    yourself", which is an own transfer, never a cost.
+  - Home for a space that is not Personal leads with its own figure: profit this month (business,
+    rental), profit this season of 6 months (farm), what is left for the home (household), the
+    pot and who paid in (savings group), or the balance. Safe to spend and the health score stay
+    in Personal.
+  - Any transaction can be moved to another space; the space it left remembers, so the message
+    is not read into it again.
+  - Open the app in: the last space used (default), a chosen space, or ask each time.
+- Built (stage 3c): every backup run copies each space to its own file, and the vault keeps each
+  space's newest copies apart. Restore lists and replaces only the open space. All spaces share
+  one signed-in account; an account per space is left for later.
+- iPhone: Shortcuts only passes new messages, so setup offers a statement import for past months.
 
 ### 6. A fair health score (stage 4)
 
