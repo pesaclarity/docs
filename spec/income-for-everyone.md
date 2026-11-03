@@ -47,6 +47,12 @@ with a hustle).
 - Stage 2, with pesaclarity-ml: income categories split into family support, allowance and bursary,
   and gifts, alongside salary, business and freelance, and money received. The categoriser's
   categories change together (categories.yaml version 3).
+- How it works: a sender starts asking when the person files money from them differently from
+  their category or from earlier money. Money out to them still takes their category. The answers
+  file it as Support from family, Business and freelance income (work and sales), Loan repayment
+  (and adds them to Debts once), Own transfer (lowering the oldest money lent to someone of that
+  name) or Gifts received. "Always use this" sets their category and stops asking; a switch on the
+  payee turns asking on or off.
 
 ### 3. Plan until the next money (stage 1)
 
