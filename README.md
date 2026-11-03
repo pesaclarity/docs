@@ -27,6 +27,13 @@ This repo is the source of truth for what we build and how it looks.
 
 Open a pull request. Decisions that change the spec get a short note in the PR description saying what changed and why.
 
+## Get involved
+
+- **Star [the app](https://github.com/pesaclarity/pesaclarity-app)** so more people find a private money app that runs on their phone.
+- Help with the spec, user research and decisions is welcome: open an issue to discuss a change first.
+- **Pick a first issue:** [good first issues](https://github.com/pesaclarity/docs/issues?q=is%3Aopen+label%3A%22good+first+issue%22) or [help wanted](https://github.com/pesaclarity/docs/issues?q=is%3Aopen+label%3A%22help+wanted%22).
+- **Read [CONTRIBUTING.md](CONTRIBUTING.md)** before your first pull request. Never include real messages, statements or phone numbers.
+
 ## Licence
 
 Text and designs: [CC BY 4.0](LICENSE). The Pesa Clarity name and logo are trademarks and are not covered by that licence (see [BRAND.md](BRAND.md#licence)).
