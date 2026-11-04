@@ -1,0 +1,41 @@
+# Federated learning: plan
+
+**Status:** Accepted (step 1 approved) · **Date:** 2026-11-04 · **Issues:** pesaclarity/pesaclarity-backend#8, pesaclarity/pesaclarity-app#27, pesaclarity/pesaclarity-ml#3
+
+## What exists
+
+- **App:** the "Help improve the app" consent, and empty slots for three parts: an on-device trainer, a federated update trainer and an uploader (`lib/src/domain/categoriser/learning.dart`). Consent is checked before reading examples and again before sending.
+- **ML (akili):** DP-SGD training, a Flower client and simulation, clipping and noise for updates, membership-inference audits and a release gate. Tracks set a minimum cohort: 100 phones for the app track, 1,000 for the commercial track.
+- **Server (ngome):** a Flower server app with SecAgg+ (secure aggregation, so the server only sees the sum of updates) and DP settings, not yet deployed.
+
+## What stands in the way
+
+1. **Not enough phones yet.** A round needs at least 100 opted-in phones online at once, and more to cover drop-outs. The beta plans 30–50 users, so federated rounds cannot run during the beta. This is the privacy design working: small cohorts leak.
+2. **No Flutter client for Flower.** Flower's secure aggregation runs in its Python client. The app is Flutter, so the phone side needs either a native client per platform or our own protocol and crypto, and that crypto would need an outside review.
+3. **Training on the phone.** The exported TFLite model can only predict today. Training on the phone needs a model exported with training functions (`train`, `save`, `restore`) and a Dart runtime that calls them.
+
+## Plan
+
+### Step 1: learn on the phone only (now)
+
+- akili exports the categoriser with TFLite training functions, checked against the Keras model in tests.
+- The app fills the on-device trainer: after confirmations, it fine-tunes the installed model on the phone, keeps the trained weights in its encrypted storage, and uses them for suggestions.
+- Nothing leaves the phone, so no new privacy risk and no server work. People see better suggestions for their own payees.
+- Runs only with "Help improve the app" on, while charging, at most once a day.
+
+### Step 2: federated rounds (when there are enough phones)
+
+Start when at least 300 opted-in installs are active weekly. Until then the server part stays undeployed.
+
+- The server loads the current global model, runs rounds, and saves each round's model with its privacy budget in MLflow.
+- Clipping, noise and minimum cohort come from the privacy budget published with each akili release, never from defaults.
+- Only opted-in, genuine installs take part (Play Integrity on Android, App Attest on iPhone).
+- The transport needs a decision (below) before any build.
+
+## Decisions needed
+
+1. **Approve step 1** to build now.
+2. **For step 2, choose how phones talk to the aggregator:**
+   - **A. Native Flower clients** (Kotlin on Android, Swift on iPhone) behind a platform channel. This keeps Flower's tested secure aggregation, but only if those SDKs support it. Check before choosing.
+   - **B. Our own round API on ngome**, with secure aggregation written in Dart and Python. Full control, but new crypto that needs an outside review before launch.
+   - **Recommended:** decide at step 2, after checking A. Choosing now buys nothing while the cohort is too small.
