@@ -1,6 +1,6 @@
 # Federated learning: plan
 
-**Status:** Proposed · **Date:** 2026-11-04 · **Issues:** pesaclarity/pesaclarity-backend#8, pesaclarity/pesaclarity-app#27, pesaclarity/pesaclarity-ml#3
+**Status:** Accepted (step 1 approved) · **Date:** 2026-11-04 · **Issues:** pesaclarity/pesaclarity-backend#8, pesaclarity/pesaclarity-app#27, pesaclarity/pesaclarity-ml#3
 
 ## What exists
 
