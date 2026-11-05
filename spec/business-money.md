@@ -30,7 +30,34 @@ Each space has its own database, so business records never show in Personal. Mon
 
 A transaction lives in one space only. Moving it between spaces moves its ledger entries with it.
 
-## 2. Getting around: the business bar
+## 2. What the business sells
+
+When a business space is made, **What do you sell?** asks once: **Products**, **Services** or **Both**. It sets which screens appear, and can be changed later in the space's settings.
+
+| | Products | Services | Both |
+| --- | --- | --- | --- |
+| Bar | Today · Money · People · Stock · Insights | Today · Money · Clients · Services · Insights | Today · Money · People · Stock · Insights |
+| Stock, counts, restocking | Yes | No | For products only |
+| Today's buttons | Bought, Got paid, Paid, Close the day | Got paid, Spent, Billed, Pay yourself | As Products |
+| "+" button | Sell (mini-POS) | Got paid | Sell, with services as tiles |
+| Profit | Sales − cost of goods sold − other costs | Income − costs | Product profit and service profit, shown apart |
+
+**Services businesses** (a consultant, a salon, a mechanic's labour, transport):
+
+- **Services** tab: what you offer and your rate (per session, day, month or "price varies"), and what each earned this month.
+- **Clients** tab: the sales ledger under a fitting name, with statements and reminders as for customers. Suppliers sit inside it as a second switch for those who use them.
+- **Billed:** work done that a client will pay later (it becomes what they owe). No invoice document for now.
+- **Spent:** a business cost, paid now or later.
+- Close the day is hidden unless the business takes cash.
+
+## 3. Pay yourself, and what Personal sees
+
+- **Pay yourself** moves money from the business to the owner: amount, from which business account, and how it shows in Personal ("Salary from my business" or "Other income"). The sheet shows profit this month and what stays in the business.
+- In the business it posts as owner's pay: money leaves, but it is not a business cost, so profit stays right.
+- In **Personal** it arrives as income, tagged with the business's name. Personal then uses it like any income: Home shows "From Amina Consulting", the plan and "until the next money" use the usual monthly amount, and insights compare business pay with spending ("At this pace your business pay covers 1.4 months of your spending").
+- Personal sees only what was paid out, never the business's own records. When the business account is also the owner's M-Pesa line, the transfer is still one record: a "Pay yourself" entry in the business and the matching income in Personal, linked so neither is counted twice.
+
+## 4. Getting around: the business bar
 
 A business space swaps the personal tabs (Home, Activity, Plan, Goals, Insights) for its own:
 
@@ -45,7 +72,7 @@ A business space swaps the personal tabs (Home, Activity, Plan, Goals, Insights)
 
 **Same design everywhere.** The bar is the personal bar: the same floating pill, icons, label size, colours and shadow. Only the tab names and icons change. Cards, buttons, chips, sheets and type are the shared ones too. Profile and the space switcher stay where they are. Other kinds of space keep the personal bar for now.
 
-## 3. The three ledgers, in plain words
+## 5. The three ledgers, in plain words
 
 The three ledgers live in Money and People:
 
@@ -59,7 +86,7 @@ Tapping a customer or supplier opens their **statement**: what they owe, their h
 
 **Full records** (from the top of Insights) shows the formal views: profit and loss, cash book, customer and supplier statements, and a balance summary. It can be shared as a PDF or exported as CSV.
 
-## 4. Selling and recording
+## 6. Selling and recording
 
 ### Sell (mini-POS)
 
@@ -71,11 +98,26 @@ Tapping a customer or supplier opens their **statement**: what they owe, their h
   - **M-Pesa, till or bank:** the sale waits for the payment message and matches it on its own when the amount and time agree, or the owner taps Done.
   - **On credit:** asks for the customer and when they will pay.
 
+### When the payment doesn't match the sale
+
+Pay compares what came in with the sale and asks only when they differ:
+
+| What happened | The choice | What it posts |
+| --- | --- | --- |
+| Paid more (sale 180, M-Pesa 200) | **Gave change in cash**, **Gave change by M-Pesa**, **Keep it as a tip**, **I owe it back** | Change: that account down 20; tip: other income 20; owe back: owed to the customer 20. The sale stays 180 |
+| Paid less (sale 500, M-Pesa 450) | **They owe it**, **Paid the rest in cash**, **Another payment**, **Gave a discount** | Customer owes 50; or cash 50; or waits for a second payment; or discount 50 |
+| Paid in two or more messages | **Choose payments:** recent unmatched M-Pesa, till and bank payments with a tick each and a running total ("100 + 80 = 180") | All the payments linked to the one sale |
+| One payment for several sales or old debts | Tick what it covers; anything left becomes change, credit or other income | Split across them |
+| Matched to the wrong sale | Open the sale, **Unlink payment**, choose again | Entries re-posted |
+
+- Only payments from the last few hours that are not yet matched are offered, newest first, so the list stays short.
+- **Close the day** lists payments not matched to any sale, each with **Match** (to a sale, to a customer who owes, or kept as other income), so nothing is left loose.
+
 ### Other records
 
 The quick buttons on Today:
 
-- **Bought:** stock (adds to stock; see section 5) or a cost, paid now (Cash, M-Pesa, Bank) or "pay later" to a supplier.
+- **Bought:** stock (adds to stock; see section 7) or a cost, paid now (Cash, M-Pesa, Bank) or "pay later" to a supplier.
 - **Got paid:** a customer pays what they owe, fully or in part.
 - **Paid:** you pay a supplier, fully or in part.
 
@@ -104,7 +146,7 @@ Sales and purchases from messages are added on their own. When a payment comes f
 - Customers and suppliers build on the existing `LentLoans`, `LoanPayments` and `Debts` tables, with a phone and a reminder choice added.
 - A check runs in tests and on the phone: every entry balances, and the three tabs add up to the same totals as the journal.
 
-## 5. Stock: products and services
+## 7. Stock: products and services
 
 ### One list, two kinds
 
@@ -136,11 +178,25 @@ Stock tracking is off until the first item is added, so a business that only wan
 - **Bought (stock):** item, how much, what you paid, paid with (Cash, M-Pesa, Bank, Pay later), and the new stock and average cost.
 - **Count stock:** what the records say against what you count. A difference is kept as Spoiled, Used, Lost or Miscounted and, except Miscounted, counts as a cost at the average cost.
 
-### Out of scope for stock
+### 12. Make a report
+
+Reports keep one clear, consistent look in the app's style. The owner chooses what goes in, not the layout:
+
+- **Who is it for:** "A Sacco or loan" (profit and loss, money owed, balance summary), "An accountant" (everything, including every cash book entry) or "Just me" (insights and charts). Each ticks sensible sections, which the owner can change.
+- **Period:** this month, last month, 3 months, or dates.
+- **Sections**, each a tick: profit and loss, sales by how people paid, customers who owe, suppliers owed, balance summary, best sellers, stock, cash book with every entry, insights.
+- **The cover:** business name, owner name, phone, place and an optional logo or photo.
+- **Detail:** totals only, or every entry.
+- **Format:** PDF to share, or CSV for a spreadsheet.
+- **Saved setups,** such as "Monthly Sacco report", to make the same report again in one tap.
+
+Free-form layouts and colours are out of scope, so every report looks professional.
+
+## Out of scope for stock
 
 Barcodes, several shops or stores, batches and expiry dates, and buying in one unit and selling in another (a sack sold by the kg). These can come later.
 
-## 6. Start your records (opening balances)
+## 8. Start your records (opening balances)
 
 When a business space is made, and for existing business spaces the first time Records opens, **Start your records** asks once for:
 
@@ -152,7 +208,7 @@ When a business space is made, and for existing business spaces the first time R
 
 These post as opening entries. They can be changed later, and changes are kept in the history.
 
-## 7. Reminders
+## 9. Reminders
 
 - **Message templates** per business. Three to start ("Friendly", "Due today", "It's been a while"), each editable, and the owner can add more. Fields fill in on their own: {name}, {business}, {amount}, {what}, {due}, {date}, {till}. A sentence whose field is empty is left out.
 - **Send with:** WhatsApp or SMS, chosen per customer, with a default for the business. The Remind sheet lets the owner pick the template and the app, and change the words for that one message.
@@ -163,11 +219,11 @@ These post as opening entries. They can be changed later, and changes are kept i
   - Due today: "Hi {name}, KES {amount} is due today. Pay to till {till} when you can. Thank you!"
   - It's been a while: "Hi {name}, just checking in on KES {amount} from {date}. Pay to till {till} when you can. Thank you!"
 
-## 8. Close the day
+## 10. Close the day
 
 Cash at the start (yesterday's counted cash, or the opening balance), plus cash in, minus cash out, gives what should be in the drawer. The owner types what they counted. If it differs, the app shows the amount to account for and offers to add a missed entry or keep a note. It never books the difference on its own. M-Pesa and till for the day and total sales show underneath. Day closes are kept per space.
 
-## 9. Insights
+## 11. Insights
 
 On Home and in **How the business is doing** (this month, last month, 3 months):
 
@@ -188,19 +244,19 @@ On Home and in **How the business is doing** (this month, last month, 3 months):
 
 ## Out of scope
 
-Invoices, VAT and tax, several users or tills on one business, receipt printers, and sending messages from our server. For stock, see section 5.
+Invoices, VAT and tax, several users or tills on one business, receipt printers, and sending messages from our server. For stock, see section 7.
 
 ## Build order
 
 1. Journal and posting underneath, with existing business records posted and balance checks. No visible change.
 2. Business or personal: account settings and the question on shared lines.
-3. Start your records (opening balances).
+3. What do you sell, and Start your records (opening balances).
 4. The business bar, Sell with "Other sale" and Pay (no items yet), Bought, Got paid and Paid, and the Money tab.
-5. People: Customers and Suppliers, with statements and matching incoming payments.
+5. People (Clients for services), statements, Pay yourself into Personal, and payment matching: paid more, paid less, choose payments.
 6. Stock: items, Sell tiles, average cost, restock and count.
 7. Reminders: templates, send with, daily nudge.
 8. Close the day.
-9. Insights, Full records, PDF and CSV.
+9. Insights, Full records, and Make a report (PDF and CSV).
 
 Each step ships with tests, screenshots, and docs and README updates.
 
@@ -209,4 +265,6 @@ Each step ships with tests, screenshots, and docs and README updates.
 1. Approve the mockups and the three starting reminder messages.
 2. Split payment on Pay (part now and part on credit, or two ways such as cash and M-Pesa). Proposed: yes.
 
-Agreed so far: bank sales tagged from messages with an "Is this a sale?" check; opening balances; average cost; part units such as 0.5 kg; the business bar matching the personal one.
+3. Services businesses: is "Billed" (work done, pay later) enough, or are invoice documents needed now? Proposed: Billed now, invoices later.
+
+Agreed so far: Products / Services / Both; Pay yourself feeding Personal; bank sales tagged from messages with an "Is this a sale?" check; opening balances; average cost; part units such as 0.5 kg; the business bar matching the personal one.
