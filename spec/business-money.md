@@ -1,6 +1,6 @@
 # Business: mini-POS, records, stock and money owed
 
-**Status:** Accepted · **Date:** 2026-11-05 · **Mockups:** "Business: mini-POS, records, stock and insights" on the app screens canvas · **Related:** [Spaces](income-for-everyone.md#5-spaces-personal-and-business-stage-3), pesaclarity/pesaclarity-app#149
+**Status:** Accepted · **Date:** 2026-11-05 · **Mockups:** "Business: mini-POS, records, stock and insights" and "Services: hours, attached documents and tax" on the app screens canvas · **Related:** [Spaces](income-for-everyone.md#5-spaces-personal-and-business-stage-3), pesaclarity/pesaclarity-app#149
 
 ## Why
 
@@ -70,7 +70,7 @@ A business space swaps the personal tabs (Home, Activity, Plan, Goals, Insights)
 - **Insights:** how the business is doing, with Full records at the top.
 - **Sell:** the round "+" button on Today, Money and Stock opens the mini-POS. It is the same button, in the same place, as "+" in Personal.
 
-**Same design everywhere.** The bar is the personal bar: the same floating pill, icons, label size, colours and shadow. Only the tab names and icons change. Cards, buttons, chips, sheets and type are the shared ones too. Profile and the space switcher stay where they are. Other kinds of space keep the personal bar for now.
+**Same design everywhere.** The bar is the personal bar: the same floating pill, icons, label size, colours and shadow. Only the tab names and icons change. Cards, buttons, chips, sheets and type are the shared ones too. Profile and the space switcher stay where they are. Other kinds of space keep the personal bar for now. Tabs join the bar as they are built: Today, Money and Insights first, then People (step 5), then Stock or Services (step 6).
 
 ## 5. The three ledgers, in plain words
 
@@ -199,7 +199,7 @@ These post as opening entries. They can be changed later, and changes are kept i
 - **Message templates** per business. Three to start ("Friendly", "Due today", "It's been a while"), each editable, and the owner can add more. Fields fill in on their own: {name}, {business}, {amount}, {what}, {due}, {date}, {till}. A sentence whose field is empty is left out.
 - **Send with:** WhatsApp or SMS, chosen per customer, with a default for the business. The Remind sheet lets the owner pick the template and the app, and change the words for that one message.
 - **Daily nudge:** at a time the owner sets, a local notification lists who is due, with "Remind all who are due" stepping through them one by one.
-- **The owner always taps send.** The app opens WhatsApp (`wa.me` link) or the SMS app (`sms:` intent) with the message filled in. It never sends by itself, so it needs no SMS-sending permission, no WhatsApp Business account and no server.
+- **The owner always taps send.** The app opens WhatsApp (`wa.me` link) or the SMS app (`sms:` intent) with the message filled in, to the customer's number with its country code (see **Sending to a number** in section 14). It never sends by itself, so it needs no SMS-sending permission, no WhatsApp Business account and no server.
 - Starting wording:
   - Friendly: "Hi {name}, a friendly reminder from {business}: KES {amount} for {what}, due {due}. You can pay to till {till}. Thank you!"
   - Due today: "Hi {name}, KES {amount} is due today. Pay to till {till} when you can. Thank you!"
@@ -251,12 +251,33 @@ Approximations to plan with, never official records or advice. Every figure is m
 - **Which tax applies:** from the last 12 months of sales, the likely band: below the Turnover Tax (TOT) threshold, TOT, or above it (income tax on profit, later). A warning before a line is crossed, such as nearing the VAT registration threshold.
 - **TOT this month:** the rate times gross sales for the month, with the due date and a reminder a few days before.
 - **Set aside for tax:** an optional pot that keeps a share of each sale aside.
-- **Withholding tax for services:** when a client pays less than billed because they withheld tax, the gap is recorded as tax already paid, with a "certificate received" tick, and counted in the yearly estimate.
+- **Withholding tax for services:** see **Services: fees, withholding tax and income tax** below.
 - **Payments to KRA** recognised from M-Pesa and bank messages and marked as tax paid.
 - **Estimated against paid,** month by month, and how many costs have eTIMS invoices.
 - **Tax summary** as a section in Make a report.
 
-Later: income tax bands for businesses above the TOT band, and VAT estimates for registered businesses.
+### Services: fees, withholding tax and income tax
+
+For consultants and other businesses paid fees for their time or skill. Turnover Tax does not cover professional and consultancy fees, so a services business gets an income tax estimate instead. The rules below are as currently understood and live in the tax pack, like every rate.
+
+- **You file as:** Individual (individual rates and personal relief) or Company (the company rate), in Tax settings. It changes only which rates the estimate uses.
+- **Withholding tax, per invoice,** remembered per client:
+  - **No withholding tax:** they pay the full invoice.
+  - **Client deducts it:** they pay the fees less the rate (5% for resident consultancy fees today) and pay that share to KRA. "To pay" shows the lower figure.
+  - **Client pays it on top:** the fees are grossed up, fees ÷ (1 − rate), so after they deduct it the owner still gets the agreed fees. 110,000 shows as 115,790 and 5,790 is withheld.
+  - Withholding applies to fees only; costs passed on are not included.
+- **When the payment comes:**
+  - A payment equal to "To pay" settles the invoice, and the withheld share is recorded as tax already paid.
+  - A payment short by exactly the rate's share of the fees, on an invoice with no withholding set, opens **Paid less** with **Tax withheld (5%)** first, and "Expect 5% from {client} from now on".
+  - Each withheld amount can carry its **certificate number**. The Tax screen lists certificates still to collect, by client.
+- **The Tax screen:**
+  - fees earned, costs and profit for the year to date;
+  - income tax on profit, as an estimate;
+  - less withheld by clients, and less paid to KRA (recognised from payment messages);
+  - what is left to pay, with the next instalment date from the tax pack.
+- **VAT:** "VAT registered" in Tax settings adds a 16% VAT line on invoices (the rate from the tax pack). VAT returns stay out of scope.
+
+Later: income tax bands for product businesses above the TOT band, and VAT estimates for registered businesses.
 
 **The tax pack.** Rates, thresholds and due dates live in a dated, versioned tax pack inside the app, each figure with its source. Nothing is hardcoded in code, and the pack never comes from our server: it is reviewed before each release and updated only with app updates. The app shows "Rules as of {date}" wherever an estimate appears.
 
@@ -279,18 +300,33 @@ Made on the phone, never online. Nothing goes to our server: the app builds the 
 ### Invoices
 
 - **Make an invoice** from Billed (services), a credit sale, or Invoices (on Clients or People):
-  - the client;
-  - items or services with quantity and rate;
+  - the client and, optionally, the project;
+  - **bill by hours or by items.** By hours, each line is what was done, the date or dates, and hours × rate; rates are saved per client and service, so the next invoice fills in. By items, quantity × rate;
+  - **costs passed on** to the client, such as a software subscription bought for the work, each with its receipt attached;
   - subtotal and any discount;
-  - withholding tax the client deducts (rate from the tax pack), giving "To pay";
+  - withholding tax: none, deducted by the client, or paid by the client on top (section 13), giving "To pay";
   - due date, a number in order, and how to pay (Paybill or till with the invoice number as the account, and bank details);
   - the business's **M-PESA QR code** next to how to pay, labelled "Scan with the M-PESA app";
   - notes.
+- **Attached documents:** PDFs or pictures from the phone's files (for example a receipt saved from email, or the eTIMS invoice made on KRA's site) or a photo of a paper receipt.
+  - Attaching a receipt can add it as a cost line ("Charge it to the client") and record it as a business cost if Money doesn't have it yet.
+  - Attachments are kept encrypted with the business space, included in its backup, and never uploaded.
+- **Save or share:**
+  - **One PDF:** the invoice, then a timesheet page when billed by hours, then the attachments in order. Or **separate files**.
+  - **Save to phone** puts it in Files or Downloads through the phone's own save screen. **Share** opens the share menu.
 - **Status:** Unpaid, Part paid, Paid or Overdue. It changes on its own when a payment message matches.
 - **The Invoices list** shows what is waiting and what is overdue.
 - **Reminders** can attach the invoice.
 - **Paid invoices** can be shared again with a Paid stamp.
 - **Customer statement:** a PDF of a customer's invoices, payments and balance, from their People screen.
+
+### Sending to a number
+
+Receipts, invoices, statements and reminders can go to a phone number:
+
+- **Country code:** a picker beside the number, starting with the phone's own country (+254 in Kenya), searchable by country or code. Numbers are kept in full international form, so WhatsApp links work for clients abroad.
+- **Choose from contacts:** a button opens the phone's own contact picker. The app gets only the one contact chosen, keeps its number (with its own country code) on that customer or client, and never reads or uploads the contact list.
+- The number is filled in when the sale, invoice or customer already has one.
 
 ### Settings (Receipts and invoices)
 
@@ -311,7 +347,9 @@ A4 invoices have a thin accent strip at the top (agreed). Receipts and invoices 
 ### Rules
 
 - Numbers are in order per business and never reused. A cancelled document keeps its number and is marked Cancelled.
-- Documents are business documents, not KRA eTIMS tax invoices, and say so. eTIMS needs KRA's online system, so it is out of scope while documents are offline only.
+- Documents are business documents, not KRA eTIMS tax invoices, and say so. eTIMS needs KRA's online system, so it is out of scope while documents are offline only. An eTIMS invoice made on KRA's site can be attached.
+- **No new permissions.** Files are picked and saved through the phone's own file screens, photos through its camera app, and contacts through its contact picker, none of which need storage, camera or contacts permissions. The permissions test stays as it is.
+- **Privacy policy:** before attachments and picked contacts ship, the policy gains a line on customer and client details and attached documents: kept on the phone, encrypted, in backups the owner controls, never sent to us.
 - Documents are rebuilt from the records when shared again, so a corrected sale gives a corrected receipt with the same number and "Corrected" on it.
 
 ## Out of scope
@@ -329,8 +367,8 @@ VAT returns and filing, several users or tills on one business, receipt printers
 7. Reminders: templates, send with, daily nudge.
 8. Close the day.
 9. Insights, Full records, and Make a report (PDF and CSV).
-10. Tax estimates and the tax pack.
-11. Receipts (picture, PDF, text) and invoices, with statuses, statements and document settings.
+10. Tax estimates and the tax pack, with the services estimate: you file as, withholding per client and invoice, certificates, and the Tax screen.
+11. Receipts (picture, PDF, text) and invoices, with statuses, statements and document settings; billing by hours, costs passed on, attached documents, one PDF or separate files, save to phone, and sending to a number with a country code or from contacts.
 
 Each step ships with tests, screenshots, and docs and README updates.
 
@@ -341,4 +379,4 @@ Each step ships with tests, screenshots, and docs and README updates.
 
 3. Services businesses: is "Billed" (work done, pay later) enough, or are invoice documents needed now? Proposed: Billed now, invoices later.
 
-Agreed: split payments both ways (part now and part on credit, or two ways such as cash and M-Pesa); Billed for services makes an invoice; invoices with a thin top strip and the M-PESA QR; receipts and invoices made offline and shared through any app; tax version one (TOT, VAT threshold warning, withholding tax for services, KRA payments) with the tax pack shipped in the app only; Products / Services / Both; Pay yourself feeding Personal; bank sales tagged from messages with an "Is this a sale?" check; opening balances; average cost; part units such as 0.5 kg; the business bar matching the personal one.
+Agreed: split payments both ways (part now and part on credit, or two ways such as cash and M-Pesa); Billed for services makes an invoice; invoices with a thin top strip and the M-PESA QR; receipts and invoices made offline and shared through any app; tax version one (TOT, VAT threshold warning, withholding tax for services, KRA payments) with the tax pack shipped in the app only; Products / Services / Both; Pay yourself feeding Personal; bank sales tagged from messages with an "Is this a sale?" check; opening balances; average cost; part units such as 0.5 kg; the business bar matching the personal one; invoices by hours with costs passed on and attached documents, saved to the phone as one PDF; withholding tax per client and invoice (none, deducted, or paid on top) with an income tax estimate for services; country codes and the contact picker for numbers.
