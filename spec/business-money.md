@@ -1,78 +1,142 @@
-# Business: money owed and daily sales
+# Business: records, money owed and daily sales
 
-**Status:** Proposed · **Date:** 2026-11-05 · **Mockups:** "Business: money owed and daily sales" on the app screens canvas · **Related:** [Spaces](income-for-everyone.md#5-spaces-personal-and-business-stage-3), pesaclarity/pesaclarity-app#149
+**Status:** Proposed · **Date:** 2026-11-05 · **Mockups:** "Business: records, money owed and daily sales" on the app screens canvas · **Related:** [Spaces](income-for-everyone.md#5-spaces-personal-and-business-stage-3), pesaclarity/pesaclarity-app#149
 
 ## Why
 
-A business space today shows profit this month, sales and costs by category, and what the owner paid themselves. It answers "did money come in?". Small shop owners also need to know two other things every day:
+A business space today shows profit this month, sales and costs by category, and what the owner paid themselves. A small business owner needs more every day:
 
-1. **Who owes me, and whom do I owe?** Credit sales are the main reason dukas keep a paper book.
-2. **What did I sell today, and is my cash right?** Cash sales leave no message, so today they are invisible.
+- what was sold today, and how people paid (cash, M-Pesa, till, Pochi, bank, credit);
+- who owes them and whom they owe;
+- whether the cash in the drawer is right;
+- proper books they can show a Sacco, a bank or an accountant.
 
-Both work fully offline. They need no new permissions, no server and no privacy policy change.
+The answer is real bookkeeping underneath, with plain, simple screens on top. The owner never sees the words debit, credit or ledger.
 
-## Who it is for
+## Principles
 
-Business spaces only, at first. The same parts could later serve farms (credit to buyers, cash at market) and rental property (tenants who owe rent).
+- **Simple on top, correct underneath.** Every record posts a balanced double entry, so the books always agree.
+- **Messages do most of the work.** M-Pesa, till, Pochi and bank payments come in from messages. The owner only adds cash and credit by hand.
+- **Ask, don't guess.** When the app can't tell whether money is business or personal, or which customer paid, it asks once and learns.
+- **Offline and private.** Everything stays on the phone, in the business space's encrypted database. No new permissions, no server and no privacy policy change.
 
-## 1. Money owed
+## 1. Keeping business and personal money apart
 
-### What people see
+Each space has its own database, so business records never show in Personal. Money gets to the right space in three ways, in this order:
 
-- **Business Home:** an "Owed to you" row (total, number of customers, how many are due today) and a "You owe" row (total, next due date). Tapping either opens Money owed.
-- **Money owed screen:** two tabs, *Owed to you* and *You owe*. Each person shows the amount left, what it was for and when it is due, with a Remind button. A "Paid this month" list underneath.
-- **Sold on credit sheet:** customer, amount, what for (optional), pay by (today, in a week, or a date), and phone for reminders (optional). Opened from "+ On credit" on Home or from Money owed.
-- **Remind sheet:** a ready message the owner can edit, sent by WhatsApp or SMS. The message names the business and the amount and, when set, the till or Paybill number to pay to.
-- **Paid by M-Pesa:** when a payment arrives from someone who owes money, Home asks "Otieno paid 1,200 by M-Pesa. Mark his credit as paid?". A part payment comes off the balance. Nothing is marked paid without the owner's tap.
-- **You owe:** suppliers and others the business owes, with a due date and an optional reminder on the owner's own phone.
+1. **By account.** Each account (a till, a bank account, an M-Pesa line) is set to a space: a business, Personal, or "Ask me" for a line used for both. Set in **Business or personal**, and offered when a business space is made.
+2. **By till or Pochi.** Payments to a business till or Pochi la Biashara go to that business on their own, once pesaclarity/pesaclarity-app#149 lands.
+3. **By person, on a shared line.** On an "Ask me" line, the app asks "Grace Wambui sent you KES 650. Was this for the business?" with **Business sale** and **Personal**, and an "Always do this for Grace Wambui" tick. Each answer is remembered per person or payee, so the questions stop over time. A wrong answer can be fixed by moving the transaction (already built).
 
-### How it works
+A transaction lives in one space only. Moving it between spaces moves its ledger entries with it.
 
-- **Owed to you** builds on `LentLoans` and `LoanPayments`, which already track money lent and part payments. A credit sale is a lent loan with a customer, an optional phone and an optional note.
-- **You owe** builds on `Debts` (informal debts with instalments), with the supplier as the lender.
-- Both tables already live in each space's own database, so a business's customers never show in Personal.
-- **Matching payments:** an incoming payment is matched to a customer by the sender name or number in the message, the same way payees are matched today. The match is only offered, never applied on its own.
-- **Reminders** open the phone's WhatsApp or SMS app with the message filled in (`wa.me` link or `sms:` intent). The app sends nothing itself, so it needs no SMS-sending permission.
-- **Phone numbers** stay in the space's encrypted database. They are never uploaded and are left out of anything shared for training.
-- **Settings for the reminder:** the business name (the space's name) and an optional till or Paybill number, set once in the space's settings.
+## 2. The three ledgers, in plain words
 
-### Wording
+The business space gets a **Records** screen with three tabs:
 
-- Reminder: "Hi {name}, a friendly reminder from {business}: KES {amount} for {what}, due {when}. You can pay to till {till}. Thank you!" Without a till number, the last sentence is left out. Without "what for", it reads "KES {amount}, due {when}".
-- The tone is warm and brief, with no pressure words.
+| Tab | Ledger | What it shows |
+| --- | --- | --- |
+| **Money in and out** | Cash book (Cash, M-Pesa and Bank columns) | Balance chips for Cash, M-Pesa and Bank, then the day's entries with how each was paid, and the day's totals in and out |
+| **Customers** | Sales (debtors) ledger | What customers owe in total and how much is over two weeks old; one row per customer with Remind |
+| **Suppliers** | Purchases (creditors) ledger | What the business owes, what is due this week, and what was paid this month |
 
-## 2. Daily sales and cash
+Tapping a customer or supplier opens their **statement**: what they owe, their history (credit sales and payments), their phone and how to remind them.
 
-### What people see
+**Full records** (one tap from Records or Insights) shows the formal views: profit and loss, cash book, customer and supplier statements, and a balance summary. It can be shared as a PDF or exported as CSV.
 
-- **Business Home** leads with **Sales today** and a split: M-Pesa, Till, Pochi, Cash. Profit this month moves below it.
-- **Three quick actions:** "+ Cash", "+ On credit", "Close the day".
-- **Add cash sheet:** Cash in or Cash out, a large keypad and a category (Sales or Other income for cash in; the business's cost categories for cash out). One tap saves.
-- **Close the day screen:** cash at the start (the float), cash sales, cash spent, and what should be in the drawer. The owner types what they counted. If it differs, the screen shows the amount to account for and offers to add a missed cash spend or keep a note. Below that, M-Pesa and till for the day and total sales.
+## 3. Recording, in four taps
 
-### How it works
+Business Home has four big buttons:
 
-- **A cash account** is added to each business space when it is made (account type `cash` already exists). Cash entries are ordinary transactions on it, so they count in profit, categories and backups like everything else.
-- **Sales today** sums income in the business's sales categories since local midnight, grouped by account and, for M-Pesa, by till or Pochi once pesaclarity/pesaclarity-app#149 lands. Until then, till and Pochi payments show under M-Pesa.
-- **Day closes** are stored per space: date, float, expected cash, counted cash, difference and note. The next day's float defaults to the counted cash. A day can be closed once and reopened the same day.
-- **The difference** is never booked as income or a cost on its own. The owner chooses to add a missed entry or keep the note.
+- **Sold:** pick how they paid (Cash, M-Pesa, Bank, On credit), the amount and what was sold. On credit asks for the customer and when they will pay.
+- **Bought:** stock or a cost, paid now (Cash, M-Pesa, Bank) or "pay later" to a supplier.
+- **Got paid:** a customer pays what they owe, fully or in part.
+- **Paid:** you pay a supplier, fully or in part.
+
+Sales and purchases from messages are added on their own. When a payment comes from a customer who owes money, Home asks "Otieno paid 1,200 by M-Pesa. Take it off what he owes?". Nothing is applied without a tap.
+
+### What each record posts
+
+| Record | Entries |
+| --- | --- |
+| Cash sale | Cash up, Sales up |
+| M-Pesa, till, Pochi or bank sale | That account up, Sales up |
+| Credit sale | Customer owes up, Sales up |
+| Customer pays | Account up, customer owes down |
+| Cost paid now | Account down, that cost up |
+| Bought on credit | That cost up, owed to supplier up |
+| Pay a supplier | Account down, owed to supplier down |
+| Paid yourself | Account down, owner's pay up (counts as income in Personal) |
+| Close the day difference (if the owner chooses) | Cash down or up, "cash difference" |
+
+### How it is stored
+
+- A **journal** of entries, each with two or more lines that add up to zero, in each space's own database.
+- The existing transactions stay the source: each one posts its entries when it is categorised, and re-posts if it is edited, moved or deleted. Existing business records are posted once when the feature arrives, so nothing has to be re-entered.
+- Customers and suppliers build on the existing `LentLoans`, `LoanPayments` and `Debts` tables, with a phone and a reminder choice added.
+- A check runs in tests and on the phone: every entry balances, and the three tabs add up to the same totals as the journal.
+
+## 4. Start your records (opening balances)
+
+When a business space is made, and for existing business spaces the first time Records opens, **Start your records** asks once for:
+
+- cash in the drawer;
+- the business M-Pesa or till balance (filled in from the latest message when possible);
+- the business bank balance;
+- customers who already owe the business and suppliers it owes (now or later).
+
+These post as opening entries. They can be changed later, and changes are kept in the history.
+
+## 5. Reminders
+
+- **Message templates** per business. Three to start ("Friendly", "Due today", "It's been a while"), each editable, and the owner can add more. Fields fill in on their own: {name}, {business}, {amount}, {what}, {due}, {date}, {till}. A sentence whose field is empty is left out.
+- **Send with:** WhatsApp or SMS, chosen per customer, with a default for the business. The Remind sheet lets the owner pick the template and the app, and change the words for that one message.
+- **Daily nudge:** at a time the owner sets, a local notification lists who is due, with "Remind all who are due" stepping through them one by one.
+- **The owner always taps send.** The app opens WhatsApp (`wa.me` link) or the SMS app (`sms:` intent) with the message filled in. It never sends by itself, so it needs no SMS-sending permission, no WhatsApp Business account and no server.
+- Starting wording:
+  - Friendly: "Hi {name}, a friendly reminder from {business}: KES {amount} for {what}, due {due}. You can pay to till {till}. Thank you!"
+  - Due today: "Hi {name}, KES {amount} is due today. Pay to till {till} when you can. Thank you!"
+  - It's been a while: "Hi {name}, just checking in on KES {amount} from {date}. Pay to till {till} when you can. Thank you!"
+
+## 6. Close the day
+
+Cash at the start (yesterday's counted cash, or the opening balance), plus cash in, minus cash out, gives what should be in the drawer. The owner types what they counted. If it differs, the app shows the amount to account for and offers to add a missed entry or keep a note. It never books the difference on its own. M-Pesa and till for the day and total sales show underneath. Day closes are kept per space.
+
+## 7. Insights
+
+On Home and in **How the business is doing** (this month, last month, 3 months):
+
+- **Sales today** with the split by how people paid, compared with a usual day of that weekday.
+- **Profit** for the period and the change on the last one.
+- **How people pay:** share of sales by cash, M-Pesa, till, Pochi, bank and credit.
+- **Sales by day of the week,** with the best day marked.
+- **Short sentences**, each from the journal:
+  - best day and when cash sales peak;
+  - what share of sales goes on stock, and other big costs;
+  - cash in and out for the period;
+  - customers owing for more than two weeks, and who usually pays on time;
+  - supplier payments due, and whether the expected M-Pesa balance covers them;
+  - how often the drawer matched.
+- **Share a report:** a one-page PDF with profit and loss, money owed and the balance summary, for a Sacco or a loan.
 
 ## Out of scope
 
-- Stock and inventory, invoices, several users on one business, and tax. See the business ideas list for later work.
-- Sending reminders from our server, and automatic reminders. The owner taps send every time.
+Stock counts and inventory, invoices, VAT and tax, several users on one business, and sending messages from our server.
 
 ## Build order
 
-1. Money owed: credit sales, Money owed screen, payments and part payments, You owe.
-2. Reminders and the business name and till settings.
-3. Matching incoming M-Pesa payments to customers.
-4. Cash account, Add cash sheet and Sales today on Home.
-5. Close the day.
+1. Journal and posting underneath, with existing business records posted and balance checks. No visible change.
+2. Business or personal: account settings and the question on shared lines.
+3. Start your records (opening balances).
+4. Sold, Bought, Got paid and Paid, with Money in and out.
+5. Customers and Suppliers, with statements and matching incoming payments.
+6. Reminders: templates, send with, daily nudge.
+7. Close the day.
+8. Insights, Full records, PDF and CSV.
 
-Each step ships with tests and screenshots, and the docs and README are updated as it lands.
+Each step ships with tests, screenshots, and docs and README updates.
 
 ## Decisions needed
 
-1. Approve the mockups and the reminder wording.
-2. Should "Close the day" also send a short daily summary to the owner (a local notification at a set time)? Proposed: not now.
+1. Approve the mockups and the three starting reminder messages.
+2. Credit sales as the only way to sell on credit, or also allow a sale to be paid partly now and partly later? Proposed: allow both, with a "paid now" amount on the Sold sheet.
