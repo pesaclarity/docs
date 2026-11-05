@@ -1,6 +1,6 @@
 # Business: mini-POS, records, stock and money owed
 
-**Status:** Proposed · **Date:** 2026-11-05 · **Mockups:** "Business: mini-POS, records, stock and insights" on the app screens canvas · **Related:** [Spaces](income-for-everyone.md#5-spaces-personal-and-business-stage-3), pesaclarity/pesaclarity-app#149
+**Status:** Accepted · **Date:** 2026-11-05 · **Mockups:** "Business: mini-POS, records, stock and insights" on the app screens canvas · **Related:** [Spaces](income-for-everyone.md#5-spaces-personal-and-business-stage-3), pesaclarity/pesaclarity-app#149
 
 ## Why
 
@@ -341,4 +341,4 @@ Each step ships with tests, screenshots, and docs and README updates.
 
 3. Services businesses: is "Billed" (work done, pay later) enough, or are invoice documents needed now? Proposed: Billed now, invoices later.
 
-Agreed so far: invoices with a thin top strip and the M-PESA QR; receipts and invoices made offline and shared through any app; tax version one (TOT, VAT threshold warning, withholding tax for services, KRA payments) with the tax pack shipped in the app only; Products / Services / Both; Pay yourself feeding Personal; bank sales tagged from messages with an "Is this a sale?" check; opening balances; average cost; part units such as 0.5 kg; the business bar matching the personal one.
+Agreed: split payments both ways (part now and part on credit, or two ways such as cash and M-Pesa); Billed for services makes an invoice; invoices with a thin top strip and the M-PESA QR; receipts and invoices made offline and shared through any app; tax version one (TOT, VAT threshold warning, withholding tax for services, KRA payments) with the tax pack shipped in the app only; Products / Services / Both; Pay yourself feeding Personal; bank sales tagged from messages with an "Is this a sale?" check; opening balances; average cost; part units such as 0.5 kg; the business bar matching the personal one.
