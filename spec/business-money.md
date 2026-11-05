@@ -30,9 +30,22 @@ Each space has its own database, so business records never show in Personal. Mon
 
 A transaction lives in one space only. Moving it between spaces moves its ledger entries with it.
 
-## 2. The three ledgers, in plain words
+## 2. Getting around: the business bar
 
-The business space gets a **Records** screen with three tabs:
+A business space has its own bottom bar, in place of the personal one (Home, Activity, Plan, Goals, Insights):
+
+**Today · Money · Customers · Suppliers · Insights**
+
+- **Today:** sales today, the four record buttons, what customers owe and what you owe, and any "take it off what he owes?" questions.
+- **Money:** the cash book, with Close the day at the top.
+- **Customers** and **Suppliers:** the two other ledgers.
+- **Insights:** how the business is doing, with Full records at the top.
+
+Profile and the space switcher stay where they are (the avatar and the chip on Today). Plan and Goals stay in Personal. Other kinds of space keep the personal bar for now.
+
+## 3. The three ledgers, in plain words
+
+The three ledgers are three of the tabs:
 
 | Tab | Ledger | What it shows |
 | --- | --- | --- |
@@ -42,9 +55,9 @@ The business space gets a **Records** screen with three tabs:
 
 Tapping a customer or supplier opens their **statement**: what they owe, their history (credit sales and payments), their phone and how to remind them.
 
-**Full records** (one tap from Records or Insights) shows the formal views: profit and loss, cash book, customer and supplier statements, and a balance summary. It can be shared as a PDF or exported as CSV.
+**Full records** (from the top of Insights) shows the formal views: profit and loss, cash book, customer and supplier statements, and a balance summary. It can be shared as a PDF or exported as CSV.
 
-## 3. Recording, in four taps
+## 4. Recording, in four taps
 
 Business Home has four big buttons:
 
@@ -76,7 +89,7 @@ Sales and purchases from messages are added on their own. When a payment comes f
 - Customers and suppliers build on the existing `LentLoans`, `LoanPayments` and `Debts` tables, with a phone and a reminder choice added.
 - A check runs in tests and on the phone: every entry balances, and the three tabs add up to the same totals as the journal.
 
-## 4. Start your records (opening balances)
+## 5. Start your records (opening balances)
 
 When a business space is made, and for existing business spaces the first time Records opens, **Start your records** asks once for:
 
@@ -87,7 +100,7 @@ When a business space is made, and for existing business spaces the first time R
 
 These post as opening entries. They can be changed later, and changes are kept in the history.
 
-## 5. Reminders
+## 6. Reminders
 
 - **Message templates** per business. Three to start ("Friendly", "Due today", "It's been a while"), each editable, and the owner can add more. Fields fill in on their own: {name}, {business}, {amount}, {what}, {due}, {date}, {till}. A sentence whose field is empty is left out.
 - **Send with:** WhatsApp or SMS, chosen per customer, with a default for the business. The Remind sheet lets the owner pick the template and the app, and change the words for that one message.
@@ -98,11 +111,11 @@ These post as opening entries. They can be changed later, and changes are kept i
   - Due today: "Hi {name}, KES {amount} is due today. Pay to till {till} when you can. Thank you!"
   - It's been a while: "Hi {name}, just checking in on KES {amount} from {date}. Pay to till {till} when you can. Thank you!"
 
-## 6. Close the day
+## 7. Close the day
 
 Cash at the start (yesterday's counted cash, or the opening balance), plus cash in, minus cash out, gives what should be in the drawer. The owner types what they counted. If it differs, the app shows the amount to account for and offers to add a missed entry or keep a note. It never books the difference on its own. M-Pesa and till for the day and total sales show underneath. Day closes are kept per space.
 
-## 7. Insights
+## 8. Insights
 
 On Home and in **How the business is doing** (this month, last month, 3 months):
 
@@ -128,7 +141,7 @@ Stock counts and inventory, invoices, VAT and tax, several users on one business
 1. Journal and posting underneath, with existing business records posted and balance checks. No visible change.
 2. Business or personal: account settings and the question on shared lines.
 3. Start your records (opening balances).
-4. Sold, Bought, Got paid and Paid, with Money in and out.
+4. The business bar, Sold, Bought, Got paid and Paid, and the Money tab.
 5. Customers and Suppliers, with statements and matching incoming payments.
 6. Reminders: templates, send with, daily nudge.
 7. Close the day.
