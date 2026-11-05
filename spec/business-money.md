@@ -1,6 +1,6 @@
-# Business: records, money owed and daily sales
+# Business: mini-POS, records, stock and money owed
 
-**Status:** Proposed · **Date:** 2026-11-05 · **Mockups:** "Business: records, money owed and daily sales" on the app screens canvas · **Related:** [Spaces](income-for-everyone.md#5-spaces-personal-and-business-stage-3), pesaclarity/pesaclarity-app#149
+**Status:** Proposed · **Date:** 2026-11-05 · **Mockups:** "Business: mini-POS, records, stock and insights" on the app screens canvas · **Related:** [Spaces](income-for-everyone.md#5-spaces-personal-and-business-stage-3), pesaclarity/pesaclarity-app#149
 
 ## Why
 
@@ -32,37 +32,50 @@ A transaction lives in one space only. Moving it between spaces moves its ledger
 
 ## 2. Getting around: the business bar
 
-A business space has its own bottom bar, in place of the personal one (Home, Activity, Plan, Goals, Insights):
+A business space swaps the personal tabs (Home, Activity, Plan, Goals, Insights) for its own:
 
-**Today · Money · Customers · Suppliers · Insights**
+**Today · Money · People · Stock · Insights**
 
-- **Today:** sales today, the four record buttons, what customers owe and what you owe, and any "take it off what he owes?" questions.
+- **Today:** sales today, quick buttons (Bought, Got paid, Paid, Close the day), "take it off what he owes?" questions, and what customers owe and what you owe.
 - **Money:** the cash book, with Close the day at the top.
-- **Customers** and **Suppliers:** the two other ledgers.
+- **People:** Customers and Suppliers, the two other ledgers, as a two-way switch at the top.
+- **Stock:** what you sell, products and services.
 - **Insights:** how the business is doing, with Full records at the top.
+- **Sell:** the round "+" button on Today, Money and Stock opens the mini-POS. It is the same button, in the same place, as "+" in Personal.
 
-Profile and the space switcher stay where they are (the avatar and the chip on Today). Plan and Goals stay in Personal. Other kinds of space keep the personal bar for now.
+**Same design everywhere.** The bar is the personal bar: the same floating pill, icons, label size, colours and shadow. Only the tab names and icons change. Cards, buttons, chips, sheets and type are the shared ones too. Profile and the space switcher stay where they are. Other kinds of space keep the personal bar for now.
 
 ## 3. The three ledgers, in plain words
 
-The three ledgers are three of the tabs:
+The three ledgers live in Money and People:
 
 | Tab | Ledger | What it shows |
 | --- | --- | --- |
-| **Money in and out** | Cash book (Cash, M-Pesa and Bank columns) | Balance chips for Cash, M-Pesa and Bank, then the day's entries with how each was paid, and the day's totals in and out |
-| **Customers** | Sales (debtors) ledger | What customers owe in total and how much is over two weeks old; one row per customer with Remind |
-| **Suppliers** | Purchases (creditors) ledger | What the business owes, what is due this week, and what was paid this month |
+| **Money** | Cash book (Cash, M-Pesa and Bank columns) | Balance chips for Cash, M-Pesa and Bank, then the day's entries with how each was paid, and the day's totals in and out |
+| **People: Customers** | Sales (debtors) ledger | What customers owe in total and how much is over two weeks old; one row per customer with Remind |
+| **People: Suppliers** | Purchases (creditors) ledger | What the business owes, what is due this week, and what was paid this month |
 
 Tapping a customer or supplier opens their **statement**: what they owe, their history (credit sales and payments), their phone and how to remind them.
 
 **Full records** (from the top of Insights) shows the formal views: profit and loss, cash book, customer and supplier statements, and a balance summary. It can be shared as a PDF or exported as CSV.
 
-## 4. Recording, in four taps
+## 4. Selling and recording
 
-Business Home has four big buttons:
+### Sell (mini-POS)
 
-- **Sold:** pick how they paid (Cash, M-Pesa, Bank, On credit), the amount and what was sold. On credit asks for the customer and when they will pay.
-- **Bought:** stock or a cost, paid now (Cash, M-Pesa, Bank) or "pay later" to a supplier.
+- **Sell** shows what you sell as tiles: name, price, what is left, and "Running low" when below the warning level. Search and category chips sit on top. Tapping a tile adds one, and the count shows on the tile.
+- **Other sale** takes a typed amount for anything not in the list, so no one has to pick items at a busy moment. With stock tracking off, Sell is just this amount pad.
+- The total sits in a bar where the tab bar was: "4 items · KES 180 · Pay".
+- **Pay** lists the items with − and + (part units such as 0.5 kg allowed), then how they are paying: Cash, M-Pesa, Bank, On credit or Split (part now, part later or two ways).
+  - **Cash:** an optional "cash given" shows the change.
+  - **M-Pesa, till or bank:** the sale waits for the payment message and matches it on its own when the amount and time agree, or the owner taps Done.
+  - **On credit:** asks for the customer and when they will pay.
+
+### Other records
+
+The quick buttons on Today:
+
+- **Bought:** stock (adds to stock; see section 5) or a cost, paid now (Cash, M-Pesa, Bank) or "pay later" to a supplier.
 - **Got paid:** a customer pays what they owe, fully or in part.
 - **Paid:** you pay a supplier, fully or in part.
 
@@ -72,10 +85,12 @@ Sales and purchases from messages are added on their own. When a payment comes f
 
 | Record | Entries |
 | --- | --- |
-| Cash sale | Cash up, Sales up |
+| Cash sale | Cash up, Sales up; for products, Stock down and cost of goods sold up |
 | M-Pesa, till, Pochi or bank sale | That account up, Sales up |
 | Credit sale | Customer owes up, Sales up |
 | Customer pays | Account up, customer owes down |
+| Bought stock | Stock up, account (or owed to supplier) down/up |
+| Stock count difference | Stock down, spoiled/used/lost cost up |
 | Cost paid now | Account down, that cost up |
 | Bought on credit | That cost up, owed to supplier up |
 | Pay a supplier | Account down, owed to supplier down |
@@ -89,18 +104,55 @@ Sales and purchases from messages are added on their own. When a payment comes f
 - Customers and suppliers build on the existing `LentLoans`, `LoanPayments` and `Debts` tables, with a phone and a reminder choice added.
 - A check runs in tests and on the phone: every entry balances, and the three tabs add up to the same totals as the journal.
 
-## 5. Start your records (opening balances)
+## 5. Stock: products and services
+
+### One list, two kinds
+
+**What you sell** holds both:
+
+| | Product | Service |
+| --- | --- | --- |
+| Examples | Tomatoes, sukuma, soap, airtime | Delivery, haircut, repair, tailoring |
+| Kept | Stock on hand, unit (piece, kg, bunch, litre), average cost, selling price, "warn me below" | Selling price, or "price varies" |
+| Buying | Restock adds to stock at what you paid | Supplies are a cost straight away |
+| Selling | Stock goes down; profit = price − average cost | Profit = price; supplies and wages count as costs for the month |
+| Warnings | "Running low", days left at the usual pace | None |
+
+Stock tracking is off until the first item is added, so a business that only wants "Sold 350" never sees it.
+
+### How the money works
+
+- **Average cost.** Each product's cost is the average of what was paid, recalculated at each restock: (stock × old cost + new quantity × price paid) ÷ new stock. The Bought sheet shows the new average.
+- **Stock is not a cost when bought.** It is something the business owns until it sells. When it sells, its average cost moves from Stock to cost of goods sold, so profit is right even when stock is bought once a month.
+- **Part units.** Quantities keep three decimal places, so 0.5 kg or 0.25 litre work.
+- **Services** have no stock. Supplies bought for them are a cost when paid.
+- **Mixed businesses** (a salon that sells hair products) keep both kinds in one list. Reports split product profit and service profit.
+
+### Screens
+
+- **Stock tab:** stock value and how many items are running low, an All / Products / Services filter, one row per item, and Add an item. Count stock sits at the top.
+- **Add an item:** Product or Service, name, price and unit, about what you pay (products), stock now and "warn me below".
+- **One item:** stock now, days left, Restock and Count; selling price, average cost, profit per unit, sold this week; history of sales, restocks and counts.
+- **Bought (stock):** item, how much, what you paid, paid with (Cash, M-Pesa, Bank, Pay later), and the new stock and average cost.
+- **Count stock:** what the records say against what you count. A difference is kept as Spoiled, Used, Lost or Miscounted and, except Miscounted, counts as a cost at the average cost.
+
+### Out of scope for stock
+
+Barcodes, several shops or stores, batches and expiry dates, and buying in one unit and selling in another (a sack sold by the kg). These can come later.
+
+## 6. Start your records (opening balances)
 
 When a business space is made, and for existing business spaces the first time Records opens, **Start your records** asks once for:
 
 - cash in the drawer;
 - the business M-Pesa or till balance (filled in from the latest message when possible);
 - the business bank balance;
-- customers who already owe the business and suppliers it owes (now or later).
+- customers who already owe the business and suppliers it owes (now or later);
+- stock on hand, for businesses that track items (now or later).
 
 These post as opening entries. They can be changed later, and changes are kept in the history.
 
-## 6. Reminders
+## 7. Reminders
 
 - **Message templates** per business. Three to start ("Friendly", "Due today", "It's been a while"), each editable, and the owner can add more. Fields fill in on their own: {name}, {business}, {amount}, {what}, {due}, {date}, {till}. A sentence whose field is empty is left out.
 - **Send with:** WhatsApp or SMS, chosen per customer, with a default for the business. The Remind sheet lets the owner pick the template and the app, and change the words for that one message.
@@ -111,21 +163,23 @@ These post as opening entries. They can be changed later, and changes are kept i
   - Due today: "Hi {name}, KES {amount} is due today. Pay to till {till} when you can. Thank you!"
   - It's been a while: "Hi {name}, just checking in on KES {amount} from {date}. Pay to till {till} when you can. Thank you!"
 
-## 7. Close the day
+## 8. Close the day
 
 Cash at the start (yesterday's counted cash, or the opening balance), plus cash in, minus cash out, gives what should be in the drawer. The owner types what they counted. If it differs, the app shows the amount to account for and offers to add a missed entry or keep a note. It never books the difference on its own. M-Pesa and till for the day and total sales show underneath. Day closes are kept per space.
 
-## 8. Insights
+## 9. Insights
 
 On Home and in **How the business is doing** (this month, last month, 3 months):
 
 - **Sales today** with the split by how people paid, compared with a usual day of that weekday.
 - **Profit** for the period and the change on the last one.
 - **How people pay:** share of sales by cash, M-Pesa, till, Pochi, bank and credit.
+- **Best sellers:** top items by sales, with quantity and profit per unit; services marked.
 - **Sales by day of the week,** with the best day marked.
 - **Short sentences**, each from the journal:
   - best day and when cash sales peak;
-  - what share of sales goes on stock, and other big costs;
+  - product profit against service profit, and items that sell slowly;
+  - stock value, and items that will run out before the usual restock day;
   - cash in and out for the period;
   - customers owing for more than two weeks, and who usually pays on time;
   - supplier payments due, and whether the expected M-Pesa balance covers them;
@@ -134,22 +188,25 @@ On Home and in **How the business is doing** (this month, last month, 3 months):
 
 ## Out of scope
 
-Stock counts and inventory, invoices, VAT and tax, several users on one business, and sending messages from our server.
+Invoices, VAT and tax, several users or tills on one business, receipt printers, and sending messages from our server. For stock, see section 5.
 
 ## Build order
 
 1. Journal and posting underneath, with existing business records posted and balance checks. No visible change.
 2. Business or personal: account settings and the question on shared lines.
 3. Start your records (opening balances).
-4. The business bar, Sold, Bought, Got paid and Paid, and the Money tab.
-5. Customers and Suppliers, with statements and matching incoming payments.
-6. Reminders: templates, send with, daily nudge.
-7. Close the day.
-8. Insights, Full records, PDF and CSV.
+4. The business bar, Sell with "Other sale" and Pay (no items yet), Bought, Got paid and Paid, and the Money tab.
+5. People: Customers and Suppliers, with statements and matching incoming payments.
+6. Stock: items, Sell tiles, average cost, restock and count.
+7. Reminders: templates, send with, daily nudge.
+8. Close the day.
+9. Insights, Full records, PDF and CSV.
 
 Each step ships with tests, screenshots, and docs and README updates.
 
 ## Decisions needed
 
 1. Approve the mockups and the three starting reminder messages.
-2. Credit sales as the only way to sell on credit, or also allow a sale to be paid partly now and partly later? Proposed: allow both, with a "paid now" amount on the Sold sheet.
+2. Split payment on Pay (part now and part on credit, or two ways such as cash and M-Pesa). Proposed: yes.
+
+Agreed so far: bank sales tagged from messages with an "Is this a sale?" check; opening balances; average cost; part units such as 0.5 kg; the business bar matching the personal one.
