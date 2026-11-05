@@ -1,6 +1,6 @@
 # Business: mini-POS, records, stock and money owed
 
-**Status:** Accepted · **Date:** 2026-11-05 · **Mockups:** "Business: mini-POS, records, stock and insights" and "Services: hours, attached documents and tax" on the app screens canvas · **Related:** [Spaces](income-for-everyone.md#5-spaces-personal-and-business-stage-3), pesaclarity/pesaclarity-app#149
+**Status:** Accepted · **Date:** 2026-11-05 · **Mockups:** "Business: mini-POS, records, stock and insights" and "Services: hours, attached documents and tax" and "Services: hours day by day" on the app screens canvas · **Related:** [Spaces](income-for-everyone.md#5-spaces-personal-and-business-stage-3), pesaclarity/pesaclarity-app#149
 
 ## Why
 
@@ -301,7 +301,7 @@ Made on the phone, never online. Nothing goes to our server: the app builds the 
 
 - **Make an invoice** from Billed (services), a credit sale, or Invoices (on Clients or People):
   - the client and, optionally, the project;
-  - **bill by hours or by items.** By hours, each line is what was done, the date or dates, and hours × rate; rates are saved per client and service, so the next invoice fills in. By items, quantity × rate;
+  - **bill by logged hours or by items.** Logged hours come from **Hours** (below): the hours not billed yet for the client, from and to a date, ticked by project. By items, quantity × rate;
   - **costs passed on** to the client, such as a software subscription bought for the work, each with its receipt attached;
   - subtotal and any discount;
   - withholding tax: none, deducted by the client, or paid by the client on top (section 13), giving "To pay";
@@ -312,13 +312,25 @@ Made on the phone, never online. Nothing goes to our server: the app builds the 
   - Attaching a receipt can add it as a cost line ("Charge it to the client") and record it as a business cost if Money doesn't have it yet.
   - Attachments are kept encrypted with the business space, included in its backup, and never uploaded.
 - **Save or share:**
-  - **One PDF:** the invoice, then a timesheet page when billed by hours, then the attachments in order. Or **separate files**.
+  - **One PDF:** the invoice, then the timesheet page when billed by hours, then the attachments in order. Or **separate files**.
+- **Show hours on the invoice** as **Total only** (one line per project), **By project** (each project's hours and rate), or **Day by day** (each day with what was done). A preview shows the choice. **Add the full timesheet as a page** puts every entry in the PDF, with day totals, project totals and the grand total, so the client sees the breakdown even when the invoice shows one line.
   - **Save to phone** puts it in Files or Downloads through the phone's own save screen. **Share** opens the share menu.
 - **Status:** Unpaid, Part paid, Paid or Overdue. It changes on its own when a payment message matches.
 - **The Invoices list** shows what is waiting and what is overdue.
 - **Reminders** can attach the invoice.
 - **Paid invoices** can be shared again with a Paid stamp.
 - **Customer statement:** a PDF of a customer's invoices, payments and balance, from their People screen.
+
+### Hours (services)
+
+For work billed by the hour. Logged on the phone, kept with the business.
+
+- **Log hours:** client, project, what was done (a meeting, a task), the day, and hours (halves and quarters allowed). "Bill this to the client" is ticked by default, at the rate saved for that client and project; travel or admin can be logged unbilled. "Log another for the same day" keeps the day for the next entry.
+- **A day:** every entry for the day, across projects and meetings, with the day total and what is to bill per client.
+- **A week:** each day's total with its split by client, then totals **by project** (hours × rate and amount) and the unbilled hours, with **Bill these hours**.
+- **Today** (services) shows **Log hours** beside Got paid, Spent and Billed, and a card with hours this week and hours not billed yet.
+- **Billing:** an invoice takes the logged hours it covers, and they are marked billed with that invoice's number. Cancelling the invoice frees them. Hours can be edited until billed.
+- Hours live under the **Services** tab, with the services and rates.
 
 ### Sending to a number
 
@@ -368,7 +380,7 @@ VAT returns and filing, several users or tills on one business, receipt printers
 8. Close the day.
 9. Insights, Full records, and Make a report (PDF and CSV).
 10. Tax estimates and the tax pack, with the services estimate: you file as, withholding per client and invoice, certificates, and the Tax screen.
-11. Receipts (picture, PDF, text) and invoices, with statuses, statements and document settings; billing by hours, costs passed on, attached documents, one PDF or separate files, save to phone, and sending to a number with a country code or from contacts.
+11. Receipts (picture, PDF, text) and invoices, with statuses, statements and document settings; logged hours by day and by week, billing by hours with total, by project or day-by-day detail and a timesheet page, costs passed on, attached documents, one PDF or separate files, save to phone, and sending to a number with a country code or from contacts.
 
 Each step ships with tests, screenshots, and docs and README updates.
 
@@ -379,4 +391,4 @@ Each step ships with tests, screenshots, and docs and README updates.
 
 3. Services businesses: is "Billed" (work done, pay later) enough, or are invoice documents needed now? Proposed: Billed now, invoices later.
 
-Agreed: split payments both ways (part now and part on credit, or two ways such as cash and M-Pesa); Billed for services makes an invoice; invoices with a thin top strip and the M-PESA QR; receipts and invoices made offline and shared through any app; tax version one (TOT, VAT threshold warning, withholding tax for services, KRA payments) with the tax pack shipped in the app only; Products / Services / Both; Pay yourself feeding Personal; bank sales tagged from messages with an "Is this a sale?" check; opening balances; average cost; part units such as 0.5 kg; the business bar matching the personal one; invoices by hours with costs passed on and attached documents, saved to the phone as one PDF; withholding tax per client and invoice (none, deducted, or paid on top) with an income tax estimate for services; country codes and the contact picker for numbers.
+Agreed: split payments both ways (part now and part on credit, or two ways such as cash and M-Pesa); Billed for services makes an invoice; invoices with a thin top strip and the M-PESA QR; receipts and invoices made offline and shared through any app; tax version one (TOT, VAT threshold warning, withholding tax for services, KRA payments) with the tax pack shipped in the app only; Products / Services / Both; Pay yourself feeding Personal; bank sales tagged from messages with an "Is this a sale?" check; opening balances; average cost; part units such as 0.5 kg; the business bar matching the personal one; hours logged day by day (per project, or several projects and meetings in a day) and billed with the detail the owner chooses; invoices with costs passed on and attached documents, saved to the phone as one PDF; withholding tax per client and invoice (none, deducted, or paid on top) with an income tax estimate for services; country codes and the contact picker for numbers.
