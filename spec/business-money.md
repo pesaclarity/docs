@@ -284,6 +284,7 @@ Made on the phone, never online. Nothing goes to our server: the app builds the 
   - subtotal and any discount;
   - withholding tax the client deducts (rate from the tax pack), giving "To pay";
   - due date, a number in order, and how to pay (Paybill or till with the invoice number as the account, and bank details);
+  - the business's **M-PESA QR code** next to how to pay, labelled "Scan with the M-PESA app";
   - notes.
 - **Status:** Unpaid, Part paid, Paid or Overdue. It changes on its own when a payment message matches.
 - **The Invoices list** shows what is waiting and what is overdue.
@@ -293,7 +294,19 @@ Made on the phone, never online. Nothing goes to our server: the app builds the 
 
 ### Settings (Receipts and invoices)
 
-Logo (initials or a photo from the phone), business details, how to pay, KRA PIN shown or hidden, numbering prefix, receipt footer, and the default receipt format. Content changes, layout does not, so every document looks professional.
+Logo (initials or a photo from the phone), business details, how to pay, the M-PESA QR code, KRA PIN shown or hidden, numbering prefix, receipt footer, and the default receipt format. Content changes, layout does not, so every document looks professional.
+
+### The M-PESA QR code
+
+Safaricom makes official M-PESA QR codes for a till or Paybill, and its API for QR codes with an amount filled in works online. So, offline only:
+
+- The owner adds **their own QR code** once, from the M-PESA business app or the printout Safaricom gave them: a photo or screenshot, cropped on the phone. The app reads it to check that it is a QR code and shows it on invoices (and optionally receipts) exactly as given.
+- The app never makes its own payment QR codes, so a customer only ever scans Safaricom's code. The amount is typed by the customer, and the invoice shows it beside the code.
+- Without a QR code added, the How to pay box shows the till, Paybill and account only.
+
+### Look
+
+A4 invoices have a thin accent strip at the top (agreed). Receipts and invoices share the report's type, colours and spacing.
 
 ### Rules
 
@@ -328,4 +341,4 @@ Each step ships with tests, screenshots, and docs and README updates.
 
 3. Services businesses: is "Billed" (work done, pay later) enough, or are invoice documents needed now? Proposed: Billed now, invoices later.
 
-Agreed so far: receipts and invoices made offline and shared through any app; tax version one (TOT, VAT threshold warning, withholding tax for services, KRA payments) with the tax pack shipped in the app only; Products / Services / Both; Pay yourself feeding Personal; bank sales tagged from messages with an "Is this a sale?" check; opening balances; average cost; part units such as 0.5 kg; the business bar matching the personal one.
+Agreed so far: invoices with a thin top strip and the M-PESA QR; receipts and invoices made offline and shared through any app; tax version one (TOT, VAT threshold warning, withholding tax for services, KRA payments) with the tax pack shipped in the app only; Products / Services / Both; Pay yourself feeding Personal; bank sales tagged from messages with an "Is this a sale?" check; opening balances; average cost; part units such as 0.5 kg; the business bar matching the personal one.
