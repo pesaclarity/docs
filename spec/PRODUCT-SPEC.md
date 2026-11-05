@@ -375,7 +375,7 @@ The app earns nothing from its users. The only possible income is licensing fede
 
 ### Release conditions
 
-- DP-SGD with a published privacy budget, secure aggregation and minimum cohort sizes on every release.
+- DP-SGD with a published privacy budget, secure aggregation and minimum cohort sizes on every release. The budget covers one person, not one transaction, and counts every training run and audit on the same data. The noise is never reproducible from a published seed.
 - A membership-inference audit passes before any model leaves the server.
 - A data protection impact assessment filed with the ODPC; legal review by a Kenyan data protection lawyer before the first licence.
 - Any licence income goes first to keeping the app free; until then, running costs come from grants or the founder.
