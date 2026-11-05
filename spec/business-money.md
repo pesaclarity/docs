@@ -178,21 +178,7 @@ Stock tracking is off until the first item is added, so a business that only wan
 - **Bought (stock):** item, how much, what you paid, paid with (Cash, M-Pesa, Bank, Pay later), and the new stock and average cost.
 - **Count stock:** what the records say against what you count. A difference is kept as Spoiled, Used, Lost or Miscounted and, except Miscounted, counts as a cost at the average cost.
 
-### 12. Make a report
-
-Reports keep one clear, consistent look in the app's style. The owner chooses what goes in, not the layout:
-
-- **Who is it for:** "A Sacco or loan" (profit and loss, money owed, balance summary), "An accountant" (everything, including every cash book entry) or "Just me" (insights and charts). Each ticks sensible sections, which the owner can change.
-- **Period:** this month, last month, 3 months, or dates.
-- **Sections**, each a tick: profit and loss, sales by how people paid, customers who owe, suppliers owed, balance summary, best sellers, stock, cash book with every entry, insights.
-- **The cover:** business name, owner name, phone, place and an optional logo or photo.
-- **Detail:** totals only, or every entry.
-- **Format:** PDF to share, or CSV for a spreadsheet.
-- **Saved setups,** such as "Monthly Sacco report", to make the same report again in one tap.
-
-Free-form layouts and colours are out of scope, so every report looks professional.
-
-## Out of scope for stock
+### Out of scope for stock
 
 Barcodes, several shops or stores, batches and expiry dates, and buying in one unit and selling in another (a sack sold by the kg). These can come later.
 
@@ -241,6 +227,20 @@ On Home and in **How the business is doing** (this month, last month, 3 months):
   - supplier payments due, and whether the expected M-Pesa balance covers them;
   - how often the drawer matched.
 - **Share a report:** a one-page PDF with profit and loss, money owed and the balance summary, for a Sacco or a loan.
+
+## 12. Make a report
+
+Reports keep one clear, consistent look in the app's style. The owner chooses what goes in, not the layout:
+
+- **Who is it for:** "A Sacco or loan" (profit and loss, money owed, balance summary), "An accountant" (everything, including every cash book entry) or "Just me" (insights and charts). Each ticks sensible sections, which the owner can change.
+- **Period:** this month, last month, 3 months, or dates.
+- **Sections**, each a tick: profit and loss, sales by how people paid, customers who owe, suppliers owed, balance summary, best sellers, stock, cash book with every entry, insights.
+- **The cover:** business name, owner name, phone, place and an optional logo or photo.
+- **Detail:** totals only, or every entry.
+- **Format:** PDF to share, or CSV for a spreadsheet.
+- **Saved setups,** such as "Monthly Sacco report", to make the same report again in one tap.
+
+Free-form layouts and colours are out of scope, so every report looks professional.
 
 ## Out of scope
 
