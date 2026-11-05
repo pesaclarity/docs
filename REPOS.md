@@ -10,7 +10,7 @@ The `pesaclarity` GitHub organisation holds one repository per licence boundary 
 | [`pesaclarity-app`](https://github.com/pesaclarity/pesaclarity-app) | | Flutter app for Android and iPhone: screens, Drift + SQLCipher ledger, budget, debts, FHI, backups, review inbox. Play Store, F-Droid and App Store flavours | AGPL-3.0 + commercial on request | 1–2 (weeks 3–11) |
 | [`pesaclarity-web`](https://github.com/pesaclarity/pesaclarity-web) | dirisha (window) | Website: what Pesa Clarity is, principles, privacy, open source, calls to action | AGPL-3.0 (code), CC BY 4.0 (text) | 2, before Play review |
 | [`pesaclarity-backend`](https://github.com/pesaclarity/pesaclarity-backend) | ngome (fortress) | Auth, encrypted backup vault (Play Integrity and App Attest), federated-learning aggregator. Docker, Cloud Run | AGPL-3.0 + commercial on request | 2–3 (weeks 7–14) |
-| [`pesaclarity-ml`](https://github.com/pesaclarity/pesaclarity-ml) | akili (intelligence) | Categoriser, message reader, DP-SGD config, TFLite export, MLflow tracking, release audits | AGPL-3.0 (code); weights under a separate model licence | 3. Beta (weeks 12–14) |
+| [`pesaclarity-ml`](https://github.com/pesaclarity/pesaclarity-ml) | akili (intelligence) | Categoriser, message reader, DP-SGD config, TFLite export, MLflow tracking, release audits | AGPL-3.0 (code); app-track weights CC BY-SA 4.0, commercial-track weights by written licence | 3. Beta (weeks 12–14) |
 
 `pesaclarity-app` depends on `ujumbe-parsers` as the Dart package `ujumbe`, so packs version and release independently of the app.
 

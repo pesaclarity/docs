@@ -240,7 +240,17 @@ Reports keep one clear, consistent look in the app's style. The owner chooses wh
 - **Format:** PDF to share, or CSV for a spreadsheet.
 - **Saved setups,** such as "Monthly Sacco report", to make the same report again in one tap.
 
-Free-form layouts and colours are out of scope, so every report looks professional.
+- **Style** (decided 5 November 2026: today's look is the default, and the owner can change each choice per saved setup):
+  - cover: full red band (default), thin red strip, or plain white with the logo;
+  - colour: the app's red (default), or grey and black for a formal look;
+  - "Made with Pesa Clarity" in the footer: on (default) or off;
+  - last period next to this one: on (default) or off;
+  - length: the full report (default) or a one-page summary;
+  - charts: simple bars (default), or also sales by day and a profit trend;
+  - wording: plain (default, "What the business has") or formal ("Assets");
+  - extras: a signature line, and the KRA PIN and business permit number on the cover (off by default).
+
+Free-form layouts are out of scope, so every report still looks professional.
 
 ## 13. Tax estimates (Kenya, for SMEs)
 
@@ -344,6 +354,12 @@ Receipts, invoices, statements and reminders can go to a phone number:
 
 Logo (initials or a photo from the phone), business details, how to pay, the M-PESA QR code, KRA PIN shown or hidden, numbering prefix, receipt footer, and the default receipt format. Content changes, layout does not, so every document looks professional.
 
+Style choices (decided 5 November 2026, today's look as the default):
+- receipt colour: colour (default) or black and white, which suits thermal printers;
+- invoice header: thin strip (default) or full band;
+- "Made with Pesa Clarity": on (default) or off. "This is not an eTIMS tax invoice" always shows;
+- a signature or stamp area on invoices: off (default) or on.
+
 ### The M-PESA QR code
 
 Safaricom makes official M-PESA QR codes for a till or Paybill, and its API for QR codes with an amount filled in works online. So, offline only:
@@ -354,7 +370,9 @@ Safaricom makes official M-PESA QR codes for a till or Paybill, and its API for 
 
 ### Look
 
-A4 invoices have a thin accent strip at the top (agreed). Receipts and invoices share the report's type, colours and spacing.
+A4 invoices have a thin accent strip at the top by default (agreed), and the owner can choose a full band instead. Receipts and invoices share the report's type, colours and spacing.
+
+Input fields are underlined by default, as everywhere in the app. An app-wide setting switches them to boxed.
 
 ### Rules
 
@@ -390,7 +408,7 @@ All eleven steps are built and merged to dev (pesaclarity/pesaclarity-app#161 to
 
 The items first left for later are built too (pesaclarity/pesaclarity-app#176): the logo on the report cover and Totals only or Every entry; Set aside for tax, month by month, and the count of costs with eTIMS invoices; Take a photo of a paper receipt and "Record it as a business cost"; the customer statement PDF; and reminders that attach the open invoice.
 
-- The tax pack's figures (TOT 1.5% on KES 1M to 25M, VAT 16% from KES 5M, WHT 5% on consultancy fees, individual bands and relief, company 30%, instalment dates) are to be checked against KRA before each release.
+- The tax pack's figures (TOT 1.5% on KES 1M to 25M, VAT 16% from KES 5M, WHT 5% on consultancy fees, individual bands and relief, company 30%, instalment dates) are the published rules as of the pack's `rulesAsOf` date. There is no connection to KRA (decided 5 November 2026): the pack ships with the app and changes only with app updates.
 
 ## Decisions needed
 
