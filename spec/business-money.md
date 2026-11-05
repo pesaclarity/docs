@@ -242,9 +242,27 @@ Reports keep one clear, consistent look in the app's style. The owner chooses wh
 
 Free-form layouts and colours are out of scope, so every report looks professional.
 
+## 13. Tax estimates (Kenya, for SMEs)
+
+Approximations to plan with, never official records or advice. Every figure is marked **Estimate**, with "Based on your records and the rules as of {date}. Check with KRA or a tax adviser."
+
+**Version one:**
+
+- **Which tax applies:** from the last 12 months of sales, the likely band: below the Turnover Tax (TOT) threshold, TOT, or above it (income tax on profit, later). A warning before a line is crossed, such as nearing the VAT registration threshold.
+- **TOT this month:** the rate times gross sales for the month, with the due date and a reminder a few days before.
+- **Set aside for tax:** an optional pot that keeps a share of each sale aside.
+- **Withholding tax for services:** when a client pays less than billed because they withheld tax, the gap is recorded as tax already paid, with a "certificate received" tick, and counted in the yearly estimate.
+- **Payments to KRA** recognised from M-Pesa and bank messages and marked as tax paid.
+- **Estimated against paid,** month by month, and how many costs have eTIMS invoices.
+- **Tax summary** as a section in Make a report.
+
+Later: income tax bands for businesses above the TOT band, and VAT estimates for registered businesses.
+
+**The tax pack.** Rates, thresholds and due dates live in a dated, versioned tax pack inside the app, each figure with its source. Nothing is hardcoded in code, and the pack never comes from our server: it is reviewed before each release and updated only with app updates. The app shows "Rules as of {date}" wherever an estimate appears.
+
 ## Out of scope
 
-Invoices, VAT and tax, several users or tills on one business, receipt printers, and sending messages from our server. For stock, see section 7.
+VAT returns and filing, several users or tills on one business, receipt printers, and sending messages from our server. For stock, see section 7.
 
 ## Build order
 
@@ -257,6 +275,7 @@ Invoices, VAT and tax, several users or tills on one business, receipt printers,
 7. Reminders: templates, send with, daily nudge.
 8. Close the day.
 9. Insights, Full records, and Make a report (PDF and CSV).
+10. Tax estimates and the tax pack.
 
 Each step ships with tests, screenshots, and docs and README updates.
 
@@ -267,4 +286,4 @@ Each step ships with tests, screenshots, and docs and README updates.
 
 3. Services businesses: is "Billed" (work done, pay later) enough, or are invoice documents needed now? Proposed: Billed now, invoices later.
 
-Agreed so far: Products / Services / Both; Pay yourself feeding Personal; bank sales tagged from messages with an "Is this a sale?" check; opening balances; average cost; part units such as 0.5 kg; the business bar matching the personal one.
+Agreed so far: tax version one (TOT, VAT threshold warning, withholding tax for services, KRA payments) with the tax pack shipped in the app only; Products / Services / Both; Pay yourself feeding Personal; bank sales tagged from messages with an "Is this a sale?" check; opening balances; average cost; part units such as 0.5 kg; the business bar matching the personal one.
