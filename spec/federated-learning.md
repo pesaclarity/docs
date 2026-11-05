@@ -36,6 +36,14 @@ Start when at least 300 opted-in installs are active weekly. Until then the serv
 
 1. **Approve step 1** to build now.
 2. **For step 2, choose how phones talk to the aggregator:**
-   - **A. Native Flower clients** (Kotlin on Android, Swift on iPhone) behind a platform channel. This keeps Flower's tested secure aggregation, but only if those SDKs support it. Check before choosing.
+   - **A. Native Flower clients** (Kotlin on Android, Swift on iPhone) behind a platform channel. This keeps Flower's tested secure aggregation, but only if those SDKs support it.
    - **B. Our own round API on ngome**, with secure aggregation written in Dart and Python. Full control, but new crypto that needs an outside review before launch.
-   - **Recommended:** decide at step 2, after checking A. Choosing now buys nothing while the cohort is too small.
+   - **C. A Dart client for Flower's current message API**, porting Flower's client side of SecAgg+. The server keeps Flower's tested SecAgg+ workflow; only the phone's part is new code.
+   - **Recommended:** C, decided at step 2. Choosing now buys nothing while the cohort is too small.
+
+   **A checked (2026-11-05, Flower main):** A does not work as hoped.
+   - Neither mobile SDK has any secure aggregation code (`framework/kotlin`, `framework/swift`).
+   - The Kotlin SDK still speaks the old task API (`PullTaskIns`), which current Flower servers no longer have; they use `PullMessages` and `PushMessages`.
+   - The Swift SDK uses the older two-way stream.
+
+   So A would also mean writing the phone's side of SecAgg+, in two languages, against an outdated client. Flower's own client side is small: about 500 lines of Python (`secaggplus_mod.py`) plus Shamir secret sharing and Fernet encryption. Porting that once to Dart (C) keeps Flower's server and protocol. The port still needs an outside review, but less than B, where both sides would be new.
