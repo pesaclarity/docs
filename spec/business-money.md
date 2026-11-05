@@ -1,6 +1,6 @@
 # Business: mini-POS, records, stock and money owed
 
-**Status:** Accepted · **Date:** 2026-11-05 · **Mockups:** "Business: mini-POS, records, stock and insights" and "Services: hours, attached documents and tax" and "Services: hours day by day" on the app screens canvas · **Related:** [Spaces](income-for-everyone.md#5-spaces-personal-and-business-stage-3), pesaclarity/pesaclarity-app#149
+**Status:** Accepted, built on dev · **Date:** 2026-11-05 · **Mockups:** "Business: mini-POS, records, stock and insights" and "Services: hours, attached documents and tax" and "Services: hours day by day" on the app screens canvas · **Related:** [Spaces](income-for-everyone.md#5-spaces-personal-and-business-stage-3), pesaclarity/pesaclarity-app#149
 
 ## Why
 
@@ -383,6 +383,18 @@ VAT returns and filing, several users or tills on one business, receipt printers
 11. Receipts (picture, PDF, text) and invoices, with statuses, statements and document settings; logged hours by day and by week, billing by hours with total, by project or day-by-day detail and a timesheet page, costs passed on, attached documents, one PDF or separate files, save to phone, and sending to a number with a country code or from contacts.
 
 Each step ships with tests, screenshots, and docs and README updates.
+
+### Built (November 2026, on dev)
+
+All eleven steps are built and merged to dev (pesaclarity/pesaclarity-app#161 to #174), with tests for each. Step 11 shipped in four parts: receipts and document settings, hours, invoices, and attached documents.
+
+What was left for later, each noted in its pull request:
+
+- Tax: the "Set aside for tax" pot, estimated against paid month by month, and the count of costs with eTIMS invoices.
+- Reports: a logo or photo on the cover, and a separate "totals only or every entry" switch ("Cash book, every entry" covers the detail).
+- Documents: Take a photo of a paper receipt (picking a photo from Files works), "Record it as a business cost" when attaching, reminders that attach the invoice, and the customer statement PDF.
+- Paid less on an invoice offers Tax withheld when the payment comes through Choose payments; an invoice paid exactly "To pay" by M-Pesa or bank from the client settles on its own.
+- The tax pack's figures (TOT 1.5% on KES 1M to 25M, VAT 16% from KES 5M, WHT 5% on consultancy fees, individual bands and relief, company 30%, instalment dates) are to be checked against KRA before each release.
 
 ## Decisions needed
 
