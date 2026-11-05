@@ -338,6 +338,8 @@ Restore: on a new phone, choose the source, pick a backup by date, enter the pas
 
 The policy itself must cover, per the Data Protection Act: the controller and ODPC registration, what is collected (sign-in details, encrypted backups, model updates), what never leaves the phone, legal bases, retention, rights (access, correction, deletion, objection to automated decisions), cross-border hosting, and a contact for requests. Draft it in plain English, then have a Kenyan data protection lawyer review it before launch.
 
+The Data Protection Officer for the Pesa Clarity platform is Dan Njuguna (njugunahdann@gmail.com), named in the policy (from version 1.7) and on the website as the contact for requests.
+
 ### Data model (on the phone)
 
 | Table | Key fields |
@@ -388,7 +390,8 @@ Everything is open source: the app, the server, the parser packs and this spec. 
 | --- | --- | --- |
 | Mobile app and server | AGPL-3.0, plus a commercial licence on request | Forks, including hosted ones, must stay open; companies that cannot accept AGPL can buy a commercial licence, which can fund the project |
 | Parser packs and test fixtures | Apache-2.0 | Maximum adoption and community contributions; banks and fintechs can use them freely |
-| Trained federated model weights | Separate model licence | Code is open, but weights built from opted-in users can be licensed, keeping model licensing possible |
+| App-track model weights (shipped in the app) | CC BY-SA 4.0 | Free like the app, so anyone can check what runs on their phone and F-Droid can ship it |
+| Commercial-track model weights | Written licence only, never published | Built only from people who opted in to the commercial track; terms forbid credit scoring, profiling and re-identification, keeping model licensing possible |
 | Docs and designs | CC BY 4.0 | Free to reuse with credit |
 
 What open source requires:
@@ -413,7 +416,7 @@ All code lives under the GitHub organisation `pesaclarity`. All seven repositori
 | `pesaclarity-app` | | AGPL-3.0 + commercial on request |
 | `pesaclarity-web` | dirisha (window) | AGPL-3.0 (code), CC BY 4.0 (text) |
 | `pesaclarity-backend` | ngome (fortress) | AGPL-3.0 + commercial on request |
-| `pesaclarity-ml` | akili (intelligence) | AGPL-3.0 (code); weights under a separate model licence |
+| `pesaclarity-ml` | akili (intelligence) | AGPL-3.0 (code); app-track weights CC BY-SA 4.0, commercial-track weights by written licence |
 
 `pesaclarity-app` depends on `ujumbe-parsers` (Dart package `ujumbe`), so parser packs can be versioned, tested and contributed independently of app releases.
 
