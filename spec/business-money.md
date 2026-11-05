@@ -260,6 +260,47 @@ Later: income tax bands for businesses above the TOT band, and VAT estimates for
 
 **The tax pack.** Rates, thresholds and due dates live in a dated, versioned tax pack inside the app, each figure with its source. Nothing is hardcoded in code, and the pack never comes from our server: it is reviewed before each release and updated only with app updates. The app shows "Rules as of {date}" wherever an estimate appears.
 
+## 14. Receipts and invoices
+
+Made on the phone, never online. Nothing goes to our server: the app builds the document and opens the phone's share menu, so the owner sends it by WhatsApp, SMS, email, Bluetooth, a printer app or any app they choose.
+
+### Receipts
+
+- **When:** after Pay ("Sale saved", with **Share receipt** and **Not now**), and later from any sale. "Offer a receipt after each sale" can be switched off.
+- **What it shows:**
+  - logo, business name, place, phone, and till or Paybill;
+  - receipt number, date and time;
+  - items as quantity × price, and the total;
+  - how they paid, with the M-Pesa code from the matched message;
+  - change given, or the balance still owed;
+  - the owner's footer line, and "This is not an eTIMS tax invoice".
+- **As:** a narrow picture sized for WhatsApp, a PDF, or plain text for SMS. The customer's number is filled in when the sale has a known customer.
+
+### Invoices
+
+- **Make an invoice** from Billed (services), a credit sale, or Invoices (on Clients or People):
+  - the client;
+  - items or services with quantity and rate;
+  - subtotal and any discount;
+  - withholding tax the client deducts (rate from the tax pack), giving "To pay";
+  - due date, a number in order, and how to pay (Paybill or till with the invoice number as the account, and bank details);
+  - notes.
+- **Status:** Unpaid, Part paid, Paid or Overdue. It changes on its own when a payment message matches.
+- **The Invoices list** shows what is waiting and what is overdue.
+- **Reminders** can attach the invoice.
+- **Paid invoices** can be shared again with a Paid stamp.
+- **Customer statement:** a PDF of a customer's invoices, payments and balance, from their People screen.
+
+### Settings (Receipts and invoices)
+
+Logo (initials or a photo from the phone), business details, how to pay, KRA PIN shown or hidden, numbering prefix, receipt footer, and the default receipt format. Content changes, layout does not, so every document looks professional.
+
+### Rules
+
+- Numbers are in order per business and never reused. A cancelled document keeps its number and is marked Cancelled.
+- Documents are business documents, not KRA eTIMS tax invoices, and say so. eTIMS needs KRA's online system, so it is out of scope while documents are offline only.
+- Documents are rebuilt from the records when shared again, so a corrected sale gives a corrected receipt with the same number and "Corrected" on it.
+
 ## Out of scope
 
 VAT returns and filing, several users or tills on one business, receipt printers, and sending messages from our server. For stock, see section 7.
@@ -276,6 +317,7 @@ VAT returns and filing, several users or tills on one business, receipt printers
 8. Close the day.
 9. Insights, Full records, and Make a report (PDF and CSV).
 10. Tax estimates and the tax pack.
+11. Receipts (picture, PDF, text) and invoices, with statuses, statements and document settings.
 
 Each step ships with tests, screenshots, and docs and README updates.
 
@@ -286,4 +328,4 @@ Each step ships with tests, screenshots, and docs and README updates.
 
 3. Services businesses: is "Billed" (work done, pay later) enough, or are invoice documents needed now? Proposed: Billed now, invoices later.
 
-Agreed so far: tax version one (TOT, VAT threshold warning, withholding tax for services, KRA payments) with the tax pack shipped in the app only; Products / Services / Both; Pay yourself feeding Personal; bank sales tagged from messages with an "Is this a sale?" check; opening balances; average cost; part units such as 0.5 kg; the business bar matching the personal one.
+Agreed so far: receipts and invoices made offline and shared through any app; tax version one (TOT, VAT threshold warning, withholding tax for services, KRA payments) with the tax pack shipped in the app only; Products / Services / Both; Pay yourself feeding Personal; bank sales tagged from messages with an "Is this a sale?" check; opening balances; average cost; part units such as 0.5 kg; the business bar matching the personal one.
