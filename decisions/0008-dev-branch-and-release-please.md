@@ -17,3 +17,7 @@ Pull requests go to `dev`, titled in Conventional Commits form and squash-merged
 - dev-to-main merges must keep the individual commits (merge commit, not squash), or release-please sees one untyped change.
 - Branch protection on `main`, required checks and environment reviewers need GitHub Pro or public repositories; until then the release gate and QA checks show red but cannot block a merge, so following them is by agreement.
 - Other repos keep merging to `main`.
+
+## Amendment, 2026-11-05
+
+`pesaclarity-ml` follows the same flow: its `main` is what model releases are trained and exported from, so it gets a `dev` branch, the release gate and release-please too. `docs`, `pesaclarity-web` and `.github` keep merging to `main`.
