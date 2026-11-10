@@ -43,14 +43,14 @@ The brand colour is **Pesa Red**, the red used across the app designs. It is Pes
 
 | Token | Hex | Use |
 | --- | --- | --- |
-| Pesa Red (`brand`) | `#C8102E` | Hero cards, active tab, primary buttons. White text on it: 5.9:1 |
-| Link red (`brandLink`) | `#B81D2F` | Links and alerts on white (6.5:1) |
+| Pesa Red (`brand`) | `#C8102E` | Lead cards, the + button, the open tab, the one main button on a screen. White text on it: 5.9:1 |
+| Link red (`brandLink`) | `#B81D2F` | Alerts on white (6.5:1). Links and other buttons use the text colour |
 | Red soft (`brandSoft`) | `#FDECEE` | Selected rows, chips |
 | Background | `#FBF8F8` | Screen ground |
 | Surface / border | `#FFFFFF` / `#EFE6E7` | Cards, lists, nav bar |
 | Text / muted | `#1C1215` / `#6F6064` | Body, labels (muted 5.6:1) |
 | Success | `#059669` (text `#047857`) | Income, on track, cleared |
-| Warning | `#B45309` | In progress |
+| Warning | `#B45309` | In progress, overdue, something to check |
 
 **Red means brand, so "over budget" can't rely on colour alone.** Every over or failed state also carries a label or icon ("Over", ⚠ icon). Green stays a status colour only, which also keeps us visually distinct from M-Pesa.
 

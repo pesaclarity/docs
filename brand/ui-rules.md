@@ -1,6 +1,6 @@
 # One look: UI rules
 
-Every screen does the same job the same way, in every space. The shared pieces live in the app's `lib/src/shared` and `lib/src/theme/layout.dart`; a screen uses them instead of its own copy.
+Every screen does the same job the same way, in every space. The look below was approved from the mockups in the design canvas ("One look across the app"). The shared pieces live in the app's `lib/src/shared` and `lib/src/theme/layout.dart`; a screen uses them instead of its own copy.
 
 ## Spacing and shape
 
@@ -28,15 +28,24 @@ Every screen does the same job the same way, in every space. The shared pieces l
 
 Amounts use the display font with even-width figures. While amounts are hidden, every amount on a browse screen shows dots. The counter (Sell, Pay, tabs, Close the day, record sheets), forms and documents to share or print always show amounts.
 
+## The look
+
+- **Red only where it counts.** Red is for the lead card, the one main button on a screen (+, Pay, Sell, Save) and the open tab. Every other button, link and action is neutral: text colour, light border. Home's profile button is an outlined circle.
+- **The + button.** A solid red circle with a white +, beside the tab bar on every tab, never over the list. It is the main action: Sell in a business, add a transaction or import a statement elsewhere.
+- **Each number once.** A figure shows in one place per screen. Only a red lead card's figure carries the currency code (KES 1,250); every other amount is a plain number (1,250), with + for money in. Amounts in another currency keep their code. Receipts, invoices, statements, reports and the counter keep the code.
+- **One shape for every card.** A title line, at most one detail line, and one action: tap the card (› at the end) or one button.
+- **One way to add.** "+ Add" sits at the right of the title of the list it adds to: the screen's title for a screen's list, the section's title for a section. Actions beside a title are small outlined pills ("Count stock", "See all", "Remind").
+- **Helpful empty states.** Never a dash in a big figure or a tile. A red card with nothing yet says what will show and when; a tile says "Soon" and when. Insights wait until there is enough to say (two weeks of records).
+
 ## Screens
 
-- **Tabs** start with one title row: the title, links to the tab's other screens as text buttons, then the eye last. Home keeps its own header.
-- **Pushed screens** use a titled app bar, and keep it while loading. Actions: text buttons for other screens, icon buttons with a tooltip, then the eye, then 8.
+- **Tabs** start with one title row: the title (the tab's name, on one line), pills for the tab's other screens and "+ Add", then the eye last. Home keeps its own header.
+- **Pushed screens** use a titled app bar, and keep it while loading. Actions: pills for other screens and "+ Add", icon buttons with a tooltip, then the eye, then 8.
 - **Intro text** under an app bar is body large in the muted colour; an intro heading is headline small.
 - **Section headings:** small capitals over a group of rows ("TODAY", "HISTORY"); a sentence-case title for a section, with its action at the right ("Goals" · Add a goal).
 - **Red lead cards** are one card: label and eye, the figure, up to two caption lines, an optional bar.
 - **Tiles** are one tile: label, figure, an optional note.
-- **Rows** in a card are split by full-width lines. An action word at the end ("Edit", "Change") looks like a text button. A row with no value that opens another screen ends with ›; rows with a value do not.
+- **Rows** in a card are split by full-width lines. An action word at the end ("Edit", "Change") is in the text colour. A row with no value that opens another screen ends with ›; rows with a value do not.
 - **Tags** ("Running low", "Paid") and **notes** come in three tones: information, good news and something to check. Overdue is amber everywhere.
 
 ## States
