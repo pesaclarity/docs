@@ -1,6 +1,6 @@
 # 0009. Base currency, converted on read
 
-Date: 2026-10-27 · Status: Accepted
+Date: 2026-10-27 · Status: Accepted; converting at today's rate is replaced by the rates of each day in [0014](0014-rates-of-the-day.md)
 
 ## Context
 
