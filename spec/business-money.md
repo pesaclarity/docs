@@ -209,6 +209,8 @@ These post as opening entries. They can be changed later, and changes are kept i
 
 Cash at the start (yesterday's counted cash, or the opening balance), plus cash in, minus cash out, gives what should be in the drawer. The owner types what they counted. If it differs, the app shows the amount to account for and offers to add a missed entry or keep a note. It never books the difference on its own. M-Pesa and till for the day and total sales show underneath. Day closes are kept per space.
 
+**The business day.** A place open late chooses when its day ends: midnight (default), 2, 4 or 6 am (Profile › **Day ends at**, kept per space, `business.day`). Sales today, the drawer, money in to match and the close all use that day, so a sale at 1 am before a 6 am end counts on the night before. Close the day then reads "Thursday, 5 Nov · business day until 6 am".
+
 ## 11. Insights
 
 On Home and in **How the business is doing** (this month, last month, 3 months):
