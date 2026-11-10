@@ -58,10 +58,11 @@ with a hustle).
 
 Safe to spend today:
 
-> (money on hand − bills due before the next money − a small buffer) ÷ days until the next money
+> the smaller of: (money on hand − bills due before the next money − a small buffer) ÷ days until the next money, and what is usually spent on a day like today
 
 - Money on hand is the balance of day-to-day accounts (not Saccos or money market funds).
 - The buffer is a tenth of the money on hand.
+- **What is usually spent** comes from the last four weeks, weekdays and weekend days apart, leaving out planned bills. A lot of money on hand is not all safe to spend: anything above a usual day stays spare. It applies once there are two weeks of history; before that, money with no fixed next day is spread over 30 days, not 7.
 - When the next money is likely:
 
 | Pattern | Next money | Counted |
@@ -72,7 +73,8 @@ Safe to spend today:
 | Seasonal, nothing steady | No date: shows how long it lasts at today's pace | Only what is on hand |
 
 - Home's wording follows: "Until about Fri 14 Nov, when money usually comes", "For the next 7
-  days", and "Lasts until about … at this pace". "Payday" appears only for salaried people.
+  days", and "Lasts until about … at this pace"; when a usual day sets the amount, "What you
+  usually spend on a weekday" (or "on a weekend day"). "Payday" appears only for salaried people.
 - A monthly Plan stays optional for everyone.
 
 ### 4. Plans for each pattern (stage 2)
