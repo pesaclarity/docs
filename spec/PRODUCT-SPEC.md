@@ -291,6 +291,7 @@ Infra (decided, [0004](../decisions/0004-eu-hosting-and-email-sign-in.md)): in t
 - **Lost passphrase = lost backup:** offer a printable recovery key at setup.
 - **Statement passwords** are used once in memory, then discarded; PDFs never leave the phone. See [Statement import](statement-import.md#passwords).
 - **App lock:** PIN or biometric, auto-lock, hide balances on open, remote sign-out of devices.
+- **Hiding amounts:** one eye, the same on every screen, hides every amount across the app; it starts from "Hide balances on open". It sits at the right of a screen's title, or on the red card a screen leads with. The counter (Sell, Pay, tabs, Close the day, the record sheets), forms where an amount is typed, and receipts, invoices and statements chosen to share or print always show amounts.
 - **No analytics:** product decisions rely on interviews and opt-in feedback; an opt-in, anonymous crash report is the one exception.
 
 ### Mobile security
