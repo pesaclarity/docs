@@ -170,17 +170,27 @@ Stock tracking is off until the first item is added, so a business that only wan
 - **Services** have no stock. Supplies bought for them are a cost when paid.
 - **Mixed businesses** (a salon that sells hair products) keep both kinds in one list. Reports split product profit and service profit.
 
+### Sold several ways, bought in packs
+
+One product keeps one stock, counted in its own unit (a bottle), and can be sold or bought other ways:
+
+- **Smaller measures**, such as a tot (30 in a bottle) or a double (15 in a bottle), each with its own price. Each tot sold takes 1/30 of a bottle out of stock. What is left over of a thousandth is kept on the measure, so thirty tots always take exactly one bottle; a count starts it afresh.
+- **Packs**, such as a crate of 24. Bought sheet: **How many** 3, **Of** Crates of 24, adds 72 bottles at the price paid. A pack with a price can be sold whole too.
+- **Stock reads in them:** "5 bottles and 12 tots", "4 crates and 6 left". Reports count every way in the item's own unit, at what each sale took from stock (`item_measures`, `sale_lines.measure_id`, schema 31).
+
 ### Screens
 
 - **Stock tab:** stock value and how many items are running low, an All / Products / Services filter, one row per item, and Add an item. Count stock sits at the top.
-- **Add an item:** Product or Service, name, price and unit, about what you pay (products), stock now and "warn me below".
-- **One item:** stock now, days left, Restock and Count; selling price, average cost, profit per unit, sold this week; history of sales, restocks and counts.
+- **Add an item:** Product or Service and name; for a product, what you count it in and stock now, **Sold as** (its own unit and price, then each other way, with **+ Sell it another way**), about what you pay a unit (with what the smallest way then costs), and "warn me below".
+- **Sell it another way:** name, how many in one unit, sells for, and what it does to stock and takings. **A pack size** (from Bought's Of menu): name, how many units in one, sells for (optional).
+- **One item:** stock now, days left, Restock and Count; selling price, every other way it sells with **Sell it another way**, average cost, profit per unit, sold this week; history of sales, restocks and counts.
+- **Sell:** a tile for an item sold several ways shows "From 150" and opens a picker: each way with − and +, then **Add · KES 580**.
 - **Bought (stock):** item, how much, what you paid, paid with (Cash, M-Pesa, Bank, Pay later), and the new stock and average cost.
 - **Count stock:** what the records say against what you count. A difference is kept as Spoiled, Used, Lost or Miscounted and, except Miscounted, counts as a cost at the average cost.
 
 ### Out of scope for stock
 
-Barcodes, several shops or stores, batches and expiry dates, and buying in one unit and selling in another (a sack sold by the kg). These can come later.
+Barcodes, several shops or stores, and batches and expiry dates. These can come later.
 
 ## 8. Start your records (opening balances)
 
