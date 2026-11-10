@@ -78,7 +78,7 @@ Machine-readable values: [`brand/tokens.json`](brand/tokens.json) (W3C design-to
 
 ## Shape
 
-20–28 px card radius, 44 px minimum touch target, floating pill navigation, one primary number per screen, no horizontal scrolling.
+24 px card radius, 44 px minimum touch target, floating pill navigation, one primary number per screen, no horizontal scrolling. Spacing, sizes and how each screen, sheet and dialog is built are in [brand/ui-rules.md](brand/ui-rules.md).
 
 ## Licence
 
