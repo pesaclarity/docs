@@ -146,6 +146,15 @@ Sales and purchases from messages are added on their own. When a payment comes f
 - Customers and suppliers build on the existing `LentLoans`, `LoanPayments` and `Debts` tables, with a phone and a reminder choice added.
 - A check runs in tests and on the phone: every entry balances, and the three tabs add up to the same totals as the journal.
 
+### Open tabs
+
+A bar, restaurant or club runs a tab for a table or a person and is paid at the end.
+
+- **Sell** has **Add to a tab** beside Pay: pick an open tab ("Table 4 · 13 items · since 20:40 · KES 2,310") or start one with a table or a name.
+- **A tab** lists each round with its time, the total, **Add to this tab** (Sell, adding to that tab), **Print the bill** (counter printer or PDF) and **Pay and close**, which makes one sale through the Pay sheet with each thing once.
+- **Stock** leaves when the tab is paid. Until then Sell tiles count what open tabs hold, so the bar is not oversold.
+- **Open tabs** (from Sell, "Open tabs · 3"): what open tabs hold in all, each tab, and **Start a tab**. **Close the day** shows tabs still open, to settle or keep for the next day (`tabs`, `tab_lines`, schema 32).
+
 ## 7. Stock: products and services
 
 ### One list, two kinds
