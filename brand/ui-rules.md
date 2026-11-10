@@ -35,7 +35,7 @@ Amounts use the display font with even-width figures. While amounts are hidden, 
 - **Each number once.** A figure shows in one place per screen. Only a red lead card's figure carries the currency code (KES 1,250); every other amount is a plain number (1,250), with + for money in. Amounts in another currency keep their code. Receipts, invoices, statements, reports and the counter keep the code.
 - **One shape for every card.** A title line, at most one detail line, and one action: tap the card (› at the end) or one button.
 - **One way to add.** "+ Add" sits at the right of the title of the list it adds to: the screen's title for a screen's list, the section's title for a section. Actions beside a title are small outlined pills ("Count stock", "See all", "Remind").
-- **Helpful empty states.** Never a dash in a big figure or a tile. A red card with nothing yet says what will show and when; a tile says "Soon" and when. Insights wait until there is enough to say (two weeks of records).
+- **Helpful empty states.** Never a dash in a big figure or a tile. A red card with nothing yet says what will show and when; a tile says "Soon" and when. Only what needs history waits: the best day shows after two weeks of sales, while the other insights show at once.
 
 ## Screens
 
@@ -47,6 +47,8 @@ Amounts use the display font with even-width figures. While amounts are hidden, 
 - **Tiles** are one tile: label, figure, an optional note.
 - **Rows** in a card are split by full-width lines. An action word at the end ("Edit", "Change") is in the text colour. A row with no value that opens another screen ends with ›; rows with a value do not.
 - **Tags** ("Running low", "Paid") and **notes** come in three tones: information, good news and something to check. Overdue is amber everywhere.
+- **Marked messages.** When the app shows which part of a message is which, each part has its own colour: amount red, who blue, date and time green, reference amber, balance purple, fee teal. These mark colours are for that and nothing else.
+- **Keep what informs.** A redesign never drops a detail that helps: what is on hand, the weakest part of the health score, each payment that may not go through, why a setting matters. Long details wrap to a second line before they shorten, and the account stays whole.
 
 ## States
 
