@@ -87,7 +87,7 @@ What repeats and what it costs a month and a year. Repeat charges found in messa
 
 ### Currency
 
-Setup asks which currency the person counts in, suggesting their phone region's; Profile switches it. Transactions keep the currency they were paid in and are converted at today's rate from a public rates service, or a rate the person sets; plan, goals, debts and subscriptions are in the base currency. See [0009](../decisions/0009-base-currency.md).
+Setup asks which currency the person counts in, suggesting their phone region's; Profile switches it. Transactions keep the currency they were paid in and are converted at the rates of their day (kept from the first fetch each day), the rate the person got, or a rate they set; plan, goals, debts and subscriptions are in the base currency. Lists show each amount in its own currency first with the base amount under it, and a payment typed in takes its account's currency. A currency converter in Profile › Base currency converts between any two currencies. See [0009](../decisions/0009-base-currency.md) and [0014](../decisions/0014-rates-of-the-day.md).
 
 ### Backup and restore
 
