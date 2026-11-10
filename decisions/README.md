@@ -18,3 +18,4 @@ Architecture decision records (ADRs): one short file per decision that is expens
 | [0012](0012-message-reader.md) | A message reader for unmatched messages | Accepted |
 | [0013](0013-review-only-accounts.md) | Review-only accounts | Accepted |
 | [0014](0014-rates-of-the-day.md) | Each amount at the rates of its day | Accepted |
+| [0015](0015-gifts-not-a-paywall.md) | Gifts, not a paywall | Accepted |
