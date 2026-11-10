@@ -8,12 +8,13 @@ Date: 2026-11-10 · Status: Accepted
 
 ## Decision
 
-The phone keeps the first rates it fetches each day. A transaction converts at the rates of its day, or the closest earlier day's; one older than any kept rates uses the oldest, marked approximate. A transaction can carry the rate the person got, which wins. Lists show each amount in the currency it moved in first, with the base amount under it. Each account counts in its own currency: messages and payments typed in are recorded in it, and the person can change it in My accounts, which marks the account's transactions in the new currency with the same amounts. Builds use the open endpoint by default (`tool/rates.env` in pesaclarity-app), with its credit line.
+The phone keeps the first rates it fetches each day. A transaction converts at the rates of its day, or the closest earlier day's; one older than any kept rates uses the oldest, marked approximate. A transaction can carry the rate the person got, which wins. Lists show each amount in the currency it moved in first, with the base amount under it. Each amount keeps the currency its message prints (the bank packs and the reader read it), else its institution's usual one. Accounts at the same institution are told apart by the digits their masked account number shows, then by currency, so a KES and a USD account at one bank stay separate. After a pack update the app reads the messages still on the phone again and moves each amount to the currency and account its message shows. Accounts added by hand, like Cash, have a currency the person picks for new amounts. Builds use the open endpoint by default (`tool/rates.env` in pesaclarity-app), with its credit line.
 
 ## Consequences
 
 - Past totals stay put when rates move; only payments with no kept rates are approximate.
 - The phone stores about 4 KB of rates a day, in the space's encrypted database. Nothing more leaves the phone than before: the same request, carrying only the base currency's code.
 - Rates are per space, as the base currency is, so a space opened for the first time today has no rates for its earlier days.
-- A bank account that holds USD but whose messages are read as KES is set right in one step, without retyping. One account per institution remains, so the same bank's KES and USD accounts can't yet be kept apart.
+- Amounts read as the wrong currency before are set right from the messages themselves, without retyping, as long as the messages are still on the phone.
+- A bank whose messages print no account number keeps one account per currency.
 - Past rates from before the app first fetched them would need a paid plan; the approximate label says so for now.
