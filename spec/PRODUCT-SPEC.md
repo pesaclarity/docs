@@ -81,6 +81,20 @@ Every finding, category and month opens Activity filtered to the transactions be
 
 Account details, my accounts (each account's currency, and the institutions whose messages the app reads), base currency, timezone, subscriptions, payday, import, export and backup, security, sign out and delete account.
 
+### Spaces
+
+Profile › Spaces lists every space, where the app opens, Recently deleted and Delete all my data. Data is never shared between spaces ([0016](../decisions/0016-spaces-kept-apart.md)).
+
+- **A space's settings:** name; kind (any but Personal, after a warning of what comes in and goes away); what a business sells (products, services or both); and for the open space its accounts, base currency, day end, receipts and invoices, tax and backup.
+- **Transactions** are never edited, only recategorised or moved. Long-press in Activity to choose several, then Move to another space, choosing the category there or matching each one; they leave the first space.
+- **Clear data** removes all of a space's records, or only a date range's transactions, sales and quick records, and keeps its name, accounts, categories and settings. **Delete space** removes it, after its name is typed; Personal cannot be deleted on its own.
+- Both offer a backup first, an optional 30-day keep (restored from **Recently deleted**) and, only if ticked, deleting that space's vault and Drive backups.
+- **Delete all my data** asks for the app lock PIN, can also delete online backups and the sign-in, then erases everything on the phone, the database key included.
+
+### Support Pesa Clarity
+
+Every feature is free; gifts unlock nothing ([0015](../decisions/0015-gifts-not-a-paywall.md)). Only the F-Droid build asks: a Support screen in Profile and a Home card under the red card that never shows in the first 30 days, then for 3 days at most every 60, never when money is tight and never within six months of a gift. One-time gifts of 50, 100, 200, 500 or any amount open the giving page in the browser. A gift's own M-Pesa message brings a thank-you and a list of the person's gifts, on the phone only. Play and iPhone show nothing; giving is on the website's Sponsor page.
+
 ### Subscriptions
 
 What repeats and what it costs a month and a year. Repeat charges found in messages (same payee, a month apart, similar amount) are offered to track or mark as a one-off; tracked ones follow their latest charge, flag price changes, and are reminded before they fall due.
