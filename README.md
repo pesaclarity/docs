@@ -18,7 +18,9 @@ This repo is the source of truth for what we build and how it looks.
 - a message reader for new wording, and categories that learn on the phone;
 - encrypted backups per space, and app lock.
 
-**A space for each part of life** ([spec](spec/income-for-everyone.md)): Personal, Business, Household, Savings group, Rental property, Farm and Something else. Each has its own records, categories and Home.
+**A space for each part of life** ([spec](spec/income-for-everyone.md)): Personal, Business, Household, Savings group, Rental property, Farm and Something else. Each has its own records, categories and Home, and nothing is shared between them. Profile › Spaces changes a space's name, kind and settings, moves transactions logged in the wrong space, clears a space's records (all or a date range) or deletes it, with an optional 30 days to restore, and Delete all my data ([0016](decisions/0016-spaces-kept-apart.md)).
+
+**Free, paid for by gifts** ([0015](decisions/0015-gifts-not-a-paywall.md)): every feature is free. The F-Droid build has a Support screen and a rare Home card for one-time M-Pesa gifts; Play and iPhone give on the website's Sponsor page.
 
 **For a business** ([business money](spec/business-money.md)):
 - Today with Sell, Bought, Got paid and Paid, and Pay with a receipt;
