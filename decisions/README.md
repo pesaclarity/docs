@@ -19,3 +19,4 @@ Architecture decision records (ADRs): one short file per decision that is expens
 | [0013](0013-review-only-accounts.md) | Review-only accounts | Accepted |
 | [0014](0014-rates-of-the-day.md) | Each amount at the rates of its day | Accepted |
 | [0015](0015-gifts-not-a-paywall.md) | Gifts, not a paywall | Accepted |
+| [0016](0016-spaces-kept-apart.md) | Spaces are kept apart, and people control them | Accepted |
