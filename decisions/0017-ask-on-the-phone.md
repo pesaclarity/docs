@@ -1,6 +1,6 @@
 # 0017. Ask: questions answered on the phone by two tiny models
 
-Date: 2026-11-13 · Status: Proposed
+Date: 2026-11-13 · Status: Accepted
 
 ## Context
 
