@@ -21,3 +21,4 @@ Architecture decision records (ADRs): one short file per decision that is expens
 | [0015](0015-gifts-not-a-paywall.md) | Gifts, not a paywall | Accepted |
 | [0016](0016-spaces-kept-apart.md) | Spaces are kept apart, and people control them | Accepted |
 | [0017](0017-ask-on-the-phone.md) | Ask: questions answered on the phone by two tiny models | Accepted |
+| [0018](0018-double-entry-journal.md) | A double-entry journal is the source of truth for money | Accepted |
