@@ -32,7 +32,7 @@ While amounts are hidden, every amount on a browse screen shows dots. The counte
 
 ## The look
 
-- **Red only where it counts.** Red is for the lead card, the one main button on a screen (+, Pay, Sell, Save) and the open tab. Every other button, link and action is neutral: text colour, light border. Home's profile button is an outlined circle.
+- **Red is the brand and the accent.** Red fills the lead card and the one main button on a screen (+, Pay, Sell, Save). As the accent it marks the current tab, progress bars, the chosen side of a switch, chosen chips and menu choices (on the soft tint), links and pill buttons. Amounts stay neutral: red on an amount means below zero. Spending charts and the weakest Health Index pillar stay neutral, so red does not read as a warning. Home's profile button is an outlined circle.
 - **The + button.** A solid red circle with a white +, beside the tab bar on every tab, never over the list. It is the main action: Sell in a business, add a transaction or import a statement elsewhere.
 - **Each number once.** A figure shows in one place per screen. Only a red lead card's figure carries the currency code (KES 1,250); every other amount is a plain number (1,250), with + for money in. Amounts in another currency keep their code. Receipts, invoices, statements, reports and the counter keep the code.
 - **One shape for every card.** A title line, at most one detail line, and one action: tap the card (› at the end) or one button.
