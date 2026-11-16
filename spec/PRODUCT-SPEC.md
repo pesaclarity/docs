@@ -135,8 +135,9 @@ The iPhone design follows iOS rather than the Android one: large titles, a full-
 | --- | --- | --- |
 | Background | #F6F1EE | Warm screen ground |
 | Surface | #FFFFFF, border #EFE6E7 | Cards, lists, nav bar |
-| Text | #1C1215, muted #6F6064 | Body, labels, links |
-| Brand (Pesa Red) | #C8102E, in light and dark | Lead cards, active tab, the one main button, danger |
+| Text | #1C1215, muted #6F6064 | Body, labels |
+| Brand (Pesa Red) | #C8102E, in light and dark | Lead cards, the one main button, danger (below zero) |
+| Accent | #C8102E (dark #FF3C5B) | Current tab, progress bars, chosen options, links, pill buttons |
 | Dark danger in small text | #FF3C5B | Errors and small red text on dark |
 | Success | #059669 (text: #047857) | Income, on track, cleared |
 | Warning | #B45309, stronger #C2410C (dark #FBBF24, #FB923C) | In progress; the worse of two warnings |

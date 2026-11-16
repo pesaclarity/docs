@@ -43,16 +43,18 @@ The brand colour is **Pesa Red**, the red used across the app designs. It is Pes
 
 | Token | Hex | Use |
 | --- | --- | --- |
-| Pesa Red (`brand`) | `#C8102E` | A fill only: the lead card, the + button, the open tab, the one main button on a screen, and danger. White text on it: 5.9:1 |
-| Links (`brandLink`) | `#1C1215` | Links and other buttons use the text colour, with a chevron |
-| Red soft (`brandSoft`) | `#FDECEE` | Subtle fills |
-| Selected (`selected`) | `#ECE4E1` | A selected chip or menu choice: a neutral tint, so red stays where it counts |
+| Pesa Red (`brand`) | `#C8102E` | Fills: the lead card, the + button, the one main button on a screen. White text on it: 5.9:1 |
+| Accent (`brandLink`) | `#C8102E` | The current tab, progress bars, chosen options, links and pill buttons such as See all and Add |
+| Red soft (`brandSoft`) | `#FDECEE` | The tint behind a chosen chip, menu choice or side of a switch |
+| Selected (`selected`) | `#ECE4E1` | A neutral tint for quiet fills |
 | Background | `#F6F1EE` | Warm screen ground, so white cards stand off it |
 | Surface / border | `#FFFFFF` / `#EFE6E7` | Cards, lists, nav bar |
 | Text / muted | `#1C1215` / `#6F6064` | Body, labels (muted 5.6:1) |
 | Success | `#059669` (text `#047857`) | Income, on track, cleared |
 | Warning | `#B45309` | In progress, overdue, something to check |
 | Warning, stronger (`warningStrong`) | `#C2410C` | The worse of two warnings, such as Struggling beside Coping |
+
+Amounts stay neutral; red on an amount means below zero only. Spending charts and the weakest Health Index pillar stay neutral too, so red never reads as a warning there.
 
 **Red means brand, so "over budget" can't rely on colour alone.** Every over or failed state also carries a label or icon ("Over", ⚠ icon). Green stays a status colour only, which also keeps us visually distinct from M-Pesa.
 
@@ -66,12 +68,12 @@ Dark mode keeps the same red:
 | Brand (white text on it) | `#C8102E` |
 | Danger (`danger`, fills and large figures) | `#C8102E` |
 | Danger in small text (`dangerText`) | `#FF3C5B` |
-| Links | `#E3D9DB`, the text colour |
+| Accent (`brandLink`: links, current tab, progress, chosen options) | `#FF3C5B` |
 | Red soft (`brandSoft`) / selected | `#2F2D2C` / `#383534`, neutral tints, never pink |
 | Success (text `#6EE7B7`) | `#34D399` |
 | Warning / stronger | `#FBBF24` / `#FB923C` |
 
-Dark text is moderate rather than maximal (12.5:1 on a card), easier on tired eyes. Brand red is a fill and a large figure on dark (3.0:1 on a card); small red text, such as a field's error, uses `#FF3C5B`, the same hue brightened only as far as it needs (4.5:1 on a sheet, 5.1:1 on a card). Dark has no drop shadows; floating parts sit on a lighter surface instead.
+Dark text is moderate rather than maximal (12.5:1 on a card), easier on tired eyes. Brand red is a fill and a large figure on dark (3.0:1 on a card); small red text and thin strokes, such as the accent or a field's error, use `#FF3C5B`, the same hue brightened only as far as it needs (4.5:1 on a sheet, 5.1:1 on a card). Dark has no drop shadows; floating parts sit on a lighter surface instead.
 
 Machine-readable values: [`brand/tokens.json`](brand/tokens.json) (W3C design-token format).
 
