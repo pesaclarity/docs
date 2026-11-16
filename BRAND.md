@@ -43,8 +43,8 @@ The brand colour is **Pesa Red**, the red used across the app designs. It is Pes
 
 | Token | Hex | Use |
 | --- | --- | --- |
-| Pesa Red (`brand`) | `#C8102E` | Fills: the lead card, the + button, the one main button on a screen. White text on it: 5.9:1 |
-| Accent (`brandLink`) | `#C8102E` | The current tab, progress bars, chosen options, links and pill buttons such as See all and Add |
+| Pesa Red (`brand`) | `#C8102E` | Fills: the red lead card (Safe to spend, Debt-free by, Sales today), the + button, the main button, a filtering drop-down. White text on it: 5.9:1 |
+| Link red (`brandLink`) | `#B81D2F` | Text and thin strokes: the current tab, progress bars, charts, links. Pill buttons such as See all and Add, and the two-way switch, stay neutral |
 | Red soft (`brandSoft`) | `#FDECEE` | The tint behind a chosen chip, menu choice or side of a switch |
 | Selected (`selected`) | `#ECE4E1` | A neutral tint for quiet fills |
 | Background | `#F6F1EE` | Warm screen ground, so white cards stand off it |
