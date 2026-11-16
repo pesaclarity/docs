@@ -196,7 +196,7 @@ Google Play allows SMS access under its "SMS-based money management" exception, 
 
 | Part | What it does |
 | --- | --- |
-| Sender filter | Reads only the senders of accounts the user selected (from MPESA, I&M, KCB, Equity, StanChart, Airtel Money and more); every other message is ignored and never stored |
+| Sender filter | Reads only the senders of accounts the user selected (from MPESA, I&M, KCB, Equity, StanChart, Co-op, Airtel Money and more); every other message is ignored and never stored |
 | Parser pack per sender | Regex rules with named groups (receipt, amount, direction, counterparty, account, own account, currency, balance, fee, time, and for a debt such as Fuliza the total owed and its due date), one per message type: sent, received, paybill, till, Fuliza, Fuliza repayment, reversal, bank. Sender IDs match whatever their case |
 | Test suite | Every rule ships with anonymised samples and expected fields; a pack releases only when all pass |
 | Signed updates | New packs download as signed rule files, without an app update |
@@ -468,6 +468,6 @@ Open questions:
 
 - ~~Brand red~~ — resolved: #C8102E is Pesa Clarity's own red (see BRAND.md)
 - Product name: Pesa Clarity is the working name; decide after the proof of concept
-- Which banks after M-Pesa, Equity, I&M, KCB and Standard Chartered (deposits and card payments; its other messages go to review)? Loop and Airtel Money are review-only until their wording is known (decision 0013).
+- Which banks after M-Pesa, Equity, I&M, KCB and Standard Chartered (deposits and card payments; its other messages go to review)? Loop and Airtel Money are review-only until their wording is known (decision 0013). A Co-operative Bank pack is in ujumbe-parsers but not yet in the app. Whether its rule for money received on M-Pesa counts money twice, and which senders are real, is open in ujumbe-parsers #44.
 - Flutter or React Native: decided, Flutter (26 Oct 2026)
 - Which grant programmes to apply to for the beta?
