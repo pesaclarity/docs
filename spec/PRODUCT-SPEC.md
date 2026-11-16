@@ -196,8 +196,8 @@ Google Play allows SMS access under its "SMS-based money management" exception, 
 
 | Part | What it does |
 | --- | --- |
-| Sender filter | Reads only the senders of accounts the user selected (from MPESA, I&M, KCB, Equity, Co-op, NCBA, Airtel Money and more); every other message is ignored and never stored |
-| Parser pack per sender | Regex rules with named groups (receipt, amount, direction, counterparty, account, balance, fee, time), one per message type: sent, received, paybill, till, Fuliza, reversal |
+| Sender filter | Reads only the senders of accounts the user selected (from MPESA, I&M, KCB, Equity, StanChart, Airtel Money and more); every other message is ignored and never stored |
+| Parser pack per sender | Regex rules with named groups (receipt, amount, direction, counterparty, account, own account, currency, balance, fee, time, and for a debt such as Fuliza the total owed and its due date), one per message type: sent, received, paybill, till, Fuliza, Fuliza repayment, reversal, bank. Sender IDs match whatever their case |
 | Test suite | Every rule ships with anonymised samples and expected fields; a pack releases only when all pass |
 | Signed updates | New packs download as signed rule files, without an app update |
 | Review inbox | Unmatched messages from known senders wait on Home as "N messages to check". The on-phone message reader suggests amount, payee, date, balance and receipt for the person to confirm or change; "Read messages like this the same way" saves the layout so later ones are added during capture. The reader trains on synthetic messages only |
@@ -210,6 +210,10 @@ Google Play allows SMS access under its "SMS-based money management" exception, 
 - **Collapse noise:** one line per day for Fuliza draws and repayments, money market round-ups, charges and airtime.
 - **Fuliza fees** are repayments minus draws, shown as a fee.
 - **Money received from people** stays neutral until the user names the payee (gift, loan, repayment).
+- **Balances come from the messages.** Each account's balance is the last balance a message, statement or the person reported, plus what happened since. A balance the message reader suggested or the person typed while checking a message only counts once it adds up.
+- **Fuliza is a debt on M-Pesa.** When M-Pesa pays out more than the wallet holds, Fuliza covers the rest and that is owed; the next money in repays it first. Any M-Pesa balance above zero means nothing is owed. Fuliza owed comes off On hand.
+- **Gaps are explained, not hidden.** Profile › Balances shows each account and whether it matches its messages. Where two balances don't agree, the balance check shows where it went (the day's entries, messages waiting to be checked, likely the missing one) and offers "Add what's missing" as a real transaction, or a visible correction.
+- **Money without messages.** Add an account for cash, and Set the balance to what an account really holds; the difference is a balance correction in Activity, never income or spending, and can be undone.
 
 ### iOS capture via Shortcuts
 
@@ -297,7 +301,7 @@ The phone does all the work and holds all the data; the server has three narrow 
 | Backup vault | Backups encrypted on the phone (AES-256-GCM, key from the user's passphrase via Argon2id) | Keys or readable data |
 | Federated learning | Clipped, noised model updates combined by secure aggregation | Raw data or individual updates in the clear |
 
-Infra (decided, [0004](../decisions/0004-eu-hosting-and-email-sign-in.md)): in the EU, the API on Google Cloud Run, Postgres on Neon, backup ciphertext on Cloudflare R2 (EU jurisdiction) and sign-in emails through Brevo; all fit free tiers at proof-of-concept traffic. GitHub Actions CI; signed parser-pack and model releases tracked in MLflow.
+Infra (decided, [0004](../decisions/0004-eu-hosting-and-email-sign-in.md)): in the EU, the API on Google Cloud Run, Postgres on Neon, backup ciphertext on Cloudflare R2 (EU jurisdiction) and sign-in emails through Brevo; all fit free tiers at proof-of-concept traffic. Checks run on the developer's machine before each push (`tool/check`); GitHub Actions builds, releases and deploys. Signed parser-pack and model releases tracked in MLflow.
 
 ### Privacy and compliance
 
@@ -322,7 +326,7 @@ Target OWASP MASVS level 2 (the standard for apps handling financial data), veri
 | OS backups | Android auto-backup off, so the database never lands in Google Drive; only the app's own end-to-end encrypted backup |
 | Network | TLS with cleartext off. Our servers are pinned to their certificate authorities, not their keys, because the hosts renew certificates with new keys every few months ([0005](../decisions/0005-pin-certificate-authorities.md)); Google Drive uses the phone's own authorities. No third-party SDKs or trackers |
 | Device integrity | A light root and tamper check warns once in Profile and never blocks use. Play builds attach a Play Integrity token, bound to the request, to backup uploads (and later model updates); the server refuses a token that fails. F-Droid builds cannot attest, so uploads without a token follow a server setting, set to allow |
-| Code | R8 and Flutter obfuscation; no secrets in the app; dependency scanning in CI |
+| Code | R8 and Flutter obfuscation; no secrets in the app; dependency scanning (OSV-Scanner) in `tool/check` before each push |
 | Updates | Parser packs and models signed (Ed25519) and verified on the phone before use |
 | Sessions | Short-lived tokens, refresh token in the Keystore, device list with remote sign-out |
 | Lost phone | Data stays encrypted and locked; remote sign-out cuts backup and sync access; restore on a new phone with the passphrase or recovery key |
@@ -369,6 +373,7 @@ The Data Protection Officer for the Pesa Clarity platform is Dan Njuguna (njugun
 | goals | target, currency, date, priority, status |
 | subscriptions | name, payee, amount, currency, frequency, next date, tracking or one-off |
 | imports and parser_packs | file hash, period, reconciliation result; pack versions and test status |
+| journal_entries and postings | double-entry journal ([0018](../decisions/0018-double-entry-journal.md)): each transaction, opening and balance gap as balanced postings. Stage 1: kept up to date underneath, but nothing reads it yet |
 
 ## Federated learning and model licensing
 
@@ -463,6 +468,6 @@ Open questions:
 
 - ~~Brand red~~ — resolved: #C8102E is Pesa Clarity's own red (see BRAND.md)
 - Product name: Pesa Clarity is the working name; decide after the proof of concept
-- Which banks after M-Pesa, Equity, I&M and KCB? Loop and Airtel Money are review-only until their wording is known (decision 0013).
+- Which banks after M-Pesa, Equity, I&M, KCB and Standard Chartered (deposits and card payments; its other messages go to review)? Loop and Airtel Money are review-only until their wording is known (decision 0013).
 - Flutter or React Native: decided, Flutter (26 Oct 2026)
 - Which grant programmes to apply to for the beta?
