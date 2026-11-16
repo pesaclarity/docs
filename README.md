@@ -9,7 +9,7 @@ This repo is the source of truth for what we build and how it looks.
 ## What the app does today
 
 **Your money** ([spec](spec/PRODUCT-SPEC.md), [income for everyone](spec/income-for-everyone.md), [statement import](spec/statement-import.md)):
-- reads M-Pesa, Airtel Money and bank SMS on the phone (Equity, I&M, KCB, Loop and Standard Chartered; a Co-operative Bank pack is in the parsers and comes to the app next), and imports statements for past months;
+- reads M-Pesa, Airtel Money and bank SMS on the phone (Equity, I&M, KCB, Loop and Standard Chartered; a Co-operative Bank pack is in the parsers, not yet in the app), and imports statements for past months;
 - balances that add up: each account's balance comes from its messages, Fuliza owed comes off M-Pesa, a balance check shows where money went and adds what's missing, and you can add a cash account or set a balance;
 - safe to spend today, or a daily amount until the next money for gigs, family support and seasonal income;
 - a payday plan, week by week, a rainy day fund and goals;
