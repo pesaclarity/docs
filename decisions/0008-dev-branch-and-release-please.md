@@ -21,3 +21,7 @@ Pull requests go to `dev`, titled in Conventional Commits form and squash-merged
 ## Amendment, 2026-11-05
 
 `pesaclarity-ml` follows the same flow: its `main` is what model releases are trained and exported from, so it gets a `dev` branch, the release gate and release-please too. `docs`, `pesaclarity-web` and `.github` keep merging to `main`.
+
+## Amendment, 2026-11-16
+
+Checks now run on the developer's machine, not on GitHub. `pesaclarity-app`, `ujumbe-parsers` and the website each have `tool/check`; `tool/setup-hooks` turns on a pre-push hook that runs it, and in the app and parser repos also checks that each pushed commit has a Conventional Commits title. That hook replaces the `PR title` check, and where this record says "passes CI", read "`tool/check` passed before the push". GitHub Actions only builds, releases and deploys. `pesaclarity-web` is now `pesaclarity.github.io`.

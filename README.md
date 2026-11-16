@@ -2,14 +2,15 @@
 
 # Pesa Clarity docs
 
-Pesa Clarity is a free, ad-free Android app, with an iPhone version in the works, that turns M-Pesa and bank messages into a clear daily plan for you, your home and your business: what you can spend today, what is due, where money leaks, and when you will be debt-free. All analysis runs on the phone; the server only signs users in, holds backups it cannot read, and combines federated model updates.
+Pesa Clarity is a free, ad-free app for Android, with an iPhone test build you can sideload, that turns M-Pesa and bank messages into a clear daily plan for you, your home and your business: what you can spend today, what is due, where money leaks, and when you will be debt-free. All analysis runs on the phone; the server only signs users in, holds backups it cannot read, and combines federated model updates.
 
 This repo is the source of truth for what we build and how it looks.
 
 ## What the app does today
 
 **Your money** ([spec](spec/PRODUCT-SPEC.md), [income for everyone](spec/income-for-everyone.md), [statement import](spec/statement-import.md)):
-- reads M-Pesa, Airtel Money and bank SMS on the phone, and imports statements for past months;
+- reads M-Pesa, Airtel Money and bank SMS on the phone (Equity, I&M, KCB, Loop and Standard Chartered), and imports statements for past months;
+- balances that add up: each account's balance comes from its messages, Fuliza owed comes off M-Pesa, a balance check shows where money went and adds what's missing, and you can add a cash account or set a balance;
 - safe to spend today, or a daily amount until the next money for gigs, family support and seasonal income;
 - a payday plan, week by week, a rainy day fund and goals;
 - debts with a debt-free date and a Fuliza tracker, bills and reminders, subscriptions;
@@ -68,7 +69,7 @@ Open a pull request. Decisions that change the spec get a short note in the PR d
 - **Star [the app](https://github.com/pesaclarity/pesaclarity-app)** so more people find a private money app that runs on their phone.
 - Help with the spec, user research and decisions is welcome: open an issue to discuss a change first.
 - **Pick a first issue:** [good first issues](https://github.com/pesaclarity/docs/issues?q=is%3Aopen+label%3A%22good+first+issue%22) or [help wanted](https://github.com/pesaclarity/docs/issues?q=is%3Aopen+label%3A%22help+wanted%22).
-- **Read [CONTRIBUTING.md](CONTRIBUTING.md)** before your first pull request. Never include real messages, statements or phone numbers.
+- **Read [CONTRIBUTING.md](https://github.com/pesaclarity/.github/blob/main/CONTRIBUTING.md)** before your first pull request. Never include real messages, statements or phone numbers.
 
 ## Licence
 

@@ -20,3 +20,7 @@ iOS lets no app read SMS. The Dart code (parsers, ledger, plan, insights) is the
 - Queued message text sits on the phone, under iOS data protection, until read; the privacy policy (from 1.3) says so.
 - Vault uploads from iPhone carry an Apple App Attest assertion in place of a Play Integrity token: the install registers a Secure Enclave key once, then signs each upload's hash with a rising counter. The server needs the Apple team id to switch it on.
 - Release needs an Apple Developer account, signing and App Review notes explaining the automation.
+
+## Amendment, 2026-11-16
+
+Until the App Store, people can sideload a test build. The manual iOS build workflow puts an unsigned `pesaclarity-ios-unsigned.ipa` on the `test-build` pre-release, with a SideStore/AltStore source, `pesaclarity-sidestore.json`, that lists the newest build so it shows as an update. SideStore or AltStore signs it with the person's own Apple ID for 7 days at a time. Sign-in is off on it. People with a Mac can install it with Xcode instead (the app README, "Install on your own iPhone with Xcode"). The website's install page has the steps.

@@ -8,7 +8,7 @@ The `pesaclarity` GitHub organisation holds one repository per licence boundary 
 | [`docs`](https://github.com/pesaclarity/docs) | | This repo: spec, brand, decisions | CC BY 4.0 (text), trademarks excluded | Phase 0 |
 | [`ujumbe-parsers`](https://github.com/pesaclarity/ujumbe-parsers) | ujumbe (message) | SMS parser packs per institution, Dart engine, synthetic fixtures, pack signing | Apache-2.0 | 1. Parsers and engine (weeks 3–6) |
 | [`pesaclarity-app`](https://github.com/pesaclarity/pesaclarity-app) | | Flutter app for Android and iPhone: personal money (plan, goals, debts, FHI, insights), spaces for business, household, savings group, rental and farm, the business side (sales, stock, people, reports, tax estimates, receipts and invoices), Drift + SQLCipher ledger, backups, review inbox. Play Store, F-Droid and App Store flavours | AGPL-3.0 + commercial on request | 1–2 (weeks 3–11) |
-| [`pesaclarity-web`](https://github.com/pesaclarity/pesaclarity-web) | dirisha (window) | Website: what Pesa Clarity is, principles, privacy, open source, calls to action | AGPL-3.0 (code), CC BY 4.0 (text) | 2, before Play review |
+| [`pesaclarity.github.io`](https://github.com/pesaclarity/pesaclarity.github.io) | dirisha (window) | Website: what Pesa Clarity is, principles, privacy, open source, calls to action | AGPL-3.0 (code), CC BY 4.0 (text) | 2, before Play review |
 | [`pesaclarity-backend`](https://github.com/pesaclarity/pesaclarity-backend) | ngome (fortress) | Auth, encrypted backup vault (Play Integrity and App Attest), federated-learning aggregator. Docker, Cloud Run | AGPL-3.0 + commercial on request | 2–3 (weeks 7–14) |
 | [`pesaclarity-ml`](https://github.com/pesaclarity/pesaclarity-ml) | akili (intelligence) | Categoriser, message reader, DP-SGD config, TFLite export, MLflow tracking, release audits | AGPL-3.0 (code); app-track weights CC BY-SA 4.0, commercial-track weights by written licence | 3. Beta (weeks 12–14) |
 
@@ -18,7 +18,8 @@ The `pesaclarity` GitHub organisation holds one repository per licence boundary 
 
 - Synthetic or fully anonymised test data only. Never commit real SMS, statements or phone numbers.
 - No secrets in any repo. App signing, pack signing and server keys live in a hardware key or secrets manager.
-- `main` is protected: pull requests, passing CI, no force-push.
+- `main` is protected: pull requests, no force-push.
+- Checks run on your machine, not on GitHub. `pesaclarity-app`, `ujumbe-parsers` and the website each have `tool/check`, and `tool/setup-hooks` turns on a pre-push hook that runs it before every push. GitHub Actions only builds, releases and deploys.
 - Pull request titles follow Conventional Commits; they set versions and changelogs.
-- `pesaclarity-app`, `pesaclarity-backend`, `pesaclarity-ml` and `ujumbe-parsers` publish from `main`, so changes go to `dev` and reach `main` after CI and QA ([0008](decisions/0008-dev-branch-and-release-please.md)).
+- `pesaclarity-app`, `pesaclarity-backend`, `pesaclarity-ml` and `ujumbe-parsers` publish from `main`, so changes go to `dev` and reach `main` after QA ([0008](decisions/0008-dev-branch-and-release-please.md)).
 - Every repo links back here for the spec and brand.
