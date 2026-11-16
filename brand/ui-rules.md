@@ -12,7 +12,7 @@ Every screen does the same job the same way, in every space. The look below was 
 | Below a tab's title row | 16 |
 | End of a tab's list (clear of the + button) | 96 |
 | End of a pushed screen's list | 24 |
-| Card corner | 24 |
+| Card corner | 20 |
 | Note, selectable tile, badge panel | 16 |
 | Tag | 8 |
 | Touch target | 44 at least |
@@ -26,7 +26,9 @@ Every screen does the same job the same way, in every space. The look below was 
 | A figure in a tile | 24 |
 | An amount at the end of a row | 18 |
 
-Amounts use the display font with even-width figures. While amounts are hidden, every amount on a browse screen shows dots. The counter (Sell, Pay, tabs, Close the day, record sheets), forms and documents to share or print always show amounts.
+Amounts use the display font with even-width figures. An amount is never split across lines, shrunk or cut: the only break allowed is between the currency code and the number, with the code going above. Tiles side by side (`FigureRow`) go two to a row when a figure would not fit whole, an odd last one at full width, and one to a row only when two do not fit either. Use the shared `FigureText`, `FigureTile` and `FigureRow` for every amount in a tile or row.
+
+While amounts are hidden, every amount on a browse screen shows dots. The counter (Sell, Pay, tabs, Close the day, record sheets), forms and documents to share or print always show amounts.
 
 ## The look
 

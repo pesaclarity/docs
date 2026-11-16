@@ -43,30 +43,35 @@ The brand colour is **Pesa Red**, the red used across the app designs. It is Pes
 
 | Token | Hex | Use |
 | --- | --- | --- |
-| Pesa Red (`brand`) | `#C8102E` | Lead cards, the + button, the open tab, the one main button on a screen. White text on it: 5.9:1 |
-| Link red (`brandLink`) | `#B81D2F` | Alerts on white (6.5:1). Links and other buttons use the text colour |
-| Red soft (`brandSoft`) | `#FDECEE` | Selected rows, chips |
-| Background | `#FBF8F8` | Screen ground |
+| Pesa Red (`brand`) | `#C8102E` | A fill only: the lead card, the + button, the open tab, the one main button on a screen, and danger. White text on it: 5.9:1 |
+| Links (`brandLink`) | `#1C1215` | Links and other buttons use the text colour, with a chevron |
+| Red soft (`brandSoft`) | `#FDECEE` | Subtle fills |
+| Selected (`selected`) | `#ECE4E1` | A selected chip or menu choice: a neutral tint, so red stays where it counts |
+| Background | `#F6F1EE` | Warm screen ground, so white cards stand off it |
 | Surface / border | `#FFFFFF` / `#EFE6E7` | Cards, lists, nav bar |
 | Text / muted | `#1C1215` / `#6F6064` | Body, labels (muted 5.6:1) |
 | Success | `#059669` (text `#047857`) | Income, on track, cleared |
 | Warning | `#B45309` | In progress, overdue, something to check |
+| Warning, stronger (`warningStrong`) | `#C2410C` | The worse of two warnings, such as Struggling beside Coping |
 
 **Red means brand, so "over budget" can't rely on colour alone.** Every over or failed state also carries a label or icon ("Over", ⚠ icon). Green stays a status colour only, which also keeps us visually distinct from M-Pesa.
 
-Dark mode:
+Dark mode keeps the same red:
 
 | Token | Hex |
 | --- | --- |
-| Background / surface / border | `#1A1214` / `#251B1E` / `#3D2E32` |
-| Text / muted | `#EDE4E6` / `#B3A5A9` |
-| Brand (text on it `#1A1214`) | `#FF6B7A` |
-| Link red | `#FF8592` |
-| Red soft | `#3A1D23` |
+| Background / surface / border | `#140E10` / `#1E1618` / `#352B2E` |
+| Fields and chips / floating parts (tab bar, sheets, menus) | `#241B1E` / `#2A2124` |
+| Text / muted | `#E3D9DB` / `#A3969A` |
+| Brand (white text on it) | `#C8102E` |
+| Danger (`danger`, fills and large figures) | `#C8102E` |
+| Danger in small text (`dangerText`) | `#FF3C5B` |
+| Links | `#E3D9DB`, the text colour |
+| Red soft (`brandSoft`) / selected | `#2F2D2C` / `#383534`, neutral tints, never pink |
 | Success (text `#6EE7B7`) | `#34D399` |
-| Warning | `#FBBF24` |
+| Warning / stronger | `#FBBF24` / `#FB923C` |
 
-All text pairs are 6:1 or better on the dark surface. On dark, text on brand fills is dark (`#1A1214`), not white.
+Dark text is moderate rather than maximal (12.5:1 on a card), easier on tired eyes. Brand red is a fill and a large figure on dark (3.0:1 on a card); small red text, such as a field's error, uses `#FF3C5B`, the same hue brightened only as far as it needs (4.5:1 on a sheet, 5.1:1 on a card). Dark has no drop shadows; floating parts sit on a lighter surface instead.
 
 Machine-readable values: [`brand/tokens.json`](brand/tokens.json) (W3C design-token format).
 
@@ -78,7 +83,7 @@ Machine-readable values: [`brand/tokens.json`](brand/tokens.json) (W3C design-to
 
 ## Shape
 
-24 px card radius, 44 px minimum touch target, floating pill navigation, one primary number per screen, no horizontal scrolling. Spacing, sizes and how each screen, sheet and dialog is built are in [brand/ui-rules.md](brand/ui-rules.md).
+20 px card radius, 44 px minimum touch target, floating pill navigation, one primary number per screen, no horizontal scrolling. Spacing, sizes and how each screen, sheet and dialog is built are in [brand/ui-rules.md](brand/ui-rules.md).
 
 ## Licence
 

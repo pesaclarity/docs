@@ -93,7 +93,11 @@ Profile › Spaces lists every space, where the app opens, Recently deleted and 
 
 ### Support Pesa Clarity
 
-Every feature is free; gifts unlock nothing ([0015](../decisions/0015-gifts-not-a-paywall.md)). Only the F-Droid build asks: a Support screen in Profile and a Home card under the red card that never shows in the first 30 days, then for 3 days at most every 60, never when money is tight and never within six months of a gift. One-time gifts of 50, 100, 200, 500 or any amount open the giving page in the browser. A gift's own M-Pesa message brings a thank-you and a list of the person's gifts, on the phone only. Play and iPhone show nothing; giving is on the website's Sponsor page.
+Every feature is free; gifts unlock nothing ([0015](../decisions/0015-gifts-not-a-paywall.md)). Only the F-Droid build asks: a Support screen in Profile and a Home card under the red card that never shows in the first 30 days, then for 3 days at most every 60, never when money is tight and never within six months of a gift. One-time gifts of 50, 100, 200, 500 or any amount open CitaPay's giving page in the browser with the amount filled in (`pay.citatech.cloud/pay/@pesaclarity`, whose amount is in cents), and M-Pesa asks for the PIN there; the address carries only the amount. A gift's own M-Pesa message brings a thank-you and a list of the person's gifts, on the phone only. Play and iPhone show nothing; giving is on the website's Sponsor page, through CitaPay too.
+
+### Ask
+
+An Ask bar on Home, Activity and Insights takes questions in the person's own words ("how much did I spend on food last month?", "and only Naivas?") and answers in a short, plain sentence, on the phone, from the open space's own records ([0017](../decisions/0017-ask-on-the-phone.md)). A tiny question reader (TensorFlow Lite) picks the kind of question, with simple rules taking over when it is unsure; the app runs the lookup, so every figure comes from the same numbers the screens show. A tiny writer words the reply with placeholders that the app fills in; a reply that fails its checks falls back to a fixed sentence. Both models train on synthetic text only. Nothing is sent anywhere, Ask has no federated learning, and conversations stay in the space's encrypted database, out of backups. Privacy policy 2.0 covers it.
 
 ### Subscriptions
 
@@ -129,15 +133,16 @@ The iPhone design follows iOS rather than the Android one: large titles, a full-
 
 | Token | Value | Use |
 | --- | --- | --- |
-| Background | #FBF8F8 | Screen ground |
+| Background | #F6F1EE | Warm screen ground |
 | Surface | #FFFFFF, border #EFE6E7 | Cards, lists, nav bar |
-| Text | #1C1215, muted #6F6064 | Body, labels |
-| Brand (Pesa Red) | #C8102E | Hero cards, active tab, primary buttons |
-| Link red | #B81D2F | Links and alerts on white |
+| Text | #1C1215, muted #6F6064 | Body, labels, links |
+| Brand (Pesa Red) | #C8102E, in light and dark | Lead cards, active tab, the one main button, danger |
+| Dark danger in small text | #FF3C5B | Errors and small red text on dark |
 | Success | #059669 (text: #047857) | Income, on track, cleared |
-| Warning | #B45309 | In progress |
+| Warning | #B45309, stronger #C2410C (dark #FBBF24, #FB923C) | In progress; the worse of two warnings |
 | Type | Space Grotesk for numbers and titles; Inter for text | |
-| Shape | 20–28 px card radius, 44 px minimum touch target, floating pill nav | |
+| Shape | 20 px card radius, 44 px minimum touch target, floating pill nav | |
+| Amounts | Never split across lines, shrunk or cut; tiles go two to a row, then one | |
 
 Full brand guide, logo files and tokens: [BRAND.md](../BRAND.md).
 
@@ -210,9 +215,9 @@ Google Play allows SMS access under its "SMS-based money management" exception, 
 - **Collapse noise:** one line per day for Fuliza draws and repayments, money market round-ups, charges and airtime.
 - **Fuliza fees** are repayments minus draws, shown as a fee.
 - **Money received from people** stays neutral until the user names the payee (gift, loan, repayment).
-- **Balances come from the messages.** Each account's balance is the last balance a message, statement or the person reported, plus what happened since. A balance the message reader suggested or the person typed while checking a message only counts once it adds up.
+- **Balances come from the journal.** Every transaction, opening balance and gap posts a balanced entry in a double-entry journal on the phone, and each account's balance is the sum of its postings ([0018](../decisions/0018-double-entry-journal.md)). Entries are never edited; a change posts a reversal and a new entry. A balance a message, statement or the person reports is a check against the journal. A balance the message reader suggested or the person typed while checking a message only counts once it adds up.
 - **Fuliza is a debt on M-Pesa.** When M-Pesa pays out more than the wallet holds, Fuliza covers the rest and that is owed; the next money in repays it first. Any M-Pesa balance above zero means nothing is owed. Fuliza owed comes off On hand.
-- **Gaps are explained, not hidden.** Profile › Balances shows each account and whether it matches its messages. Where two balances don't agree, the gap sheet shows that day's entries and the messages waiting to be checked, and offers "Add what's missing" as a real transaction, or a visible correction. "Where it went" totals the fees, Fuliza charges and gaps nothing explains.
+- **Gaps are explained, not hidden.** Profile › Balances shows each account and whether it matches its messages. A gap the records do not reach sits in Not yet sorted until it is explained. Where two balances don't agree, the gap sheet shows that day's entries and the messages waiting to be checked, and offers "Add what's missing" as a real transaction, or a visible correction. "Where it went" totals the fees, Fuliza charges and gaps nothing explains.
 - **Money without messages.** Add an account for cash, and Set the balance to what an account really holds; the difference is a balance correction in Activity, never income or spending, and can be undone.
 
 ### iOS capture via Shortcuts
@@ -281,7 +286,7 @@ A 0–100 score, recalculated monthly on the phone, sums eight indicators across
 | Plan | Leakage share | Leakages under 10% of income |
 | Plan | Plan adherence | Categories within budget |
 
-Bands: Struggling 0–39, Coping 40–69, Healthy 70–100. Home shows the score and its change; tapping it names the weakest pillar and the single action that would raise it most. Thresholds are starting points to tune with beta users.
+Fees, Fuliza charges included, are counted from the journal as Insights counts them, so the leakage share matches Insights. Bands: Struggling 0–39, Coping 40–69, Healthy 70–100. Home shows the score and its change; tapping it names the weakest pillar and the single action that would raise it most. Thresholds are starting points to tune with beta users.
 
 ## Architecture, privacy and data model
 
@@ -301,7 +306,7 @@ The phone does all the work and holds all the data; the server has three narrow 
 | Backup vault | Backups encrypted on the phone (AES-256-GCM, key from the user's passphrase via Argon2id) | Keys or readable data |
 | Federated learning | Clipped, noised model updates combined by secure aggregation | Raw data or individual updates in the clear |
 
-Infra (decided, [0004](../decisions/0004-eu-hosting-and-email-sign-in.md)): in the EU, the API on Google Cloud Run, Postgres on Neon, backup ciphertext on Cloudflare R2 (EU jurisdiction) and sign-in emails through Brevo; all fit free tiers at proof-of-concept traffic. Checks run on the developer's machine before each push (`tool/check`); GitHub Actions builds, releases and deploys. Signed parser-pack and model releases tracked in MLflow.
+Infra (decided, [0004](../decisions/0004-eu-hosting-and-email-sign-in.md)): in the EU, the API on Google Cloud Run, Postgres on Neon, backup ciphertext on Cloudflare R2 (EU jurisdiction) and sign-in emails through Brevo; all fit free tiers at proof-of-concept traffic. Checks run on the developer's machine before each push (`tool/check`); GitHub Actions builds, releases and deploys, with no heavy builds on pull requests and an Android and iPhone test build of `dev` each evening when it has changed. Signed parser-pack and model releases tracked in MLflow.
 
 ### Privacy and compliance
 
@@ -373,7 +378,8 @@ The Data Protection Officer for the Pesa Clarity platform is Dan Njuguna (njugun
 | goals | target, currency, date, priority, status |
 | subscriptions | name, payee, amount, currency, frequency, next date, tracking or one-off |
 | imports and parser_packs | file hash, period, reconciliation result; pack versions and test status |
-| journal_entries and postings | double-entry journal ([0018](../decisions/0018-double-entry-journal.md)): each transaction, opening and balance gap as balanced postings. Stage 1: kept up to date underneath, but nothing reads it yet |
+| journal_entries and postings | double-entry journal ([0018](../decisions/0018-double-entry-journal.md)): each transaction, opening and balance gap as balanced postings, append-only with reversals. System accounts: Not yet sorted, Money in transit, Fuliza owed (one per M-Pesa account), Opening balances, Balance corrections, Fuliza charges. Balances, On hand and safe to spend read it (stage 2) |
+| ask_conversations, ask_messages and ask_shortcuts | Ask's conversations per space, kept as long as Ask settings say and left out of backups, and the person's own words for a category or payee (schema 36) |
 
 ## Federated learning and model licensing
 

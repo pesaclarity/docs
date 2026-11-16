@@ -10,18 +10,19 @@ This repo is the source of truth for what we build and how it looks.
 
 **Your money** ([spec](spec/PRODUCT-SPEC.md), [income for everyone](spec/income-for-everyone.md), [statement import](spec/statement-import.md)):
 - reads M-Pesa, Airtel Money and bank SMS on the phone (Equity, I&M, KCB, Loop, Standard Chartered and Co-operative Bank), and imports statements for past months;
-- balances that add up: each account's balance comes from its messages, Fuliza owed comes off M-Pesa, a balance check shows where money went and adds what's missing, and you can add a cash account or set a balance;
+- balances that add up: a double-entry journal on the phone keeps every account's balance ([0018](decisions/0018-double-entry-journal.md)), Fuliza owed comes off M-Pesa, a balance check shows where money went and adds what's missing, and you can add a cash account or set a balance;
 - safe to spend today, or a daily amount until the next money for gigs, family support and seasonal income;
 - a payday plan, week by week, a rainy day fund and goals;
 - debts with a debt-free date and a Fuliza tracker, bills and reminders, subscriptions;
 - a money health score and insights, with every figure tappable;
+- Ask: questions about your money in your own words, answered on the phone by two tiny models, with every figure from your own records ([0017](decisions/0017-ask-on-the-phone.md));
 - a base currency with public exchange rates;
 - a message reader for new wording, and categories that learn on the phone;
 - encrypted backups per space, and app lock.
 
 **A space for each part of life** ([spec](spec/income-for-everyone.md)): Personal, Business, Household, Savings group, Rental property, Farm and Something else. Each has its own records, categories and Home, and nothing is shared between them. Profile › Spaces changes a space's name, kind and settings, moves transactions logged in the wrong space, clears a space's records (all or a date range) or deletes it, with an optional 30 days to restore, and Delete all my data ([0016](decisions/0016-spaces-kept-apart.md)).
 
-**Free, paid for by gifts** ([0015](decisions/0015-gifts-not-a-paywall.md)): every feature is free. The F-Droid build has a Support screen and a rare Home card for one-time M-Pesa gifts; Play and iPhone give on the website's Sponsor page.
+**Free, paid for by gifts** ([0015](decisions/0015-gifts-not-a-paywall.md)): every feature is free. The F-Droid build has a Support screen and a rare Home card for one-time M-Pesa gifts through CitaPay; Play and iPhone give on the website's Sponsor page, which uses CitaPay too.
 
 **For a business** ([business money](spec/business-money.md)):
 - Today with Sell, Bought, Got paid and Paid, and Pay with a receipt;
@@ -33,7 +34,7 @@ This repo is the source of truth for what we build and how it looks.
 - receipts, invoices, hours, attached documents and the owner's M-PESA QR code;
 - a fit for products, services or both.
 
-**Your look:** theme (System, Light or Dark), text fields underlined or boxed, and the style of reports, receipts and invoices.
+**Your look:** a calm theme (System, Light or Dark, with the same brand red in both), text fields underlined or boxed, and the style of reports, receipts and invoices.
 
 **What makes it different:**
 - on the phone and offline;
