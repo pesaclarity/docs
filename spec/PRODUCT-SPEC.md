@@ -212,7 +212,7 @@ Google Play allows SMS access under its "SMS-based money management" exception, 
 - **Money received from people** stays neutral until the user names the payee (gift, loan, repayment).
 - **Balances come from the messages.** Each account's balance is the last balance a message, statement or the person reported, plus what happened since. A balance the message reader suggested or the person typed while checking a message only counts once it adds up.
 - **Fuliza is a debt on M-Pesa.** When M-Pesa pays out more than the wallet holds, Fuliza covers the rest and that is owed; the next money in repays it first. Any M-Pesa balance above zero means nothing is owed. Fuliza owed comes off On hand.
-- **Gaps are explained, not hidden.** Profile › Balances shows each account and whether it matches its messages. Where two balances don't agree, the balance check shows where it went (the day's entries, messages waiting to be checked, likely the missing one) and offers "Add what's missing" as a real transaction, or a visible correction.
+- **Gaps are explained, not hidden.** Profile › Balances shows each account and whether it matches its messages. Where two balances don't agree, the gap sheet shows that day's entries and the messages waiting to be checked, and offers "Add what's missing" as a real transaction, or a visible correction. "Where it went" totals the fees, Fuliza charges and gaps nothing explains.
 - **Money without messages.** Add an account for cash, and Set the balance to what an account really holds; the difference is a balance correction in Activity, never income or spending, and can be undone.
 
 ### iOS capture via Shortcuts
@@ -468,6 +468,6 @@ Open questions:
 
 - ~~Brand red~~ — resolved: #C8102E is Pesa Clarity's own red (see BRAND.md)
 - Product name: Pesa Clarity is the working name; decide after the proof of concept
-- Which banks after M-Pesa, Equity, I&M, KCB and Standard Chartered (deposits and card payments; its other messages go to review)? Loop and Airtel Money are review-only until their wording is known (decision 0013). A Co-operative Bank pack is in ujumbe-parsers but not yet in the app. Whether its rule for money received on M-Pesa counts money twice, and which senders are real, is open in ujumbe-parsers #44.
+- Which banks after M-Pesa, Equity, I&M, KCB and Standard Chartered (deposits and card payments; its other messages go to review)? Loop and Airtel Money are review-only until their wording is known (decision 0013). Co-operative Bank (sender `CoopBank`, any case) reads card cash, card payments and paybill payments; its "received on your M-pesa" alert goes to review, because M-Pesa's own message records that money (ujumbe-parsers #51).
 - Flutter or React Native: decided, Flutter (26 Oct 2026)
 - Which grant programmes to apply to for the beta?

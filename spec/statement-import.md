@@ -39,7 +39,7 @@ Text order alone loses table structure: columns merge, wrapped descriptions spli
 
 ## Statement packs
 
-One YAML file per layout, in `packs/statements/<id>.yaml`, with a JSON Schema in `schema/statement-pack.schema.json`. A sketch:
+One YAML file per layout, in `packs/<id>/statement.yaml` (for example `packs/mpesa/statement.yaml`), with a JSON Schema in `schema/statement-pack.schema.json`. A sketch:
 
 ```yaml
 schema: 1
@@ -82,7 +82,7 @@ password_hint: mpesa_statement   # key of an approved message in the app, not te
 
 Amount styles a pack can describe: separate in and out columns (as above), one signed amount column (`amount`, with `negative_is: out`), or one amount column with a debit or credit marker (`amount` plus `marker: { column: dr_cr, out: '^DR$', in: '^CR$' }`).
 
-**Fixtures** (`packs/statements/<id>.fixtures.yaml`): synthetic pages as positioned words, plus the rows and transactions they must produce. `tool/check_packs.dart` runs them, and a pack releases only when all pass, as for SMS packs. Fixtures are written by hand or generated from a real statement by a local tool that replaces every name, number, reference and amount before anything is saved.
+**Fixtures** (`packs/<id>/statement_fixtures.yaml`, schema `schema/statement-fixtures.schema.json`): synthetic pages as positioned words, plus the rows and transactions they must produce. `tool/check_packs.dart` runs them, and a pack releases only when all pass, as for SMS packs. Fixtures are written by hand or generated from a real statement by a local tool that replaces every name, number, reference and amount before anything is saved.
 
 **Updates:** statement packs ship in the same signed releases as SMS packs and are verified on the phone before use.
 
