@@ -1,6 +1,6 @@
 # 0019. On-device ML without Google: one runtime for Play and F-Droid
 
-Date: 2026-11-17 · Status: Proposed
+Date: 2026-11-17 · Status: Accepted
 
 ## Context
 
@@ -38,7 +38,7 @@ pesaclarity/pesaclarity-app#265 (a spike, not for release):
 - On one core of a 2.1 GHz Xeon (AOT, `dart compile exe`): weights load in 3 to 5 ms; one question takes 14 ms with plain Dart doubles and 5 to 6 ms with `Float32x4` SIMD. TFLite on the same machine takes 0.06 ms (XNNPACK) to 0.25 ms (built-in kernels): pure Dart is 20 to 80 times slower, but fast enough for one question at a time.
 - No phone was measured. Estimate only: a low-end phone core is perhaps 3 to 6 times slower than this core, so roughly 15 to 90 ms per question.
 
-## Decision (proposed)
+## Decision
 
 One Google-free ML layer for both builds, behind the app's existing runtime interfaces:
 
