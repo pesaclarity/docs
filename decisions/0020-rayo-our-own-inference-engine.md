@@ -1,6 +1,6 @@
 # 0020. rayo: our own inference engine in C89 replaces TFLite
 
-Date: 2026-11-17 · Status: Proposed · Amends [0019](0019-on-device-ml-without-google.md)
+Date: 2026-11-17 · Status: Accepted · Amends [0019](0019-on-device-ml-without-google.md)
 
 ## Context
 
