@@ -69,11 +69,43 @@ Remaining balance, payoff strategy (avalanche, snowball, custom), this payday's 
 
 ### Insights
 
-Leakage total and share of income, where it goes (lifestyle, friends, family, fees), six-month trend, and a one-page PDF report.
+- **What changed:** up to three findings for the month so far against the same days of last month: the category that moved most, fees, and money in.
+- **Spending:** week, month or year; spending by category as a ring, and so far against the period before. The year adds spending month by month.
+- **Leakage:** total, share of income and change on last month, with what goes to lifestyle, friends, family and fees.
+- **Financial Health Index:** the score, the four pillars and what helps most. A pillar opens its two indicators and what brings each to full marks.
+- **Tags** and a one-page PDF report.
+
+Every finding, category and month opens Activity filtered to the transactions behind it. Before any transactions, one card points to My accounts and statement import.
 
 ### Profile
 
-Account details, my accounts (the institutions whose messages the app reads), payday and currency, import, export and backup, security, sign out and delete account.
+Account details, my accounts (each account's currency, and the institutions whose messages the app reads), base currency, timezone, subscriptions, payday, import, export and backup, security, sign out and delete account.
+
+### Spaces
+
+Profile › Spaces lists every space, where the app opens, Recently deleted and Delete all my data. Data is never shared between spaces ([0016](../decisions/0016-spaces-kept-apart.md)).
+
+- **A space's settings:** name; kind (any but Personal, after a warning of what comes in and goes away); what a business sells (products, services or both); and for the open space its accounts, base currency, day end, receipts and invoices, tax and backup.
+- **Transactions** are never edited, only recategorised or moved. Long-press in Activity to choose several, then Move to another space, choosing the category there or matching each one; they leave the first space.
+- **Clear data** removes all of a space's records, or only a date range's transactions, sales and quick records, and keeps its name, accounts, categories and settings. **Delete space** removes it, after its name is typed; Personal cannot be deleted on its own.
+- Both offer a backup first, an optional 30-day keep (restored from **Recently deleted**) and, only if ticked, deleting that space's vault and Drive backups.
+- **Delete all my data** asks for the app lock PIN, can also delete online backups and the sign-in, then erases everything on the phone, the database key included.
+
+### Support Pesa Clarity
+
+Every feature is free; gifts unlock nothing ([0015](../decisions/0015-gifts-not-a-paywall.md)). Only the F-Droid build asks: a Support screen in Profile and a Home card under the red card that never shows in the first 30 days, then for 3 days at most every 60, never when money is tight and never within six months of a gift. One-time gifts of 50, 100, 200, 500 or any amount open CitaPay's giving page in the browser with the amount filled in (`pay.citatech.cloud/pay/@pesaclarity`, whose amount is in cents), and M-Pesa asks for the PIN there; the address carries only the amount. A gift's own M-Pesa message brings a thank-you and a list of the person's gifts, on the phone only. Play and iPhone show nothing; giving is on the website's Sponsor page, through CitaPay too.
+
+### Ask
+
+An Ask bar on Home, Activity and Insights takes questions in the person's own words ("how much did I spend on food last month?", "and only Naivas?") and answers in a short, plain sentence, on the phone, from the open space's own records ([0017](../decisions/0017-ask-on-the-phone.md)). A tiny question reader (TensorFlow Lite) picks the kind of question, with simple rules taking over when it is unsure; the app runs the lookup, so every figure comes from the same numbers the screens show. A tiny writer words the reply with placeholders that the app fills in; a reply that fails its checks falls back to a fixed sentence. Both models train on synthetic text only. Nothing is sent anywhere, Ask has no federated learning, and conversations stay in the space's encrypted database, out of backups. Privacy policy 2.0 covers it.
+
+### Subscriptions
+
+What repeats and what it costs a month and a year. Repeat charges found in messages (same payee, a month apart, similar amount) are offered to track or mark as a one-off; tracked ones follow their latest charge, flag price changes, and are reminded before they fall due.
+
+### Currency
+
+Setup asks which currency the person counts in, suggesting their phone region's; Profile switches it. Transactions keep the currency they were paid in and are converted at the rates of their day (kept from the first fetch each day), the rate the person got, or a rate they set; plan, goals, debts and subscriptions are in the base currency. Lists show each amount in its own currency first with the base amount under it, each amount keeps the currency its message prints, and accounts at the same bank are told apart by their masked account numbers, so a KES and a USD account stay separate; past amounts are fixed from the messages on the phone. Accounts added by hand have a currency the person picks for new amounts. A currency converter in Profile › Base currency converts between any two currencies. See [0009](../decisions/0009-base-currency.md) and [0014](../decisions/0014-rates-of-the-day.md).
 
 ### Backup and restore
 
@@ -85,7 +117,7 @@ The promise up front, phone number with SMS code, Google, or no account at all. 
 
 ### Onboarding: my accounts
 
-The user ticks the institutions they transact with; each tick activates a parser pack. No logins. The main button starts the 90-day scan behind the 60-second first insight.
+The user ticks the institutions they transact with; each tick activates a parser pack. No logins. "Read messages from" sets how far back the first scan reads: every message (the default), the last 3, 6 or 12 months, or from a date; it can be changed later in Profile, and a wider choice reads the older messages on the next scan. The main button starts that scan behind the 60-second first insight.
 
 ### Privacy
 
@@ -93,21 +125,25 @@ Plain-language promises, the three consent switches (improve the app on, license
 
 ### iPhone: connect M-Pesa
 
-Three steps: add the shortcut (one tap), create the message automation with the guided steps, then wait for confirmation. Statement import fills any gaps.
+Connect your messages: three steps, once (open Shortcuts › Automation › Message; pick MPESA and the bank as senders, Run Immediately; add "Add transaction from message" with the message and sender), an Open Shortcuts button, and the status: "Connected · Last message 2 min ago" or "Waiting for your first message". Statement import fills any gaps.
+
+The iPhone design follows iOS rather than the Android one: large titles, a full-width tab bar, inset grouped lists with coloured icons in Profile, the sliding segmented control, date wheels, ticked option lists and the system font, with figures in Space Grotesk. Boards are in the design canvas under "iPhone".
 
 ### Design system
 
 | Token | Value | Use |
 | --- | --- | --- |
-| Background | #FBF8F8 | Screen ground |
+| Background | #F6F1EE | Warm screen ground |
 | Surface | #FFFFFF, border #EFE6E7 | Cards, lists, nav bar |
 | Text | #1C1215, muted #6F6064 | Body, labels |
-| Brand (Pesa Red) | #C8102E | Hero cards, active tab, primary buttons |
-| Link red | #B81D2F | Links and alerts on white |
+| Brand (Pesa Red) | #C8102E, in light and dark | Lead cards, the one main button, danger (below zero) |
+| Accent | #C8102E (dark #FF3C5B) | Current tab, progress bars, chosen options, links, pill buttons |
+| Dark danger in small text | #FF3C5B | Errors and small red text on dark |
 | Success | #059669 (text: #047857) | Income, on track, cleared |
-| Warning | #B45309 | In progress |
+| Warning | #B45309, stronger #C2410C (dark #FBBF24, #FB923C) | In progress; the worse of two warnings |
 | Type | Space Grotesk for numbers and titles; Inter for text | |
-| Shape | 20–28 px card radius, 44 px minimum touch target, floating pill nav | |
+| Shape | 20 px card radius, 44 px minimum touch target, floating pill nav | |
+| Amounts | Never split across lines, shrunk or cut; tiles go two to a row, then one | |
 
 Full brand guide, logo files and tokens: [BRAND.md](../BRAND.md).
 
@@ -128,7 +164,9 @@ The Android MVP ships ten features; everything else waits until beta users ask f
 | Reminders | Local notifications before bills, card charges and payday tasks |
 | Export and backup | CSV, Excel, PDF from any screen; full backup zip; encrypted cloud backup |
 
-**Tags and categories are separate.** A category says what kind of spending a transaction is (one per transaction, drives budgets); tags say what it is part of (#roadtrip, #wedding, #reimbursable, any number per transaction). Tags work with or without a category; uncategorised transactions still count in totals as Uncategorised; new categories can be created inline from a transaction; tags filter Activity, total on Insights and appear in exports. The app ships a default Kenyan category set so nobody starts empty.
+**Tags and categories are separate.** A category says what kind of spending a transaction is (one per transaction, drives budgets); tags say what it is part of (#roadtrip, #wedding, #reimbursable, any number per transaction). Tags work with or without a category; uncategorised transactions still count in totals as Uncategorised; new categories can be created inline from a transaction; tags filter Activity, total on Insights and appear in exports. The app ships a default Kenyan category set so nobody starts empty; Eating out and Snacks are separate, and so are Loan repayment and Fuliza repayment.
+
+**Categories are applied automatically when the app is confident.** The person's own earlier choice for the payee always applies; message-type rules and well-known payees apply at 60% confidence or more; weaker guesses stay one-tap suggestions. An automatic category shows as Auto, is stored apart from the person's choice, and never overrides it.
 
 ### What makes it win
 
@@ -136,7 +174,7 @@ Features that set it apart, split by when they ship. Value in the first minute d
 
 | Feature | Ships | Why it wins |
 | --- | --- | --- |
-| 60-second first insight | MVP | On setup, scans the last 90 days and shows income, spending, leakages and overdraft fees before any configuration |
+| 60-second first insight | MVP | On setup, scans the chosen period (every message by default) and shows income, spending, leakages and overdraft fees before any configuration |
 | Cash-flow forecast | MVP | "At this pace you hit zero on the 18th" and "your card charge on the 20th will fail": prevents overdrafts instead of reporting them |
 | Payday autopilot | MVP | When the salary message lands, proposes the split (rent, debts, set-asides, savings) as a checklist |
 | Lent and borrowed | MVP | Who owes whom among friends and family, with a polite WhatsApp reminder |
@@ -154,7 +192,7 @@ Phase 2: invoices and timesheets, multi-currency income at actual rates, tax res
 
 ## Getting data in
 
-SMS is the live source on Android; statements backfill history and verify balances; manual entry covers cash.
+SMS is the live source on Android; statements backfill history and verify balances; manual entry covers cash. How statements are read, including passwords and per-bank statement packs, is in [Statement import](statement-import.md).
 
 **My accounts, not account linking.** During setup the user ticks the institutions they actually transact with (M-Pesa, I&M, KCB, Equity, Airtel Money and so on). Each tick activates that institution's parser pack and adds its sender IDs to the watch list; the app then scans past messages from those senders and listens for new ones. There are no bank logins, no credentials and no connections to any institution's systems; accounts can be added or switched off any time in Profile.
 
@@ -164,11 +202,11 @@ Google Play allows SMS access under its "SMS-based money management" exception, 
 
 | Part | What it does |
 | --- | --- |
-| Sender filter | Reads only the senders of accounts the user selected (from MPESA, I&M, KCB, Equity, Co-op, NCBA, Airtel Money and more); every other message is ignored and never stored |
-| Parser pack per sender | Regex rules with named groups (receipt, amount, direction, counterparty, account, balance, fee, time), one per message type: sent, received, paybill, till, Fuliza, reversal |
+| Sender filter | Reads only the senders of accounts the user selected (from MPESA, I&M, KCB, Equity, StanChart, Co-op, Airtel Money and more); every other message is ignored and never stored |
+| Parser pack per sender | Regex rules with named groups (receipt, amount, direction, counterparty, account, own account, currency, balance, fee, time, and for a debt such as Fuliza the total owed and its due date), one per message type: sent, received, paybill, till, Fuliza, Fuliza repayment, reversal, bank. Sender IDs match whatever their case |
 | Test suite | Every rule ships with anonymised samples and expected fields; a pack releases only when all pass |
 | Signed updates | New packs download as signed rule files, without an app update |
-| Review inbox | Unmatched messages from known senders wait for the user to tag fields once, creating a local rule |
+| Review inbox | Unmatched messages from known senders wait on Home as "N messages to check". The on-phone message reader suggests amount, payee, date, balance and receipt for the person to confirm or change; "Read messages like this the same way" saves the layout so later ones are added during capture. The reader trains on synthetic messages only |
 | Dedupe | Receipt number, amount and time match SMS against later statement imports |
 
 ### Rules that keep the numbers honest
@@ -178,26 +216,29 @@ Google Play allows SMS access under its "SMS-based money management" exception, 
 - **Collapse noise:** one line per day for Fuliza draws and repayments, money market round-ups, charges and airtime.
 - **Fuliza fees** are repayments minus draws, shown as a fee.
 - **Money received from people** stays neutral until the user names the payee (gift, loan, repayment).
+- **Balances come from the journal.** Every transaction, opening balance and gap posts a balanced entry in a double-entry journal on the phone, and each account's balance is the sum of its postings ([0018](../decisions/0018-double-entry-journal.md)). Entries are never edited; a change posts a reversal and a new entry. A balance a message, statement or the person reports is a check against the journal. A balance the message reader suggested or the person typed while checking a message only counts once it adds up.
+- **Fuliza is a debt on M-Pesa.** When M-Pesa pays out more than the wallet holds, Fuliza covers the rest and that is owed; the next money in repays it first. Any M-Pesa balance above zero means nothing is owed. Fuliza owed comes off On hand.
+- **Gaps are explained, not hidden.** Profile › Balances shows each account and whether it matches its messages. A gap the records do not reach sits in Not yet sorted until it is explained. Where two balances don't agree, the gap sheet shows that day's entries and the messages waiting to be checked, and offers "Add what's missing" as a real transaction, or a visible correction. "Where it went" totals the fees, Fuliza charges and gaps nothing explains.
+- **Money without messages.** Add an account for cash, and Set the balance to what an account really holds; the difference is a balance correction in Activity, never income or spending, and can be undone.
 
 ### iOS capture via Shortcuts
 
-iOS lets no app read SMS, so the iOS version (after the Android MVP) captures messages through Apple's Shortcuts automations, with statement import as the safety net. Processing stays on the phone.
+iOS lets no app read SMS, so the iPhone app captures messages through Apple's Shortcuts automations, with statement import as the safety net. Processing stays on the phone. Built; see decision 0011.
 
 | Piece | Who does it | Effort |
 | --- | --- | --- |
-| "Add transaction from message" App Intent | Built into the app; appears in Shortcuts automatically | None |
-| Ready-made Pesa Clarity shortcut | User taps a link and "Add Shortcut" | One tap, once |
-| Message automation per sender (Message, Sender: MPESA, Run Immediately, choose the shortcut) | User, guided step by step from My accounts | About 30 seconds per institution |
-| Connection check | App shows "Connected, last message 2 min ago" once messages arrive, or "Not receiving yet" | None |
+| "Add transaction from message" App Intent | Built into the app; appears in Shortcuts automatically. Takes the message and its sender, runs without opening the app | None |
+| Message automation (Message, senders MPESA and the bank, Run Immediately, the action above) | User, guided by Connect your messages | About a minute, once |
+| Connection check | App shows "Connected · Last message 2 min ago", or "Waiting for your first message" | None |
 
-Apple does not let apps create automations, so the trigger step stays manual. One shortcut serves every institution; only the trigger repeats per sender. Before building, confirm the current iOS version still runs message automations without asking each time.
+Apple does not let apps create automations, so the trigger step stays manual. The action queues each message in a file protected until the iPhone's first unlock, so messages that land while it is locked still count. The app reads the queue like an inbox (same parser, review inbox and deduplication) and drops each message once read, or after 35 days unread. Still to confirm on a device: that current iOS runs message automations without asking each time.
 
 #### iOS onboarding flow
 
-1. **Sign in:** phone number with SMS code, Sign in with Apple, or Continue with Google; or use without an account.
-2. **My accounts:** tick the institutions used.
-3. **Backfill:** share M-Pesa and bank statement PDFs covering the history wanted, up to today; the app shows the 60-second first insight.
-4. **Connect:** add the Pesa Clarity shortcut (one tap), then create one message automation per institution with the guided setup.
+1. **Sign in:** email with a one-time code, or use without an account. Sign in with Apple comes later; it needs a server endpoint.
+2. **Currency and My accounts:** as on Android.
+3. **Connect:** Connect your messages, in place of the Android SMS scan. "Do this later" carries on; Profile links back to it.
+4. **Backfill:** import M-Pesa and bank statement PDFs from Profile for the history wanted.
 5. **Live:** new messages arrive through the automation; receipt numbers deduplicate any overlap with statements, which can lag a day or two.
 6. **Catch-up:** a monthly reminder to import the latest statement fills any messages the automation missed; reconciliation shows any gap.
 
@@ -205,7 +246,7 @@ Apple does not let apps create automations, so the trigger step stays manual. On
 
 | Requirement | How the app meets it |
 | --- | --- |
-| Sign in with Apple | Offered on iPhone alongside Google sign-in, as Apple requires when third-party sign-in exists |
+| Sign in with Apple | Required only if third-party sign-in is offered; the iPhone app has email sign-in only for now, so Apple sign-in comes with Google sign-in on iPhone |
 | In-app account deletion | Profile > Delete account |
 | Privacy nutrition labels | Declares sign-in details and encrypted backups only; no tracking |
 | Purpose of statement files | Explained in the import screen: used on the phone, never uploaded |
@@ -220,7 +261,7 @@ Debt management promises one thing: a realistic debt-free date, and a payday pla
 
 | Feature | What it does |
 | --- | --- |
-| Every debt type | Bank loans, cards, overdrafts, salary advances, Fuliza, mobile loans, SACCO loans, family and friend loans without interest |
+| Every debt type | Bank loans, cards, overdrafts (Fuliza is M-Pesa's overdraft), salary advances, mobile loans, SACCO loans, family and friend loans without interest |
 | Auto-detection | SMS and statements spot repayments and suggest which debt they belong to |
 | Strategies | Avalanche (highest rate first), snowball (smallest first) or custom; each shows the debt-free date and total interest |
 | Payday split | Minimums first, the rest to the target debt, on each payday |
@@ -228,6 +269,8 @@ Debt management promises one thing: a realistic debt-free date, and a payday pla
 | Fuliza tracker | Draws, fees and days overdrawn per month, with a nudge when usage climbs |
 | What-ifs | "Add 5,000 a month" or "clear the overdraft first" recalculates instantly |
 | Progress | Paid, remaining, debts cleared, interest saved vs minimums only |
+
+Fuliza is treated as an overdraft, like a bank or card overdraft: its daily charges are overdraft interest, shown today as Fuliza fees. Open: rename the category to Overdraft repayment and the fees to Overdraft fees once bank and card overdrafts are parsed the same way.
 
 ## Financial Health Index
 
@@ -244,7 +287,7 @@ A 0–100 score, recalculated monthly on the phone, sums eight indicators across
 | Plan | Leakage share | Leakages under 10% of income |
 | Plan | Plan adherence | Categories within budget |
 
-Bands: Struggling 0–39, Coping 40–69, Healthy 70–100. Home shows the score and its change; tapping it names the weakest pillar and the single action that would raise it most. Thresholds are starting points to tune with beta users.
+Fees, Fuliza charges included, are counted from the journal as Insights counts them, so the leakage share matches Insights. Bands: Struggling 0–39, Coping 40–69, Healthy 70–100. Home shows the score and its change; tapping it names the weakest pillar and the single action that would raise it most. Thresholds are starting points to tune with beta users.
 
 ## Architecture, privacy and data model
 
@@ -264,14 +307,15 @@ The phone does all the work and holds all the data; the server has three narrow 
 | Backup vault | Backups encrypted on the phone (AES-256-GCM, key from the user's passphrase via Argon2id) | Keys or readable data |
 | Federated learning | Clipped, noised model updates combined by secure aggregation | Raw data or individual updates in the clear |
 
-Infra: Docker on a small VPS or Cloud Run, GitHub Actions CI, signed parser-pack and model releases tracked in MLflow.
+Infra (decided, [0004](../decisions/0004-eu-hosting-and-email-sign-in.md)): in the EU, the API on Google Cloud Run, Postgres on Neon, backup ciphertext on Cloudflare R2 (EU jurisdiction) and sign-in emails through Brevo; all fit free tiers at proof-of-concept traffic. Checks run on the developer's machine before each push (`tool/check`); GitHub Actions builds, releases and deploys, with no heavy builds on pull requests and an Android and iPhone test build of `dev` each evening when it has changed. Signed parser-pack and model releases tracked in MLflow.
 
 ### Privacy and compliance
 
 - **Kenya Data Protection Act 2019:** register with the ODPC; file a data protection impact assessment for federated training; honour access and deletion requests within 30 days.
 - **Lost passphrase = lost backup:** offer a printable recovery key at setup.
-- **Statement passwords** are used once in memory, then discarded; PDFs never leave the phone.
+- **Statement passwords** are used once in memory, then discarded; PDFs never leave the phone. See [Statement import](statement-import.md#passwords).
 - **App lock:** PIN or biometric, auto-lock, hide balances on open, remote sign-out of devices.
+- **Hiding amounts:** one eye, the same on every screen, hides every amount across the app; it starts from "Hide balances on open". It sits at the right of a screen's title, or on the red card a screen leads with. The counter (Sell, Pay, tabs, Close the day, the record sheets), forms where an amount is typed, and receipts, invoices and statements chosen to share or print always show amounts.
 - **No analytics:** product decisions rely on interviews and opt-in feedback; an opt-in, anonymous crash report is the one exception.
 
 ### Mobile security
@@ -284,11 +328,11 @@ Target OWASP MASVS level 2 (the standard for apps handling financial data), veri
 | Unlock | BiometricPrompt (strong class) with PIN fallback; increasing delays after failed attempts; auto-lock when the app goes to the background |
 | Screen | FLAG_SECURE blocks screenshots, screen recording and previews in the app switcher; hide-balances mode |
 | SMS handling | Only selected senders are read; raw message text is discarded after parsing, keeping fields and a hash for dedupe |
-| Permissions | SMS and notifications only; no contacts, location or broad storage access |
+| Permissions | SMS, notifications, restoring reminders after a restart, and the network (sign-in, backups, the privacy policy) only; no contacts, location or broad storage access. A test fails the build if the list changes |
 | OS backups | Android auto-backup off, so the database never lands in Google Drive; only the app's own end-to-end encrypted backup |
-| Network | TLS 1.3 with certificate pinning to the three server endpoints; no third-party SDKs or trackers |
-| Device integrity | Play Integrity API: warn on rooted or tampered devices; the server accepts backups and model updates only from genuine app installs |
-| Code | R8 and Flutter obfuscation; no secrets in the app; dependency scanning in CI |
+| Network | TLS with cleartext off. Our servers are pinned to their certificate authorities, not their keys, because the hosts renew certificates with new keys every few months ([0005](../decisions/0005-pin-certificate-authorities.md)); Google Drive uses the phone's own authorities. No third-party SDKs or trackers |
+| Device integrity | A light root and tamper check warns once in Profile and never blocks use. Play builds attach a Play Integrity token, bound to the request, to backup uploads (and later model updates); the server refuses a token that fails. F-Droid builds cannot attest, so uploads without a token follow a server setting, set to allow |
+| Code | R8 and Flutter obfuscation; no secrets in the app; dependency scanning (OSV-Scanner) in `tool/check` before each push |
 | Updates | Parser packs and models signed (Ed25519) and verified on the phone before use |
 | Sessions | Short-lived tokens, refresh token in the Keystore, device list with remote sign-out |
 | Lost phone | Data stays encrypted and locked; remote sign-out cuts backup and sync access; restore on a new phone with the passphrase or recovery key |
@@ -311,13 +355,15 @@ Restore: on a new phone, choose the source, pick a backup by date, enter the pas
 
 | Moment | What happens |
 | --- | --- |
-| Welcome | Phone number with SMS code, Continue with Google, Sign in with Apple (iPhone), or Use without an account; links to Terms and Privacy Policy |
+| Welcome | Email with a one-time code, Continue with Google (Play build only), Sign in with Apple (iPhone, later), or Use without an account; a link to the Privacy Policy. No SMS codes: they cost too much for an open-source project |
 | First run | Plain-language privacy summary and three choices: improve the app (federated updates, on), contribute to licensed models (off), crash reports (off) |
 | Any time | Profile > Privacy shows the same summary and switches, the full policy, and its version and date |
 | Email me a copy | Sends the full policy as text plus PDF to the Google account's email, or to an address the user types; a typed address is used only for that send and then discarded |
 | Policy changes | Version number bumps; on material changes the app shows what changed in plain words and asks again before new uses start |
 
 The policy itself must cover, per the Data Protection Act: the controller and ODPC registration, what is collected (sign-in details, encrypted backups, model updates), what never leaves the phone, legal bases, retention, rights (access, correction, deletion, objection to automated decisions), cross-border hosting, and a contact for requests. Draft it in plain English, then have a Kenyan data protection lawyer review it before launch.
+
+The Data Protection Officer for the Pesa Clarity platform is Dan Njuguna (njugunahdann@gmail.com), named in the policy (from version 1.7) and on the website as the contact for requests.
 
 ### Data model (on the phone)
 
@@ -331,7 +377,10 @@ The policy itself must cover, per the Data Protection Act: the controller and OD
 | budget_items and snapshots | one-offs and carried-forward arrears; frozen month-end results |
 | debts | lender, type, starting balance, rate, minimum, planned, formal or family |
 | goals | target, currency, date, priority, status |
+| subscriptions | name, payee, amount, currency, frequency, next date, tracking or one-off |
 | imports and parser_packs | file hash, period, reconciliation result; pack versions and test status |
+| journal_entries and postings | double-entry journal ([0018](../decisions/0018-double-entry-journal.md)): each transaction, opening and balance gap as balanced postings, append-only with reversals. System accounts: Not yet sorted, Money in transit, Fuliza owed (one per M-Pesa account), Opening balances, Balance corrections, Fuliza charges. Balances, On hand and safe to spend read it (stage 2) |
+| ask_conversations, ask_messages and ask_shortcuts | Ask's conversations per space, kept as long as Ask settings say and left out of backups, and the person's own words for a category or payee (schema 36) |
 
 ## Federated learning and model licensing
 
@@ -355,7 +404,7 @@ The app earns nothing from its users. The only possible income is licensing fede
 
 ### Release conditions
 
-- DP-SGD with a published privacy budget, secure aggregation and minimum cohort sizes on every release.
+- DP-SGD with a published privacy budget, secure aggregation and minimum cohort sizes on every release. The budget covers one person, not one transaction, and counts every training run and audit on the same data. The noise is never reproducible from a published seed.
 - A membership-inference audit passes before any model leaves the server.
 - A data protection impact assessment filed with the ODPC; legal review by a Kenyan data protection lawyer before the first licence.
 - Any licence income goes first to keeping the app free; until then, running costs come from grants or the founder.
@@ -368,12 +417,13 @@ Everything is open source: the app, the server, the parser packs and this spec. 
 | --- | --- | --- |
 | Mobile app and server | AGPL-3.0, plus a commercial licence on request | Forks, including hosted ones, must stay open; companies that cannot accept AGPL can buy a commercial licence, which can fund the project |
 | Parser packs and test fixtures | Apache-2.0 | Maximum adoption and community contributions; banks and fintechs can use them freely |
-| Trained federated model weights | Separate model licence | Code is open, but weights built from opted-in users can be licensed, keeping model licensing possible |
+| App-track model weights (shipped in the app) | CC BY-SA 4.0 | Free like the app, so anyone can check what runs on their phone and F-Droid can ship it |
+| Commercial-track model weights | Written licence only, never published | Built only from people who opted in to the commercial track; terms forbid credit scoring, profiling and re-identification, keeping model licensing possible |
 | Docs and designs | CC BY 4.0 | Free to reuse with credit |
 
 What open source requires:
 
-- **Two build flavours.** A Play Store build (Google Sign-In, Play Integrity) and a FOSS build for F-Droid with no Google services; phone sign-in and local backup work in both.
+- **Two build flavours.** A Play Store build (Google Sign-In, Play Integrity) and a FOSS build for F-Droid with no Google services; email sign-in and backups work in both. F-Droid accepts no prebuilt native libraries, so its build compiles SQLCipher from source and leaves out PDFium, which means no statement PDF import there for now ([0006](../decisions/0006-fdroid-build-without-prebuilt-libraries.md)).
 - **Reproducible builds,** so anyone can confirm the Play Store app matches the public source.
 - **Synthetic test data only.** Every SMS sample in the repo is generated or fully anonymised; never commit real messages.
 - **Protected keys.** App signing, parser-pack signing and server secrets stay outside the repo, in a hardware key or secrets manager.
@@ -390,10 +440,10 @@ All code lives under the GitHub organisation `pesaclarity`. All seven repositori
 | `.github` | | CC BY 4.0 |
 | `docs` | | CC BY 4.0 (name and logo excluded) |
 | `ujumbe-parsers` | ujumbe (message) | Apache-2.0 |
-| `pesaclarity-app` | mfuko (pocket) | AGPL-3.0 + commercial on request |
+| `pesaclarity-app` | | AGPL-3.0 + commercial on request |
 | `pesaclarity-web` | dirisha (window) | AGPL-3.0 (code), CC BY 4.0 (text) |
 | `pesaclarity-backend` | ngome (fortress) | AGPL-3.0 + commercial on request |
-| `pesaclarity-ml` | akili (intelligence) | AGPL-3.0 (code); weights under a separate model licence |
+| `pesaclarity-ml` | akili (intelligence) | AGPL-3.0 (code); app-track weights CC BY-SA 4.0, commercial-track weights by written licence |
 
 `pesaclarity-app` depends on `ujumbe-parsers` (Dart package `ujumbe`), so parser packs can be versioned, tested and contributed independently of app releases.
 
@@ -425,6 +475,6 @@ Open questions:
 
 - ~~Brand red~~ — resolved: #C8102E is Pesa Clarity's own red (see BRAND.md)
 - Product name: Pesa Clarity is the working name; decide after the proof of concept
-- Which two banks after M-Pesa, I&M and KCB?
+- Which banks after M-Pesa, Equity, I&M, KCB and Standard Chartered (deposits and card payments; its other messages go to review)? Loop and Airtel Money are review-only until their wording is known (decision 0013). Co-operative Bank (sender `CoopBank`, any case) reads card cash, card payments and paybill payments; its "received on your M-pesa" alert goes to review, because M-Pesa's own message records that money (ujumbe-parsers #51).
 - Flutter or React Native: decided, Flutter (26 Oct 2026)
 - Which grant programmes to apply to for the beta?

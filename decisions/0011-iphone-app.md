@@ -1,0 +1,26 @@
+# 0011. The iPhone app
+
+Date: 2026-10-29 · Status: Accepted
+
+## Context
+
+iOS lets no app read SMS. The Dart code (parsers, ledger, plan, insights) is the same on both. App Store rules and the lack of Google services on iPhone also shape it.
+
+## Decision
+
+- One Flutter codebase with an `ios/` project (bundle id `com.pesaclarity.app`, iOS 16+, iPhone only).
+- Messages arrive through a Shortcuts automation that runs the app's "Add transaction from message" App Intent. The intent queues the message in a file protected until first unlock; the app reads the queue through the same channel names as Android's SMS inbox, so the scan, parser and review inbox are shared. Read messages are dropped; unread ones after 35 days.
+- iPhone uses the same design as Android: the same fonts, pill tab bar, lists, dialogs, pickers and segmented controls, so both platforms look and read alike. Only iPhone's swipe-back page transition is kept, and iPhone adds what capture needs (Connect messages, Files for backups). (Revised 2026-11-02; the first version gave iPhone an iOS look.)
+- The iPhone build is the `appstore` flavour: no Google services, so no Google sign-in, Drive or Play Integrity. Sign-in is email only until Sign in with Apple is added with its server endpoint.
+- Linux CI cannot compile Swift; a manual macOS workflow builds the app unsigned.
+
+## Consequences
+
+- Capture needs a one-time manual automation; statement import covers anything missed.
+- Queued message text sits on the phone, under iOS data protection, until read; the privacy policy (from 1.3) says so.
+- Vault uploads from iPhone carry an Apple App Attest assertion in place of a Play Integrity token: the install registers a Secure Enclave key once, then signs each upload's hash with a rising counter. The server needs the Apple team id to switch it on.
+- Release needs an Apple Developer account, signing and App Review notes explaining the automation.
+
+## Amendment, 2026-11-16
+
+Until the App Store, people can sideload a test build. The manual iOS build workflow puts an unsigned `pesaclarity-ios-unsigned.ipa` on the `test-build` pre-release, with a SideStore/AltStore source, `pesaclarity-sidestore.json`, that lists the newest build so it shows as an update. SideStore or AltStore signs it with the person's own Apple ID for 7 days at a time. Sign-in is off on it. People with a Mac can install it with Xcode instead (the app README, "Install on your own iPhone with Xcode"). The website's install page has the steps.
