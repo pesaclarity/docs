@@ -31,7 +31,7 @@ The models today, all small, all exported as TFLite by pesaclarity-ml:
 
 ## Spike: the Ask reader in pure Dart
 
-pesaclarity/pesaclarity-app, branch `claude/sweet-albattani-bs9rdz` (a spike, not for release):
+pesaclarity/pesaclarity-app#265 (a spike, not for release):
 
 - A script reads the weights out of the shipped `ask-reader.tflite` into a plain file (int8 tensors with their scales, 248 KB) and a layer list.
 - About 400 lines of Dart run the forward pass. Run the way TFLite runs this model (each layer's input quantised to int8 on the fly), it gives the same labels as TFLite on all 30 recorded questions, intent and every token's slot, with probabilities at most 3e-5 apart (the recording rounds to 1e-5). Plain floats with the same weights also give the same labels, at most 1.2e-2 apart.
