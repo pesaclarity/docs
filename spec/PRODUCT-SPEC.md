@@ -433,7 +433,7 @@ What open source requires:
 
 ### Repositories
 
-All code lives under the GitHub organisation `pesaclarity`. All seven repositories exist from the start; each is built in the phase shown. See [REPOS.md](../REPOS.md) for the full table.
+All code lives under the GitHub organisation `pesaclarity`. All eight repositories exist; each is built in the phase shown. See [REPOS.md](../REPOS.md) for the full table.
 
 | Repo | Codename | Licence |
 | --- | --- | --- |
@@ -441,9 +441,10 @@ All code lives under the GitHub organisation `pesaclarity`. All seven repositori
 | `docs` | | CC BY 4.0 (name and logo excluded) |
 | `ujumbe-parsers` | ujumbe (message) | Apache-2.0 |
 | `pesaclarity-app` | | AGPL-3.0 + commercial on request |
-| `pesaclarity-web` | dirisha (window) | AGPL-3.0 (code), CC BY 4.0 (text) |
+| `pesaclarity.github.io` | dirisha (window) | AGPL-3.0 (code), CC BY 4.0 (text) |
 | `pesaclarity-backend` | ngome (fortress) | AGPL-3.0 + commercial on request |
 | `pesaclarity-ml` | akili (intelligence) | AGPL-3.0 (code); app-track weights CC BY-SA 4.0, commercial-track weights by written licence |
+| `rayo` | | AGPL-3.0 |
 
 `pesaclarity-app` depends on `ujumbe-parsers` (Dart package `ujumbe`), so parser packs can be versioned, tested and contributed independently of app releases.
 
