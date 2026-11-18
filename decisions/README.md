@@ -24,3 +24,4 @@ Architecture decision records (ADRs): one short file per decision that is expens
 | [0018](0018-double-entry-journal.md) | A double-entry journal is the source of truth for money | Accepted |
 | [0019](0019-on-device-ml-without-google.md) | On-device ML without Google: one runtime for Play and F-Droid | Accepted |
 | [0020](0020-rayo-our-own-inference-engine.md) | rayo: our own inference engine in C89 replaces TFLite | Accepted |
+| [0021](0021-small-language-models-on-rayo.md) | Small language models on rayo, on the CPU | Proposed |
