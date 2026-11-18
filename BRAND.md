@@ -44,12 +44,12 @@ The brand colour is **Pesa Red**, the red used across the app designs. It is Pes
 | Token | Hex | Use |
 | --- | --- | --- |
 | Pesa Red (`brand`) | `#C8102E` | Fills: the red lead card (Safe to spend, Debt-free by, Sales today), the + button, the main button, a filtering drop-down. White text on it: 5.9:1 |
-| Link red (`brandLink`) | `#B81D2F` | Text and thin strokes: the current tab, progress bars, charts, links. Pill buttons such as See all and Add, and the two-way switch, stay neutral |
-| Red soft (`brandSoft`) | `#FDECEE` | The tint behind a chosen chip, menu choice or side of a switch |
-| Selected (`selected`) | `#ECE4E1` | A neutral tint for quiet fills |
-| Background | `#F6F1EE` | Warm screen ground, so white cards stand off it |
-| Surface / border | `#FFFFFF` / `#EFE6E7` | Cards, lists, nav bar |
-| Text / muted | `#1C1215` / `#6F6064` | Body, labels (muted 5.6:1) |
+| Link red (`brandLink`) | `#C8102E` | Text and thin strokes: the current tab, progress bars, charts, links. Pill buttons such as See all and Add, and the two-way switch, stay neutral |
+| Soft fill (`brandSoft`) | `#EBEBEB` | The neutral fill behind a chosen chip, menu choice or side of a switch |
+| Selected (`selected`) | `#EBEBEB` | Quiet neutral fills, such as the Ask bar |
+| Background | `#F5F5F5` | Neutral screen ground, so white cards stand off it |
+| Surface / border | `#FFFFFF` / `#E5E5E5` | Cards, lists, nav bar |
+| Text / muted | `#171717` / `#525252` | Body, labels (muted 7.2:1) |
 | Success | `#059669` (text `#047857`) | Income, on track, cleared |
 | Warning | `#B45309` | In progress, overdue, something to check |
 | Warning, stronger (`warningStrong`) | `#C2410C` | The worse of two warnings, such as Struggling beside Coping |
@@ -62,18 +62,18 @@ Dark mode keeps the same red:
 
 | Token | Hex |
 | --- | --- |
-| Background / surface / border | `#140E10` / `#1E1618` / `#352B2E` |
-| Fields and chips / floating parts (tab bar, sheets, menus) | `#241B1E` / `#2A2124` |
-| Text / muted | `#E3D9DB` / `#A3969A` |
+| Background / surface / border | `#0A0A0A` / `#171717` / `#2E2E2E` |
+| Fields and chips / floating parts (tab bar, sheets, menus) | `#1F1F1F` / `#242424` |
+| Text / muted | `#E5E5E5` / `#A3A3A3` |
 | Brand (white text on it) | `#C8102E` |
 | Danger (`danger`, fills and large figures) | `#C8102E` |
-| Danger in small text (`dangerText`) | `#FF3C5B` |
-| Accent (`brandLink`: links, current tab, progress, chosen options) | `#FF3C5B` |
-| Red soft (`brandSoft`) / selected | `#2F2D2C` / `#383534`, neutral tints, never pink |
+| Danger in small text (`dangerText`) | `#FF4D6A` |
+| Accent (`brandLink`: links, current tab, progress, chosen options) | `#FF4D6A` |
+| Soft fill (`brandSoft`) / selected | `#262626` / `#383838`, neutral greys, never pink |
 | Success (text `#6EE7B7`) | `#34D399` |
 | Warning / stronger | `#FBBF24` / `#FB923C` |
 
-Dark text is moderate rather than maximal (12.5:1 on a card), easier on tired eyes. Brand red is a fill and a large figure on dark (3.0:1 on a card); small red text and thin strokes, such as the accent or a field's error, use `#FF3C5B`, the same hue brightened only as far as it needs (4.5:1 on a sheet, 5.1:1 on a card). Dark has no drop shadows; floating parts sit on a lighter surface instead.
+Every neutral, light and dark, is a pure grey with no warm or rose tint. Dark text is moderate rather than maximal (14.2:1 on a card), easier on tired eyes. Brand red is a fill and a large figure on dark (3.0:1 on a card); small red text and thin strokes, such as the accent or a field's error, use `#FF4D6A`, the same hue brightened only as far as it needs (4.8:1 on a sheet, 5.6:1 on a card). Dark has no drop shadows; floating parts sit on a lighter surface instead.
 
 Machine-readable values: [`brand/tokens.json`](brand/tokens.json) (W3C design-token format).
 
