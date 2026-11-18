@@ -25,4 +25,5 @@ Architecture decision records (ADRs): one short file per decision that is expens
 | [0019](0019-on-device-ml-without-google.md) | On-device ML without Google: one runtime for Play and F-Droid | Accepted |
 | [0020](0020-rayo-our-own-inference-engine.md) | rayo: our own inference engine in C89 replaces TFLite | Accepted |
 | [0021](0021-small-language-models-on-rayo.md) | Small language models on rayo, on the CPU | Proposed |
+| [0022](0022-own-ask-language-model.md) | Our own language model for Ask: queries, not amounts | Proposed |
 | [0023](0023-ml-on-pytorch.md) | pesaclarity-ml on PyTorch, without TensorFlow | Accepted |
