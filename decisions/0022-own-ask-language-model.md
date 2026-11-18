@@ -31,10 +31,15 @@ phone next to the app, and SmolLM2's tokeniser is English-first.
 
 Rules that bind this plan:
 
-- **Synthetic only**: no real user data in training or evaluation, ever.
+- **Synthetic only**: no real user data in training or evaluation. Whether people's own
+  conversations may ever help is deferred (open question 1 below); this plan does not use them.
 - **No Google**: no Google-made models (Gemma, T5/mT5, ByT5), datasets (C4, mC4 and anything
   derived from it, such as MADLAD-400 or WURA), libraries (TensorFlow, JAX, SentencePiece) or
-  services (Colab, TPUs, Google Translate) in the new model's pipeline.
+  services (TPUs, Google Translate) in the new model's pipeline. One exception, the owner's
+  choice: the free Google Colab GPU supplies compute only. The code stays PyTorch and runs
+  unchanged on any other GPU.
+- **English first**: the first release is English. Swahili and Sheng follow by continued
+  training on the same vocabulary.
 - **Size**: release APKs are checked to be under 25 MB per chip (pesaclarity-app README; about
   19 MB for 64-bit `play` today), so the model cannot ship in the APK.
 - **Network**: the privacy policy (version 2.1) states each request the app makes. Ask's
@@ -45,15 +50,18 @@ Rules that bind this plan:
 ## Decision (proposed)
 
 **Train our own decoder-only model of about 57M parameters ("Ask LM") from scratch, in
-PyTorch, on open-licensed text and synthetic task data. It writes a structured query, never
+PyTorch, on open-licensed text and synthetic task data, English first, on a free Colab T4 with
+resumable training. It writes a structured query, never
 an amount; the app runs the query on the space's database; the model then writes the reply
 from the returned figures, copying every number. rayo runs it with grammar-constrained
 decoding. It is an opt-in, signed download; without it Ask keeps today's reader and writer.**
 
 ### What it does
 
-- Free-form money questions in English, Swahili and Sheng, follow-ups across turns ("na
-  mwezi uliopita?", "only Naivas", "why?"), and short explanations from the figures it is given.
+- Free-form money questions, follow-ups across turns ("and last month?", "only Naivas",
+  "why?"), and short explanations from the figures it is given. English first; Swahili and
+  Sheng ("na mwezi uliopita?") in a later stage. Until then, questions the app takes to be not
+  English (a word list) go to the reader and writer, which already read some Swahili.
   No financial advice; out-of-scope questions get a refusal, as `out_of_scope` today.
 - **Two steps per turn, one model:**
   1. **Query.** From the conversation so far, the model writes one query in a small grammar
@@ -182,12 +190,22 @@ the A53 phone and 1 to 2 s on the A55 one; the whole reply 2 to 3 s later on the
 ### Tokeniser
 
 Byte-level BPE with 16,384 tokens, trained with Hugging Face `tokenizers` (Apache-2.0; not
-SentencePiece) on a balanced sample: about 40% English, 40% Swahili and Sheng, 20% money text
-(synthetic M-PESA and bank messages in the formats of ujumbe-parsers' fixtures, amounts,
-dates, account masks). Digits split one by one (the Digits pre-tokeniser, which rayo reads) so
+SentencePiece) **now, once, for every language to come**, on a sample of about 60% English,
+15% Kenyan names and money text (`names.py`'s names, synthetic M-PESA and bank messages in the
+formats of ujumbe-parsers' fixtures, amounts, dates, account masks) and 25% Swahili and Sheng
+(*proposed* shares). Swahili and Sheng are then added later by continued pretraining and SFT
+with the same vocabulary and embeddings: no new rows, no re-tokenised data, no change to the
+file, the grammar or rayo's vocabulary trie.
+
+Trade-off: an English-only 16k vocabulary would spend all its merges on English, so English
+text would take a few percent fewer tokens (*estimate*, measured before choosing), and about a
+quarter of the vocabulary trains little until the Swahili stage. Extending a vocabulary later
+instead means new embedding rows, their initialisation, re-tokenising and a new tokeniser file
+on phones; we judge the small English cost cheaper. Digits split one by one (the Digits pre-tokeniser, which rayo reads) so
 copied amounts tokenise the same everywhere. Special tokens for the turn structure (system,
 user, query, results, reply, end). Measured before pretraining: tokens per word on held-out
-English, Swahili and Sheng text, against SmolLM2's and Qwen2.5's tokenisers.
+English, Swahili and Sheng text, against an English-only 16k vocabulary and SmolLM2's and
+Qwen2.5's tokenisers.
 
 ### Data
 
@@ -211,15 +229,18 @@ licence, version, hash and attribution; a source with a non-commercial (NC), no-
   (community licence, 0021), not Gemma. Teachers see only synthetic scenarios and templates.
   Every teacher-written example passes the same checks as the model's replies (numbers copied,
   names given) or is dropped; Swahili and Sheng examples are sampled for review by speakers.
-- **Pretraining mix, 4B tokens** (*estimate*; unique Swahili volume to be measured, repeated
-  up to 4 epochs if short): FineWeb-Edu 65%, English Wikipedia 10%, Swahili (Wikipedia and
-  FineWeb-2) 15%, synthetic money text in all three languages 10%, weighted towards the end.
+- **Pretraining mix, English first, 1.5B tokens** (*proposed*): FineWeb-Edu 80%, English
+  Wikipedia 10%, synthetic English money text with Kenyan names and message formats 8%,
+  Swahili and Sheng 2% (keeps their tokens from going stale), the money text weighted towards
+  the end. Later stage: continued pretraining with Swahili (Wikipedia, FineWeb-2) and Sheng
+  raised to about a third of the mix (*proposed*; unique Swahili volume to be measured).
 - **Task data (SFT)**: a scenario generator makes synthetic spaces (accounts, payees,
   categories, items, transactions, invented amounts, names from `names.py`), dialogues of one
   to four turns over them in English, Swahili, Sheng and mixed, the reference query for each
   turn, the results from a Python reference executor of the grammar (tested against the app's
-  Dart executor on shared fixtures), and the reply. About 300k to 500k dialogues, 100M to
-  150M tokens (*estimate*), with clarify, out-of-scope, small talk and no-data turns.
+  Dart executor on shared fixtures), and the reply. English first: about 200k to 300k
+  dialogues, 60M to 100M tokens (*estimate*), with clarify, out-of-scope, small talk and
+  no-data turns; Swahili, Sheng and mixed dialogues in the later stage.
 - **Decontamination**: before any training, drop every example whose normalised text equals,
   or shares an 8-word sequence with, the 68 conformance questions, the 62 misses, the 65 app
   questions, the 45 hard held-out templates, the new Swahili/Sheng and dialogue test sets; keep
@@ -229,28 +250,65 @@ licence, version, hash and attribution; a source with a non-commercial (NC), no-
 ### Training recipe
 
 PyTorch (BSD) only, no TensorFlow or JAX; our own short training loop or `transformers`'
-Llama classes (Apache-2.0), bfloat16, AdamW, warmup then cosine decay, sequence length 1,024.
-Code in pesaclarity-ml under AGPL-3.0, seeded and reproducible.
+Llama classes (Apache-2.0), AdamW, warmup then cosine decay, sequence length 1,024. Code in
+pesaclarity-ml under AGPL-3.0, seeded and reproducible.
 
-| Stage | What | Compute (*estimate*, 6 × N × D) |
+**Compute: the free Colab GPU, a T4.** 16 GB, float16 only (no bfloat16), sessions of up to
+about 12 h that can end earlier, quota not guaranteed. Colab supplies the GPU only: the code
+is the same PyTorch that runs anywhere, and it reads only open and synthetic data. A paid GPU
+(an A100 or H100 for a few hours, below) stays an option if quota runs short.
+
+- **Resumable by design.** Every 20 to 30 minutes, write model, optimiser, loss-scaler and RNG
+  states and the data position to persistent storage outside the session; keep the last two;
+  a new session resumes from the latest and continues bit for bit where the data is concerned.
+  A checkpoint of A is about 0.7 GB (float32 weights and two Adam moments, 16 bytes a
+  parameter). Storage is the owner's choice (a mounted Drive folder is simplest from Colab; a
+  private Hugging Face repository or any S3-compatible bucket also works).
+- **Deterministic data order.** Data is tokenised once into fixed shards of uint16 ids (the
+  vocabulary is below 65,536), about 3 GB for 1.5B tokens, read in an order fixed by a seed;
+  the position is the global step times the tokens a step, so resuming skips exactly what ran.
+- **float16 with loss scaling** (`torch.amp`, dynamic `GradScaler`); RMSNorm, softmax, loss
+  and the optimiser in float32; skipped steps logged. Attention through PyTorch's
+  scaled-dot-product attention, whose memory-efficient kernel runs on the T4 (its
+  FlashAttention kernel needs newer GPUs).
+- **Batch sized for 16 GB** (*estimate*, tuned on the first session): A at micro-batch 16 ×
+  1,024 tokens takes about 6 to 8 GB of activations and 1 GB of states; gradient
+  accumulation of 16 to 32 gives 256k to 512k tokens a step. The Small config fits
+  micro-batch 24 to 32.
+
+Time (*estimate*): FLOPs a token are 6 × N plus causal attention, about 6 × layers × 1,024 ×
+d_model (15% more for A, 20% for Small), at a sustained 15 to 25 TFLOP/s on the T4 (of 65
+peak in float16).
+
+| Run | Tokens | FLOPs | T4 hours at 25 / 15 TFLOP/s |
+| --- | --- | --- | --- |
+| Small (31M) pilot | 0.3B | 6.7 × 10^16 | 0.7 / 1.2 |
+| Small (31M), full | 1B | 2.2 × 10^17 | 2.5 / 4.2 |
+| **A (57M), proposed** | **1.5B** | **5.9 × 10^17** | **6.5 / 10.8** |
+| A, more later | 2B | 7.8 × 10^17 | 8.7 / 14.5 |
+| A, earlier plan | 4B | 1.6 × 10^18 | 17 / 29 |
+
+1.5B tokens is about 26 a parameter, above Chinchilla's 20 (1.13B), and fits two to three
+sessions with room for drops; training can resume later towards 2B or more if the gates ask.
+
+| Stage | What | T4 time (*estimate*) |
 | --- | --- | --- |
 | 0. Tokeniser | BPE as above | CPU, under an hour |
-| 1. Pilots | 2 to 3 runs of the Small config on 0.3B tokens: mix, learning rate, tokeniser check | about 3 GPU-hours |
-| 2. Teacher data | about 30M to 50M generated tokens from the 7B teacher | 4 to 8 GPU-hours |
-| 3. Pretraining | A on 4B tokens (about 70 tokens a parameter; Chinchilla's 20 would be 1.13B): 6 × 56.6M × 4B = 1.36 × 10^18 FLOPs | 3 to 4 h on one A100 at 30 to 40% utilisation (95 to 125 TFLOP/s of 312), about 1.5 h on an H100; 5 to 8 h with evaluation and restarts |
-| 4. SFT | task dialogues, loss on query and reply tokens, 2 to 3 epochs (about 0.4B tokens) | about 1 GPU-hour |
-| 5. Preference | rejection sampling and DPO: pairs scored by the reference executor and checker (right query and copied numbers against wrong period, swapped figure, invented name, answering out of scope) | 1 to 2 GPU-hours |
-| 6. QAT | fake 4-bit quantisation exactly as rayo stores it (groups of 32, float16 scale, largest magnitude to −8), straight-through estimator, int8 embedding, over the last part of SFT and preference | 1 to 2 GPU-hours |
+| 1. Pilots | Small config on 0.3B tokens, 2 to 3 runs: mix, learning rate, float16 stability | 2 to 4 h |
+| 2. Teacher data | about 20M generated tokens, English first; Qwen2.5-1.5B-Instruct in float16, or Qwen2.5-7B-Instruct only 4-bit (AWQ or GPTQ) on the T4 | 4 to 10 h |
+| 3. Pretraining | A on 1.5B tokens | 7 to 11 h: 2 to 3 sessions |
+| 4. SFT | task dialogues, loss on query and reply tokens, 2 to 3 epochs (about 0.2B tokens) | 1 to 1.5 h |
+| 5. Preference | rejection sampling and DPO: pairs scored by the reference executor and checker (right query and copied numbers against wrong period, swapped figure, invented name, answering out of scope) | 1 to 3 h |
+| 6. QAT | fake 4-bit quantisation exactly as rayo stores it (groups of 32, float16 scale, largest magnitude to −8), straight-through estimator, int8 embedding, over the last part of SFT and preference | 1 to 1.5 h |
 | 7. Export | safetensors + config.json + tokenizer.json, rayo-convert to int4, gates run on rayo's output | CPU |
+| **Total** | | **about 17 to 31 T4-hours, 4 to 8 sessions** |
 
-Chinchilla's 1.2B tokens for 57M parameters would be 4.1 × 10^17 FLOPs, about 1.1 A100-hours at
-100 TFLOP/s; over-training to 3B to 5B tokens costs 3 to 5 hours more and is cheap at this size.
+On a paid A100 or H100 (*estimate*) the same work is about 5 to 10 GPU-hours, roughly USD 10
+to 30.
 
-**Where it runs.** This cloud container has no GPU and little disk. The plan needs one rented
-A100 80 GB or H100 for about 20 to 30 GPU-hours, 40 to 60 with reruns (*estimate*), about
-USD 60 to 180 at USD 1.5 to 3 an hour (*estimate*; prices vary by provider and month), plus
-about 100 GB of disk for data shards. The owner decides the provider; data is downloaded there,
-not here.
+**When it starts.** On synthetic and open data first, once the scenario generator, the
+reference executor and the test sets exist (stage 3 below). No user data is needed or waited
+for.
 
 ### Evaluation gates
 
@@ -259,11 +317,11 @@ writer are scored on the same sets.
 
 | Gate | Set | Pass |
 | --- | --- | --- |
-| **Amount exactness (hard)** | held-out synthetic dialogues, at least 5,000 turns in three languages, unseen templates and names | 100% of numbers in replies copied from that turn's results, with the app's checker off; any miss blocks release |
-| Right figure | same set: the executed query's result equals the reference query's | at least 97% English, 93% Swahili and Sheng (*proposed*, set after the first run) |
+| **Amount exactness (hard)** | held-out synthetic dialogues, at least 5,000 turns, unseen templates and names (English; each later language adds its own) | 100% of numbers in replies copied from that turn's results, with the app's checker off; any miss blocks release |
+| Right figure | same set: the executed query's result equals the reference query's | at least 97% in English (*proposed*, set after the first run); Swahili and Sheng in their stage |
 | Conformance | the 68 questions of `ask_examples.v1.json`, intent and slots read from the query | intent 1.000, all slots exact ≥ 0.971 (reader v3) |
 | Misses, hard held-out, app questions | the 62, 2,000 and 65 sets | at least reader v3: 0.984 / 0.968; 0.964 and 0.926; 1.000 and 0.959 |
-| Swahili and Sheng | new hand-written sets, at least 200 questions each, reviewed by speakers | thresholds set after the first review |
+| Swahili and Sheng (**later stage**, not the English release) | new hand-written sets, at least 200 questions each, reviewed by speakers | thresholds set after the first review |
 | Follow-ups | multi-turn sets (change period, payee, "why?") | at least the reader's `refine` handling, scored per turn |
 | Refusals | out-of-scope and advice questions; in-scope look-alikes | ≥ 98% refused; ≤ 2% in-scope wrongly refused |
 | Reply quality | 300 replies rated by reviewers against the writer's | not worse, by reviewers' rating |
@@ -299,7 +357,8 @@ writer are scored on the same sets.
 
 ## Consequences
 
-- Ask can take free-form questions in three languages, follow-ups and short explanations, on
+- Ask can take free-form questions (English first, then Swahili and Sheng), follow-ups and
+  short explanations, on
   phones without Google services, with numbers that come only from the database.
 - rayo gains a generic grammar-constrained sampler and needs 0021's float16 scales, int8
   key/value cache and compact tokeniser table before this ships.
@@ -308,7 +367,8 @@ writer are scored on the same sets.
 - The app gains a query executor over the grammar, a download with its screens, a stricter
   checker and a policy change. Two Ask paths exist until the reader and writer are retired,
   if ever.
-- Money is spent on GPU time; the amount is the owner's call.
+- Training fits the free Colab T4 if training is resumable, at the cost of calendar time
+  (sessions depend on quota); a paid GPU shortens it to hours.
 
 ## Stages
 
@@ -317,11 +377,14 @@ writer are scored on the same sets.
    grammar-constrained decoding with run-time sets. Measure 0021's real models on phones.
 3. **Grammar and data** (CPU, no GPU): the grammar in `ask_schema_version` 2, the reference
    executor and its fixtures shared with the app, the scenario generator, decontamination, the
-   new Swahili/Sheng and dialogue test sets with speakers' review, the tokeniser.
-4. **GPU**: pilots, teacher data, pretraining, SFT, preference, QAT, export.
-5. **Gates** on rayo, then on the three phones.
+   English dialogue test sets, the tokeniser (all languages, as above).
+4. **GPU (Colab T4, resumable)**: pilots, teacher data, English pretraining, SFT, preference,
+   QAT, export.
+5. **Gates** (English) on rayo, then on the three phones.
 6. **App**: mockups, executor, checker, download, policy bump, behind a setting; Play first,
    F-Droid after its answer.
+7. **Swahili and Sheng**: continued pretraining and SFT on the same vocabulary, speakers'
+   review, their gates; then they leave the reader-and-writer path.
 
 ## Alternatives
 
@@ -334,8 +397,11 @@ writer are scored on the same sets.
 
 ## Risks and open questions
 
-- **Swahili and Sheng**: open Swahili text is much smaller than English and open Sheng text
-  is scarce; Sheng rests on synthetic data and speakers' review. Quality may stay behind English.
+- **Colab**: quota is not guaranteed and sessions drop; resumable checkpoints bound the loss to
+  about 30 minutes a drop. The T4's float16 can overflow; loss scaling and float32 norms are the
+  guard, checked in the pilots.
+- **Swahili and Sheng** come later: open Swahili text is much smaller than English and open
+  Sheng text is scarce; Sheng rests on synthetic data and speakers' review.
 - **Phone speed**: all speed numbers are estimates until stage 5; the A53 armv7 phone is the
   likely limit. Sustained decoding heats phones.
 - **Explanations at 57M parameters** may be shallow or wrong in reasoning even with right
@@ -347,11 +413,31 @@ writer are scored on the same sets.
 
 Questions for the owner:
 
-1. **GPU budget and provider**: about 20 to 60 GPU-hours, USD 60 to 180 (*estimate*); which
-   provider, and is that budget approved?
-2. **Languages**: priority between English, Swahili and Sheng for the first release, and
-   whether Swahili/Sheng gates block it or follow.
-3. **Reviewers**: who reviews Swahili and Sheng test sets, teacher data and replies, and how
-   many hours they have.
-4. **Hosting**: GitHub releases or our server for the download.
-5. **Config**: A (57M) as proposed, or the 31M pilot first?
+1. **Learning from people's conversations** (deferred; the owner is deciding). Training starts
+   without it. Whatever is chosen, we recommend that raw conversations never leave the phone.
+   Any option other than (a) needs explicit, separate opt-in consent that can be withdrawn, a
+   privacy policy change (today's says Ask has no federated learning and nothing from Ask is
+   sent), and compliance with Kenya's Data Protection Act 2019 (purpose limitation, data
+   minimisation, the right to withdraw and erase, and a DPIA, which pesaclarity-ml's release
+   gate already requires to be filed with the ODPC).
+   - **(a) None** (*recommended for now*): synthetic and open data only, as today.
+   - **(b) Opt-in federated fine-tuning on the phone with user-level differential privacy.**
+     pesaclarity-ml already has the pieces for the categoriser: a federated client and
+     simulation (`src/akili/federated/`, Flower), DP-FedAvg with update clipping, noise and
+     secure aggregation (`configs/federated-app.yaml`: 200 clients a round, user-level epsilon
+     about 5.6 at delta 1e-6; with 40 a round the model does not learn), centralised DP-SGD per
+     person, a privacy ledger, membership-inference audits and the release gate
+     (`src/akili/privacy/`); the aggregator is in pesaclarity-backend. For Ask LM it would also
+     need: training on the phone (rayo has no backward pass; only small adapters, such as LoRA
+     of about 0.2M parameters on A's q and v, are plausible on a 2 GB phone), a PyTorch path
+     for the existing Keras code, and a non-Google privacy accountant in place of Google's
+     `dp-accounting` (for example Opacus', Apache-2.0).
+   - **(c) Opt-in donation of redacted examples.** The app redacts a turn on the phone (names
+     to placeholders, amounts to their shape, as saved message layouts are), shows the exact
+     text to be sent, lets the person edit or drop it, and sends only what they approve; kept
+     apart, reviewed, deletable on request, with a retention limit. Free text can still
+     identify people, so review and minimisation matter.
+2. **Hosting**: GitHub releases or our server for the download.
+3. **Swahili and Sheng reviewers** (for the later stage): who reviews the test sets, teacher
+   data and replies, and how many hours they have.
+4. **Config**: A (57M) as proposed, or the 31M pilot carried through first?
