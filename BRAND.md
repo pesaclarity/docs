@@ -58,22 +58,32 @@ Amounts stay neutral; red on an amount means below zero only. Spending charts an
 
 **Red means brand, so "over budget" can't rely on colour alone.** Every over or failed state also carries a label or icon ("Over", ⚠ icon). Green stays a status colour only, which also keeps us visually distinct from M-Pesa.
 
-Dark mode keeps the same red:
+Dark mode is a soft dark, grey rather than near black, and keeps the same red:
 
 | Token | Hex |
 | --- | --- |
-| Background / surface / border | `#0A0A0A` / `#171717` / `#2E2E2E` |
-| Fields and chips / floating parts (tab bar, sheets, menus) | `#1F1F1F` / `#242424` |
-| Text / muted | `#E5E5E5` / `#A3A3A3` |
-| Brand (white text on it) | `#C8102E` |
-| Danger (`danger`, fills and large figures) | `#C8102E` |
-| Danger in small text (`dangerText`) | `#FF4D6A` |
-| Accent (`brandLink`: links, current tab, progress, chosen options) | `#FF4D6A` |
-| Soft fill (`brandSoft`) / selected | `#262626` / `#383838`, neutral greys, never pink |
+| Background / surface / border | `#121212` / `#1C1C1C` / `#2E2E2E` |
+| Fields and chips / floating parts (tab bar, sheets, menus) | `#222222` / `#262626` |
+| Text / muted | `#E0E0E0` / `#A3A3A3` |
+| Brand, a fill only (white text on it) | `#C8102E` |
+| Danger (`danger`, fills only, such as a destructive button) | `#C8102E` |
+| Danger in text and large figures below zero (`dangerText`) | `#FF4D6A` |
+| Accent (`brandLink`: links, current tab, progress, chosen options, red edges on cards) | `#FF4D6A` |
+| Soft fill (`brandSoft`) / selected | `#262626` / `#333333`, neutral greys, never pink |
 | Success (text `#6EE7B7`) | `#34D399` |
 | Warning / stronger | `#FBBF24` / `#FB923C` |
 
-Every neutral, light and dark, is a pure grey with no warm or rose tint. Dark text is moderate rather than maximal (14.2:1 on a card), easier on tired eyes. Brand red is a fill and a large figure on dark (3.0:1 on a card); small red text and thin strokes, such as the accent or a field's error, use `#FF4D6A`, the same hue brightened only as far as it needs (4.8:1 on a sheet, 5.6:1 on a card). Dark has no drop shadows; floating parts sit on a lighter surface instead.
+Every neutral, light and dark, is a pure grey with no warm or rose tint. Dark is soft: a `#121212` page and `#1C1C1C` cards rather than near black, and `#E0E0E0` text rather than near white, so it glares less and is easier on tired eyes. The phone's high-contrast setting keeps the deeper `#0A0A0A` page and its stronger text and edges. Brand red on dark is a fill only, with white text on it (5.9:1): on a card it is 2.9:1, too faint for text or an edge. So red text, large red figures (such as a tile below zero), red edges on cards and thin strokes use `#FF4D6A`, the same hue brightened. Dark has no drop shadows; floating parts sit on a lighter surface instead.
+
+Dark contrast (WCAG 2.2):
+
+| Pair | On page `#121212` | On card `#1C1C1C` | On sheet `#262626` |
+| --- | --- | --- | --- |
+| Text `#E0E0E0` | 14.2:1 | 12.9:1 | 11.5:1 |
+| Muted `#A3A3A3` | 7.4:1 | 6.8:1 | 6.0:1 |
+| Red `#FF4D6A` (text, large figures, edges) | 5.8:1 | 5.3:1 | 4.7:1 |
+| Brand red `#C8102E` (fills only) | 3.2:1 | 2.9:1 | 2.6:1 |
+| White on brand red | 5.9:1 | | |
 
 Machine-readable values: [`brand/tokens.json`](brand/tokens.json) (W3C design-token format).
 
