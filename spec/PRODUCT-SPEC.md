@@ -133,9 +133,9 @@ The iPhone design follows iOS rather than the Android one: large titles, a full-
 
 | Token | Value | Use |
 | --- | --- | --- |
-| Background | #F5F5F5 (dark #0A0A0A) | Neutral screen ground; every neutral is a pure grey |
-| Surface | #FFFFFF, border #E5E5E5 (dark #171717, #2E2E2E) | Cards, lists, nav bar |
-| Text | #171717, muted #525252 (dark #E5E5E5, #A3A3A3) | Body, labels |
+| Background | #F5F5F5 (dark #121212) | Neutral screen ground; every neutral is a pure grey |
+| Surface | #FFFFFF, border #E5E5E5 (dark #1C1C1C, #2E2E2E) | Cards, lists, nav bar |
+| Text | #171717, muted #525252 (dark #E0E0E0, #A3A3A3) | Body, labels |
 | Brand (Pesa Red) | #C8102E, in light and dark | Lead cards, the one main button, danger (below zero) |
 | Accent | #C8102E (dark #FF4D6A) | Current tab, progress bars, chosen options, links, pill buttons |
 | Dark danger in small text | #FF4D6A | Errors and small red text on dark |
