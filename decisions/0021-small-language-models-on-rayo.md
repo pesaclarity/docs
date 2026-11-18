@@ -74,7 +74,11 @@ configuration, on the CPUs it already supports.** The spike is
     gives the same floats, bit for bit: generic C, SSE4.1, AVX2, NEON, SDOT, chosen at run
     time as 0020's are.
   - int8 weights (one scale per row) stay, run by 0020's kernels.
-  - An int8 key/value cache halves the cache; it is the next step, not in the spike.
+  - A session may keep the key/value cache in int8, a float32 scale per token and head:
+    a quarter of float32's memory ([rayo#7](https://github.com/pesaclarity/rayo/pull/7)).
+  - Optionally, the group scales in float16 (4.5 bits a weight, the converter's default
+    since rayo#7) and 3-bit groups for matrices chosen by their role in the graph
+    (`--q3 mlp`: 3.5 bits there).
 - **Weights read in place.** `rayo_model_load` maps the file behind a small platform layer
   (POSIX mmap, Win32 MapViewOfFile, fread where neither exists, so a plain C89 build works).
   Pages are read as they are touched and can be dropped under memory pressure.
@@ -102,13 +106,45 @@ configuration, on the CPUs it already supports.** The spike is
   published only that way.
 - **Memory budget.** For a model with L layers, KV key/value heads of size D, context C and N
   weights at b bits:
-  `memory ≈ N × b / 8 (mapped, read every token) + C × L × 2 × KV × D × 4 bytes (cache, as it
-  fills) + arena (activations for one prompt chunk, under 10 MB)`.
+  `memory ≈ N × b / 8 (mapped, file-backed, read every token) + C × L × 2 × KV × (D + 4) bytes
+  (int8 cache, as it fills; D × 4 in float32) + arena (activations for one prompt chunk of
+  32, about 2 MB)`. Only the last two are the process's own (private) memory; the system can
+  drop and re-read the mapped weights. The chat path's context is 1024 by default (the
+  model's maximum stays the converter's `--context`), and the tokeniser's table is read in
+  place from the model file.
 - **Size.** The Android library grows from 90 KB (arm64) to 151 KB with the tokeniser, the
   Unicode tables, the sampler, the generator, the platform layer and the kernels. The CI
-  budget goes from 150 KB to 200 KB.
+  budget goes from 150 KB to 200 KB. The memory work of rayo#7 (int8 cache, float16 and
+  3-bit kernels, the table reader) brings it to 171 KB (arm64) and 138 KB (armv7), within it.
+- **Threads on phones.** The chat path's default is 2 of the fast cores on Android (at most
+  4 elsewhere): on a low-end phone two cores use the bandwidth decoding needs.
 
 ## Numbers
+
+**Memory, after rayo#7.** A chat of about 1000 tokens (SmolLM2-135M shape, random weights, a
+synthetic tokeniser of its vocabulary's size; 2 threads): private memory (the process's own,
+smaps_rollup's Anonymous) and total RSS at their peaks.
+
+| SmolLM2-135M shape | File | Private | Total RSS |
+| --- | --- | --- | --- |
+| spike: q4 (float32 scales), float32 cache for 2048, tokenizer.json | 84 MB | 62 MB | 145 MB |
+| q4, float32 cache (1024) | 80 MB | 46.5 MB | 125 MB |
+| q4 (float16 scales), int8 cache, table in the file: the defaults | 80 MB | 15.1 MB | 94 MB |
+| q4 and q3 (`--q3 mlp`), int8 cache | 70 MB | 15.1 MB | 84 MB |
+| Qwen2.5-0.5B shape, q4, int8 cache | 282 MB | 13.4 MB | 297 MB |
+
+The 40 MB target for a model's own memory on a 2 GB phone is met with the int8 cache (not
+with the float32 one at 1000 tokens). In a memory cgroup of 64 MB or 48 MB, below the file's
+size, the chat still finishes at about 9 tokens a second instead of 30: the system re-reads
+the weights' pages; `MADV_WILLNEED` was as fast as no hint and faster than
+`MADV_SEQUENTIAL`, so it is the default. Speed on the x86 host (noisy, shared): replies at
+30 to 36 tokens a second on one thread for every combination; float16 scales cost about 15%
+there (compute-bound), and are expected to help on phones (memory-bound): to be measured.
+Quality: on synthetic matrices the dequantised error is the same with float16 scales, and
+about twice as large with 3 bits (0.16 against 0.09 of the RMS); real models' quality is
+not measured.
+
+**Speed and memory of the spike (rayo#6):**
 
 Measured on one 2.1 GHz Xeon (x86_64, AVX-VNNI), 4 cores, with models of the real shapes and
 random weights (the real weights could not be downloaded from this environment; speed and
@@ -156,9 +192,12 @@ runs (the 0.5B shape: one run).
 2. **Real models**: convert SmolLM2-135M/360M-Instruct and Qwen2.5-0.5B-Instruct where Hugging
    Face can be reached; compare the first greedy tokens with the transformers library;
    measure on a low-end armv7 phone and a recent arm64 one, and replace the estimates above.
-3. **Memory**: the int8 key/value cache; a compact tokeniser table written by the converter
-   (reading Qwen's tokenizer.json takes about 70 MB for a moment); float16 group scales (4.5
-   bits a weight).
+3. **Memory** ([rayo#7](https://github.com/pesaclarity/rayo/pull/7)): the int8 key/value
+   cache; the session's own context (1024 by default) and prompt chunks of 32; the
+   tokeniser's table written by the converter into the model file and read in place
+   (reading Qwen's tokenizer.json took about 70 MB for a moment); float16 group scales (4.5
+   bits a weight); optional 3-bit groups by role; madvise hints and a memory report that
+   splits private from file-backed memory. Numbers above.
 4. **Speed**: ARMv8.6 i8mm and AVX-VNNI kernels for int4, more rows per block for prompts,
    pinning threads to the big cores.
 5. **The app**: a separate decision on what the assistant does, which model ships, how it is
