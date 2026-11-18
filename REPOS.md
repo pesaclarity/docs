@@ -21,6 +21,6 @@ The `pesaclarity` GitHub organisation holds one repository per licence boundary 
 - No secrets in any repo. App signing, pack signing and server keys live in a hardware key or secrets manager.
 - `main` is protected: pull requests, no force-push.
 - Checks run on your machine, not on GitHub. Every code repo (`pesaclarity-app`, `ujumbe-parsers`, `pesaclarity-backend`, `pesaclarity-ml` and the website) has `tool/check`, and `tool/setup-hooks` turns on a pre-push hook that runs it before every push. GitHub Actions only builds, releases and deploys; pull requests run no heavy builds. The app gets an Android and an iPhone test build of `dev` each evening, skipped when `dev` has not changed.
-- Pull request titles follow Conventional Commits; they set versions and changelogs.
+- Every commit follows Conventional Commits; the commits set versions and changelogs. Pull requests into `dev` are rebase-merged, so each commit lands as is ([0008](decisions/0008-dev-branch-and-release-please.md)).
 - `pesaclarity-app`, `pesaclarity-backend`, `pesaclarity-ml` and `ujumbe-parsers` publish from `main`, so changes go to `dev` and reach `main` after QA ([0008](decisions/0008-dev-branch-and-release-please.md)).
 - Every repo links back here for the spec and brand.
