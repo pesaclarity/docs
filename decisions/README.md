@@ -27,3 +27,4 @@ Architecture decision records (ADRs): one short file per decision that is expens
 | [0021](0021-small-language-models-on-rayo.md) | Small language models on rayo, on the CPU | Proposed |
 | [0022](0022-own-ask-language-model.md) | Our own language model for Ask: queries, not amounts | Proposed |
 | [0023](0023-ml-on-pytorch.md) | pesaclarity-ml on PyTorch, without TensorFlow | Accepted |
+| [0024](0024-counting-installs-and-crash-reports.md) | Counting installs and crash reports without tracking | Proposed |
