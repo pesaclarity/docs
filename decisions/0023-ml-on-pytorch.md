@@ -1,6 +1,6 @@
 # 0023. pesaclarity-ml on PyTorch, without TensorFlow
 
-Date: 2026-11-18 · Status: Proposed · Builds on [0020](0020-rayo-our-own-inference-engine.md); goes with [0022](0022-own-ask-language-model.md)
+Date: 2026-11-18 · Status: Accepted · Builds on [0020](0020-rayo-our-own-inference-engine.md); goes with [0022](0022-own-ask-language-model.md)
 
 This is a plan. Figures marked *estimate* are judgements, not measurements.
 
@@ -34,7 +34,7 @@ the start, so moving the small models leaves one framework. The privacy accounta
 | `src/akili/export/manifest.py`, `size.py` | manifest "next to every exported TFLite file"; size budget on TFLite bytes | manifest and budget on the `.weights` file |
 | `src/akili/reader/train.py` | message reader: Keras 1-D CNN (three convolutions, one dilated by 4), `fields` and `kind` heads; about 160k parameters, about 200 KB TFLite, 512 KB budget | torch |
 | `src/akili/ask/reader.py` | Ask reader: two embeddings, five `Conv1D` (dilations 3 and 2), masked max and mean pooling, four dense layers; 239,589 parameters; 400 KB budget; `ask-reader-probe` reads a `.tflite` | torch |
-| `src/akili/ask/writer.py` | Ask writer: Keras causal transformer (width 128, 4 heads, 3 layers, feed-forward 256, position table, GELU, layer norm); 1.5 MB budget; samples with the Keras and TFLite models | torch |
+| `src/akili/ask/writer.py` | Ask writer: Keras causal transformer (width 128, 4 heads, 3 layers, feed-forward 256, position table, GELU, layer norm); 1.5 MB budget; samples with the Keras and TFLite models | not moved: frozen as shipped, its Keras code removed in stage 5 |
 | `src/akili/tracking.py` | MLflow (not Google) | unchanged |
 | `src/akili/cli.py`, `config.py` | `.tflite` defaults and help text, `trainable` and `score_exported` options | ONNX and `.weights` |
 | tests | `test_tf_training.py`, `test_tf_federated.py`, `test_tf_trainable.py`, `test_tf_audit.py`, the `tf`-marked tests in `test_ask.py` and `test_weights.py`; `test_reader.py`, `test_size_and_cli.py` and `test_vectors.py` mention TFLite | ported to torch, or removed with what they test |
@@ -60,9 +60,19 @@ Outside pesaclarity-ml:
   `MatMulInteger`) are refused, so **int8 from ONNX does not exist yet**: today's int8 weights
   are TFLite's, read as they are.
 
-## Decision (proposed)
+## Decision
 
-**Move every pesaclarity-ml model, its training and its privacy stack to PyTorch, one model
+Accepted by the owner on 2026-11-18, with these answers:
+
+- **Opacus** is the accountant. The owner re-signs the recomputed figures in pesaclarity-ml#3
+  when stage 4 (the categoriser and privacy stack) lands.
+- **The old TFLite files are archived** (below).
+- **The Ask writer is not moved.** It waits for Ask LM ([0022](0022-own-ask-language-model.md))
+  and stays frozen (below). The former writer stage is dropped.
+- **Order**: as proposed, without the writer stage.
+
+
+**Move every pesaclarity-ml model except the frozen Ask writer, its training and its privacy stack to PyTorch, one model
 per pull request, export through ONNX into rayo-convert, and remove TensorFlow, Keras, TFLite
 and `dp-accounting` once the last model has moved.**
 
@@ -113,9 +123,45 @@ repository's orders 1.830, the library's default orders 1.814, PLD 1.522.
    to (ε, δ) conversion and the PRV against PLD discretisation; record each.
 3. Gate on the Opacus RDP figure. Ledger entries already keep their sampling rate, noise
    multiplier and steps, so totals are recomputed rather than copied.
-4. The owner re-signs in #3 (or a new issue): the thresholds do not change, but the code that
-   computes the figure they are compared with does. Until then the torch pipeline cannot pass
-   the gate.
+4. The owner re-signs the recomputed figures in #3 when stage 4 lands: the thresholds do not
+   change, but the code that computes the figure they are compared with does. Until then the
+   torch pipeline cannot pass the gate.
+
+### The Ask writer stays frozen
+
+- What ships stays as it is: `ask-writer.weights` (SHA-256 `e90687df…`, 591,860 bytes) with
+  its manifest, read out of `ask-writer.tflite` (SHA-256 `3461c243…`, 652,968 bytes; akili
+  dfb9c24, release v0.2.0). That TFLite file is archived (below).
+- It is not retrained, so removing TensorFlow in stage 5 does not wait for it. Its fixtures in
+  the app (`ask_writer_decodes.json`, recorded with TFLite) stay valid, because the weights do
+  not change; rayo must still match them bit for bit.
+- After stage 5 the Keras writer code and its training are gone from `dev`: **the old writer
+  can no longer be retrained or changed**, except by checking out a commit before stage 5 with
+  TensorFlow installed. A fix it needs before Ask LM ships goes in the app's checks and fixed
+  sentences, not the model. The schema, the checker and the conformance cases
+  (`docs/ASK.md`, `ask_examples.v1.json`) stay, since the app and Ask LM's fallback use them.
+- `tool/ask_writer_decodes.py` in the app needs TensorFlow; it is kept, marked as a record of
+  how the fixture was made, and is not run again.
+
+### Archive of the TFLite files
+
+**Recommended: assets of one GitHub release of pesaclarity-ml**, tagged `tflite-archive`
+on the last commit with TensorFlow (just before stage 5). Not a folder in git: the repository
+commits no trained weights (its README), and release assets are where model files are fetched
+from already.
+
+- Files: `ask-reader.tflite` (271,904 bytes, SHA-256 `f6599bc4…`, the one the app's
+  current reader weights come from), `ask-writer.tflite` (652,968 bytes), the message reader
+  (about 200 KB) and the categoriser with `categoriser-train.tflite` (about 80 KB and a little
+  more) as the last Keras pipeline exports them, each with its manifest and report. About
+  1.3 MB in all (*estimate*).
+- `ARCHIVE.json` beside them: for each file its SHA-256, size, the akili commit and config
+  that made it, the TensorFlow and Keras versions, and the SHA-256 of the `.weights` file read
+  out of it, so every shipped `.weights` traces back to a TFLite file. `SHA256SUMS` too.
+- Licence as today: CC BY-SA 4.0 for app-track weights.
+- rayo's converter tests keep their own copies (`tests/ask/*.tflite`), as rayo still reads
+  TFLite for other users.
+
 
 ### Equivalence and gates per model
 
@@ -127,7 +173,7 @@ on the converted int8 file under rayo:
 | --- | --- | --- |
 | Message reader (not in the app yet) | unseen-layout mean F1: amount about 0.79, payee 0.70, date 0.98 (`reader-report.json`); `reader_vectors.v1.json` inputs exact | 512,000 bytes |
 | Ask reader v3 | intent / all slots exact: conformance (68) 1.000 / 0.971; misses (62) 0.984 / 0.968; hard held-out (2,000) intent 0.964, payee/account exact 0.926, unseen-word names 0.885; app questions (65) intent 1.000, names 0.959; unseen v1 templates intent 0.868, slot F1 0.848 | 400,000 bytes |
-| Ask writer | checker pass rate at temperature 0.8 on 2,000 samples about 99.4% (98.4% for `spent`); varied replies about seven in ten; `ask_examples.v1.json` fallbacks, checker and detokenise cases | 1,500,000 bytes |
+| Ask writer | not retrained: frozen as shipped (above) | - |
 | Categoriser | `val.accuracy` on the same configs and seeds: the docs publish no figure, so it is recorded from the Keras pipeline before the move; `feature_vectors.v1.json` exact | 512,000 bytes |
 | Categoriser with DP | the gate passes; audits within the track limits (the DP-SGD audit run reports ε 2.67 today, `docs/PRIVACY-AUDIT.md`) | as above |
 
@@ -144,21 +190,20 @@ on the converted int8 file under rayo:
 
 ## Stages
 
-One pull request per model, smallest risk first. TensorFlow stays an optional extra until
-the last model has moved.
+One pull request per model, smallest risk first, in the order accepted. The writer has no
+stage. TensorFlow stays an optional extra until the last model has moved.
 
 | # | Pull requests | Effort (*estimate*) | Risk |
 | --- | --- | --- | --- |
 | 1 | rayo: int8 from float ONNX, its reference and tests. ml: the `[torch]` extra, `export/onnx.py`, the parity harness | 3 to 5 days | medium: the int8 scheme must match rayo's kernels and the Dart reader |
 | 2 | Message reader. Not in the app, so nothing there changes | 2 to 3 days | low |
 | 3 | Ask reader. App: new weights and manifest, re-recorded `ask_reader_decodes.json`, `tool/ask_reader_decodes.py` records from rayo and torch, README provenance | 3 to 5 days | medium: shipped, fallback to the Dart reader and the rules |
-| 4 | Ask writer. App: new weights, re-recorded `ask_writer_decodes.json`, `tool/ask_writer_decodes.py`, README | 3 to 5 days | medium: the attention rewrite must still fire on torch's export |
-| 5 | Categoriser with the privacy stack together: torch trainer, DP-SGD, Opacus accounting, ledger, audits, federated simulation, the dense-layer SGD spec in place of the trainable TFLite. Re-signing in #3 | 6 to 10 days | high: privacy review; the app does not run the categoriser yet |
-| 6 | Remove TensorFlow, Keras, TFLite and `dp-accounting`: extras, lock file, mypy overrides, pytest marker, dependabot, `tool/check`, the `test_tf_*` files, docs. rayo's converter tests keep their recorded TFLite files (rayo reads TFLite for others) | 1 to 2 days | low |
+| 4 | Categoriser with the privacy stack together: torch trainer, DP-SGD, Opacus accounting, ledger, audits, federated simulation, the dense-layer SGD spec in place of the trainable TFLite. Re-signing in #3 | 6 to 10 days | high: privacy review; the app does not run the categoriser yet |
+| 5 | Archive the TFLite files (release `tflite-archive`, before removal); then remove TensorFlow, Keras, TFLite and `dp-accounting`, and the Keras writer code: extras, lock file, mypy overrides, pytest marker, dependabot, `tool/check`, the `test_tf_*` files, docs. rayo's converter tests keep their recorded TFLite files (rayo reads TFLite for others) | 1 to 2 days | low |
 
 Releases go through `dev` and release-please as now; each model's weights change version. In
-the app each change is one pull request: weights, manifest, fixtures, README, the two
-recording tools; comments that name TFLite as the reference are reworded (the int8 arithmetic
+the app each change is one pull request: weights, manifest, fixtures, README, the reader's
+recording tool; comments that name TFLite as the reference are reworded (the int8 arithmetic
 stays rayo's).
 
 ## Consequences
@@ -166,25 +211,18 @@ stays rayo's).
 - One framework for every model, Ask LM included; no TensorFlow, Keras, TFLite or Google
   library in pesaclarity-ml. The full check gets lighter (*estimate*).
 - rayo-convert becomes the one place that quantises the small models.
-- Every shipped model is retrained once; scores move a little either way, and gates hold them.
+- Every shipped model except the writer is retrained once; scores move a little either way, and gates hold them.
 - The DP-SGD review and the privacy sign-off are redone.
+- The old Ask writer cannot be retrained after stage 5; it is replaced by Ask LM, not
+  improved.
 
-## Risks and open questions
+## Risks
 
 - **int8 parity** between the converter's quantisation and the Dart reader's arithmetic:
   tested on the recorded questions before the Ask reader moves.
 - **Torch's ONNX export** may emit patterns the converter does not yet map (masked pooling,
-  the attention path, the position table); each is found in stage 1 or the model's pull
+  the dilated convolutions); each is found in stage 1 or the model's pull
   request and added to the converter as a general mapping.
 - **Opacus's accountant** may give slightly different ε than `dp-accounting`; the gate needs
   the owner's sign-off on it.
 
-Questions for the owner:
-
-1. **Opacus** (Meta, Apache-2.0) as the accountant, and re-signing in #3?
-2. **Old TFLite files**: keep the last TFLite releases as archived artefacts for comparison,
-   or drop them?
-3. **The writer**: move it in stage 4, or leave it on Keras until Ask LM replaces it? It
-   stays Ask's fallback after 0022, so this plan moves it.
-4. **Order**: the message reader first, as proposed, or the Ask reader first, because it
-   ships?
