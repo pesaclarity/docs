@@ -1,8 +1,8 @@
 # 0025. Admin sign-in: a password and a second factor
 
-Date: 2026-11-19 · Status: Proposed · Amends [0024](0024-counting-installs-and-crash-reports.md) §4 (sign-in) · Builds on [0004](0004-eu-hosting-and-email-sign-in.md)
+Date: 2026-11-19 · Status: Accepted · Amends [0024](0024-counting-installs-and-crash-reports.md) §4 (sign-in) · Builds on [0004](0004-eu-hosting-and-email-sign-in.md)
 
-This is a plan. Nothing is built yet. Effort figures are estimates, not measurements. The mockups go with the pull request and need the owner's approval before anything is built. When the owner accepts this record, 0024 §4 gets an "Amendment" line pointing here.
+This is a plan. Effort figures are estimates, not measurements. The owner accepted it on 2026-11-19, approved the mockups and took every recommendation; the answers are in [Owner's decisions](#owners-decisions-2026-11-19). 0024 §4 carries an amendment pointing here.
 
 ## Context
 
@@ -166,15 +166,17 @@ About **11 to 12 days**. It ships as one release: passkey-only sign-in must not 
 - More code to own: about 1,500 lines with tests, and two small dependencies.
 - The counting module's country lookup trusts the leftmost `X-Forwarded-For` entry; it should use the same helper (a separate small fix).
 
-## Decisions for the owner
+## Owner's decisions (2026-11-19)
 
-1. **Email check at the first sign-in.** Recommended: yes. Without it, a leaked admin token opens the dashboard through the starter command, as it does today through enrolment.
-2. **Passkeys.** Recommended: keep them as an optional, phishing-proof second factor, always after the password. The alternative is to remove them.
-3. **Email code.** Recommended: an everyday fallback that can read and download but not change sign-in settings. The alternatives are a full factor, or only at the first sign-in.
-4. **Session length.** Recommended: 8 hours, ending after 30 minutes idle. The alternative is to keep 12 hours.
-5. **Fresh second factor before CSV downloads.** Recommended: yes, for a 10-minute window, as it always is for sign-in changes. The CSVs hold only suppressed aggregates, so "no" is also defensible.
-6. **Limits.** Recommended: as in §4. A pause starts at 15 minutes and doubles up to a day, and known browsers have their own bucket.
-7. **Alerts.** Recommended: all six kinds in §4, including the "browser not seen before" alert.
-8. **Password rules.** Recommended: at least 15 characters and the bundled 100,000-password list. A full offline breach check is not possible within the image.
-9. **Reset scope.** Recommended: `"reset": true` replaces the password and wipes the authenticator, the recovery codes and every session, but keeps the passkeys and still needs the email check.
-10. **Audit retention.** Recommended: 90 days, with addresses only as keyed hashes and a country.
+The owner accepted this ADR, approved the mockups and took each recommendation:
+
+1. **Email check at the first sign-in.** Yes: the starter sign-in also needs a code emailed to `NGOME_ADMIN_EMAIL`.
+2. **Passkeys.** Kept as an optional, phishing-proof second factor, always after the password.
+3. **Email code.** An everyday fallback that can read and download but not change sign-in settings.
+4. **Session length.** 8 hours, ending after 30 minutes idle.
+5. **Fresh second factor before CSV downloads.** Yes, for a 10-minute window, as for sign-in changes.
+6. **Limits.** As in §4.
+7. **Alerts.** All six kinds in §4.
+8. **Password rules.** At least 15 characters and a bundled list of common passwords, its licence confirmed before use.
+9. **Reset scope.** `"reset": true` replaces the password and wipes the authenticator, the recovery codes and every session, keeps the passkeys, and still needs the email check.
+10. **Audit retention.** 90 days, with addresses only as keyed hashes and a country.

@@ -213,3 +213,7 @@ The owner accepted this ADR and answered the open questions:
 11. **Federated learning.** The aggregator stores rounds, cohort sizes and privacy spend so the dashboard can show them (stage 5).
 
 Before use, confirm on db-ip.com that DB-IP IP to Country Lite is still licensed under CC BY 4.0, with the attribution this ADR gives.
+
+## Amendment, 2026-11-19
+
+Dashboard sign-in is no longer passkey-only. [0025](0025-admin-sign-in-password-and-second-factor.md) replaces the sign-in part of §4: a username and password, then a second factor every time (an authenticator app, required; a passkey, optional; an emailed code as a fallback; recovery codes), sessions of 8 hours that end after 30 minutes idle, and a starter user made with the admin token in place of the token-only passkey enrolment link. Where §4, the retention table or decision 10 say "passkey" or "the owner's passkeys", read 0025's sign-in.
