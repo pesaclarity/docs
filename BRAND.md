@@ -6,8 +6,15 @@ Pesa Clarity is an independent project. It shares no brand, code or ownership wi
 
 ## Name
 
-- **Pesa Clarity** in prose, two words, both capitalised.
-- **pesaclarity** in the wordmark, handles and identifiers (`pesaclarity` org, `com.pesaclarity.app`).
+- The name is two words, **Pesa Clarity**, everywhere people read it: in prose with both words capitalised, and in the wordmark as **pesa clarity**, lowercase, with "pesa" in the text colour and "clarity" in red. A visible name never joins the words: not "PesaClarity", "Pesaclarity" or "pesaclarity", and not in titles, alt text, store listings, app names or social cards either.
+- The only exceptions are technical identifiers, which keep the joined form because changing them would break links, installs and builds:
+  - the GitHub organisation and repository names (`pesaclarity`, `pesaclarity-app`, `pesaclarity/.github`) and other account handles;
+  - domains and hosts, such as `pesaclarity.github.io`, `pesaclarity.cloud.run` and `api.pesaclarity.org`;
+  - package and bundle ids, such as `com.pesaclarity.app`;
+  - file names, such as `pesaclarity-play.apk`;
+  - environment variables, such as `PESACLARITY_API_URL`;
+  - the HTTP header `X-Pesaclarity-Integrity`;
+  - class names, channel names, storage keys and other names in code, such as `PesaClarityApp` and `pesaclarity.db.key.v1`.
 - Working name until after the proof of concept (see the spec's open questions). Check Kenyan trademark (KIPI) and Play Store availability before launch. An unrelated GitHub project, `Jenn-mawia/PesaClarity-Dashboard`, already uses the name.
 
 ## Promise and voice
@@ -33,7 +40,7 @@ Voice rules, from the spec's principles:
 The mark is a lowercase **p** whose bowl is both a coin (pesa) and a lens (clarity); the dot is the coin's centre.
 
 - Keep clear space of a quarter of the mark's width on every side.
-- Minimum size: 24 px for the mark, 120 px wide for the wordmark.
+- Minimum size: 24 px for the mark, 120 px wide for the wordmark. The space between "pesa" and "clarity" is Space Grotesk's own word space, which still reads as a gap at 120 px; never close it up or widen it.
 - Don't recolour, rotate, stretch, outline or add effects. Don't put the full-colour mark on busy photos.
 - The wordmark SVG uses live text (Space Grotesk). Before using it outside a browser, outline the text in a vector editor.
 
