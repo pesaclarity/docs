@@ -1,6 +1,9 @@
 # Pesa Clarity brand
 
-<img src="brand/logo-wordmark.svg" alt="Pesa Clarity" width="420">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="brand/logo-wordmark-dark.svg">
+  <img src="brand/logo-wordmark.svg" alt="Pesa Clarity" width="420">
+</picture>
 
 Pesa Clarity is an independent project. It shares no brand, code or ownership with any employer or client.
 
@@ -36,12 +39,14 @@ Voice rules, from the spec's principles:
 | [`brand/logo-mark.svg`](brand/logo-mark.svg) | App icon, avatars, favicons. Red tile, white "p" with a centre dot. |
 | [`brand/logo-mark-mono.svg`](brand/logo-mark-mono.svg) | One colour, takes `currentColor`. Print, notifications, watermarks. |
 | [`brand/logo-wordmark.svg`](brand/logo-wordmark.svg) | Headers, README, website. |
+| [`brand/logo-wordmark-dark.svg`](brand/logo-wordmark-dark.svg) | The same on dark backgrounds: "pesa" in the dark-mode text colour `#E0E0E0`, "clarity" in `#FF4D6A`. |
 
 The mark is a lowercase **p** whose bowl is both a coin (pesa) and a lens (clarity); the dot is the coin's centre.
 
 - Keep clear space of a quarter of the mark's width on every side.
 - Minimum size: 24 px for the mark, 120 px wide for the wordmark. The space between "pesa" and "clarity" is Space Grotesk's own word space, which still reads as a gap at 120 px; never close it up or widen it.
 - Don't recolour, rotate, stretch, outline or add effects. Don't put the full-colour mark on busy photos.
+- On a page that can be light or dark, show both wordmarks in a `<picture>`, with the dark one as a `(prefers-color-scheme: dark)` source, as this file's header does. GitHub matches that source to the reader's GitHub theme. The SVGs don't switch colours themselves, because inside an `<img>` the switch follows the operating system, not the page, and could put light text on a light page.
 - The wordmark SVG uses live text (Space Grotesk). Before using it outside a browser, outline the text in a vector editor.
 
 ## Colour

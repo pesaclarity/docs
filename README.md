@@ -1,4 +1,7 @@
-<img src="brand/logo-wordmark.svg" alt="Pesa Clarity" width="360">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="brand/logo-wordmark-dark.svg">
+  <img src="brand/logo-wordmark.svg" alt="Pesa Clarity" width="360">
+</picture>
 
 # Pesa Clarity docs
 
