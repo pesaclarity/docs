@@ -31,3 +31,4 @@ Architecture decision records (ADRs): one short file per decision that is expens
 | [0025](0025-admin-sign-in-password-and-second-factor.md) | Admin sign-in: a password and a second factor | Accepted |
 | [0026](0026-mpesa-family-of-accounts.md) | M-Pesa as a family of accounts | Accepted |
 | [0027](0027-money-between-spaces.md) | Money on one account that belongs to another space | Accepted |
+| [0028](0028-savings-apps.md) | Savings apps such as Chumz | Accepted |
