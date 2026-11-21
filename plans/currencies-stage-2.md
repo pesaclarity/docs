@@ -192,13 +192,15 @@ Each step ships on its own with `tool/check` passing.
 9. **The replay test** gains a month with a KES to USD move at one bank, a named move to another bank two days later, one with no rate for the day, and a reversed one; every account must match its reported balances and On hand must be the sum by hand.
 10. **Docs**: README (Currencies, Balances), the product spec's currency paragraph, and this plan marked as shipped.
 
-## Decisions for the owner
+## Owner's decisions
 
-1. **How close to the day's rate.** Pair by itself within 5% at one institution and 30 minutes apart, and within 10% with a number or the person's word and 3 days apart; never by itself with no tie. Or another pair of limits.
-2. **What the cost counts as.** The difference from the day's rate counts with fees as "Exchange cost" (in Out, Insights and Leakage), recommended; or it only shows on the transfer and in On hand, counted nowhere else.
-3. **A gain.** When more came in than the day's rate gives, the cost is negative and lowers fees, never income (recommended); or it counts as zero.
-4. **No rate for the day.** Never pair by itself, even when named or numbered (recommended, the rule as built); or pair a named or numbered side with no rate check.
-5. **Money that arrives in two parts.** Not paired and not offered for now (recommended); or allow matching one out to several ins by hand later.
-6. **The Activity line and sheet.** The money out's amount with the money in's under it on the line; the rate got, the day's rate and the cost on the transfer's sheet, as in the mockups.
-7. **When the exchange is dated.** When the money arrived, with the cost at that day's rate (recommended, so every account clears in the base); or when it left.
-8. **Today's accidental cross-currency matches.** Stop the same-currency suggestions from offering other currencies in step 6 (recommended), or as a small fix before stage 3 lands, in agreement with the stage 3 worker since it touches `own_transfers.dart`.
+The owner accepted every recommendation on 21 Nov 2026.
+
+1. **How close to the day's rate.** Pair by itself within 5% at one institution and 30 minutes apart, and within 10% with a number or the person's word and 3 days apart; never by itself with no tie.
+2. **What the cost counts as.** The difference from the day's rate counts with fees as "Exchange cost" (in Out, Insights and Leakage).
+3. **A gain.** When more came in than the day's rate gives, the cost is negative and lowers fees; it is never income.
+4. **No rate for the day.** Never pair by itself, even when named or numbered.
+5. **Money that arrives in two parts.** Not paired and not offered for now.
+6. **The Activity line and sheet.** As in the mockups: the money out's amount with the money in's under it on the line; the rate got, the day's rate and the cost on the transfer's sheet.
+7. **When the exchange is dated.** When the money arrived, with the cost at that day's rate.
+8. **Today's accidental cross-currency matches.** Same-currency suggestions stop offering other currencies; this is fixed with journal stage 3, which owns `own_transfers.dart`.
