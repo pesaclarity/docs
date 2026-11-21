@@ -330,3 +330,14 @@ The owner approved the recommendations and the proposed answers, and added three
 19. **Pay yourself (the owner's addition).** A business can always pay its owner with Pay yourself, on a shared line or between different accounts, within the limits in 5 (section 6).
 20. **Spending the business's money directly (the owner's addition).** The owner can pay for something personal straight from the business's account, till or Pochi, by answering "This was for me". It is Paid yourself in the business, never a cost, and the purchase under its own category in Personal, "Paid from Vegetable stall", with no Personal account going down (section 6).
     *The owner's answer, 21 November 2026:* in Personal it is spending only. It counts in Personal's money out, its Plan category and Insights, and adds nothing to Personal's money in: it is not Salary from my business or any other income. No Personal account goes down, so On hand does not change, and Personal's money in less money out no longer equals what its accounts did for such a purchase. In the business it stays Paid yourself.
+
+## Screens (approved 21 November 2026)
+
+The owner approved the mockups for this decision, with these choices:
+
+1. The action is named "Switch to another space" (today's "Move to another space" is renamed).
+2. The tag on the business's rows for money on the owner's line is "Your M-Pesa" (or the account's own name).
+3. On the business's own accounts, "Was this for the business?" is asked only when it is unclear.
+4. "No" on "Is till 123456 Vegetable stall's?" falls back to today's business-or-personal question.
+5. Money in switched to a business is filed as Sales by default, and can be changed.
+6. Everything else as drawn: the repair sheet's wording, the Kind menu (Till or Paybill) when naming a number, and the tiles' short lines.
