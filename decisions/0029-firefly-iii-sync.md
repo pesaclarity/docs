@@ -1,6 +1,6 @@
 # 0029. Sending transactions to the person's own Firefly III
 
-Date: 2026-11-21 · Status: Proposed · Builds on [0016](0016-spaces-kept-apart.md), [0018](0018-double-entry-journal.md), [0027](0027-money-between-spaces.md), [0005](0005-pin-certificate-authorities.md) and [0015](0015-gifts-not-a-paywall.md)
+Date: 2026-11-21 · Status: Accepted · Builds on [0016](0016-spaces-kept-apart.md), [0018](0018-double-entry-journal.md), [0027](0027-money-between-spaces.md), [0005](0005-pin-certificate-authorities.md) and [0015](0015-gifts-not-a-paywall.md)
 
 The owner approved the direction on 21 November 2026. This record proposes how it works and asks the decisions at the end. Nothing is built yet. Screens wait on an approved mockup.
 
@@ -154,7 +154,9 @@ Tests:
 - Firefly III's API can change between versions. The integration job catches it; the app refuses versions below 6.0.
 - What was sent stays on the person's server after turning off or deleting a space. We cannot remove it, and say so.
 
-## Decisions for the owner
+## Owner's decisions
+
+The owner accepted every recommendation below on 21 November 2026.
 
 1. **A space in Firefly III.** Recommendation: **one Firefly III user, each space a tag** (plus `pesaclarity`). It works with 0027, where a business sale can sit on the owner's Personal M-Pesa account: in one user that is one asset account with the business's tag. The alternative, **a separate Firefly III user per space**, keeps spaces apart as 0016 does on the phone and gives each its own reports, but needs a token per space, and a transaction switched between spaces would have to be deleted in one user and made in the other, with its account copied there.
 2. **The person's certificate.** Recommendation: **the phone's authorities for that host only, plus trusting a self-signed certificate after showing its fingerprint once** (asked again if it changes). Alternative: the phone's authorities only, which is simpler but leaves out many home servers.
