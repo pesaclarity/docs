@@ -1,8 +1,8 @@
 # 0026. M-Pesa as a family of accounts
 
-Date: 2026-11-21 · Status: Proposed · Builds on [0018](0018-double-entry-journal.md), [0013](0013-review-only-accounts.md), [0016](0016-spaces-kept-apart.md) and [0009](0009-base-currency.md)
+Date: 2026-11-21 · Status: Accepted · Builds on [0018](0018-double-entry-journal.md), [0013](0013-review-only-accounts.md), [0016](0016-spaces-kept-apart.md) and [0009](0009-base-currency.md)
 
-This is a plan. Nothing here is built. The direction was agreed with the owner; mockups go with the pull request and need the owner's approval before any screen is built. The open questions at the end need the owner's answers.
+Accepted by the owner on 21 November 2026, with the mockups and the decisions below. Nothing here is built yet. The message formats wait on the owner's own samples.
 
 ## Context
 
@@ -91,12 +91,15 @@ Message formats come from the owner's own recent messages, rewritten as syntheti
 - Each new product format costs real samples from the owner before it is read; until then those messages are review items.
 - KCB M-Pesa sits away from the KCB bank account; a person with both sees KCB in two places.
 
-## Open questions
+## Owner's decisions
 
-1. **Ziidi value.** No message gives a price or unit value. Is the value buys less redemptions plus returns messages, with any statement or balance message as a checkpoint?
-2. **Lock savings maturity.** Show a maturity date, and treat the release as an own transfer back to M-Shwari or the wallet? What if it is broken early?
-3. **KCB M-Pesa under KCB or M-Pesa.** Proposed: the M-Pesa family, with KCB as provider label.
-4. **Interest accrual.** Post interest and returns only when a message reports them, or accrue daily (Ziidi) or monthly (M-Shwari) between messages?
-5. **How a member is made.** Automatically on its first message, or offered to the person ("You have M-Shwari savings. Add it?")? Proposed: offered, with the first message's amount as its opening.
-6. **Loan fee split without a message.** When a repayment message gives only the total, take the fee from the draw's terms, or leave it to the next balance reading?
-7. **Pochi on a shared line.** When Personal and Business share the M-Pesa line, does the person's own Pochi always go to Business, even if no business space exists yet?
+The owner approved the mockups and the proposed answers:
+
+1. **Ziidi value.** Money put in, less money taken out, plus returns messages. Any statement or balance message is a checkpoint that corrects it.
+2. **Lock savings.** Show the maturity date. Its release is an own transfer back to M-Shwari or the wallet. Breaking it early is the same transfer, with any penalty as a fee.
+3. **KCB M-Pesa.** In the M-Pesa family, with KCB as its provider label.
+4. **Interest and returns.** Posted only when a message reports them; nothing is estimated between messages.
+5. **New members.** Offered to the person on the first message ("You have M-Shwari savings. Add it?"), with that message's amount as the opening balance.
+6. **Repayment fee.** When a repayment message gives only the total, the fee comes from the loan's terms; the next balance reading corrects it.
+7. **The person's own Pochi.** Goes to Business. With no business space yet, the app offers to make one.
+8. **Screens.** "What you own and owe" covers the M-Pesa family for now and sits at the top of My accounts. Owed members are shown calmly, without red. Ziidi income is labelled Interest. Activity shows a repayment's full amount, and only its fee counts as spending.
