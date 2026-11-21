@@ -33,3 +33,4 @@ Architecture decision records (ADRs): one short file per decision that is expens
 | [0027](0027-money-between-spaces.md) | Money on one account that belongs to another space | Accepted |
 | [0028](0028-savings-apps.md) | Savings apps such as Chumz | Accepted |
 | [0029](0029-firefly-iii-sync.md) | Sending transactions to the person's own Firefly III | Accepted |
+| [0030](0030-one-rule-against-double-entries.md) | One rule that stops double entries for every account | Accepted |
