@@ -4,7 +4,7 @@ Date: 2026-11-21 · Status: Accepted · Builds on [0016](0016-spaces-kept-apart.
 
 The owner approved the direction on 21 November 2026. This record proposes how it works and asks the decisions at the end. Nothing is built yet. Screens wait on an approved mockup.
 
-Firefly III's website and documentation could not be reached while this was written. Every detail of its API below is from memory of version 6 and is marked **(verify)**: check it against a running Firefly III before building (stage 1).
+Firefly III's website and documentation could not be reached while this was written. Every detail of its API below was first written from memory of version 6 and marked **(verify)**. Stage 1 tried each against Firefly III 6.7.9 in Docker on 21 November 2026: details that held are marked **(verified)**, and those that did not are corrected in place. What the server really answered is in the appendix.
 
 ## Context
 
@@ -28,50 +28,50 @@ Pesa Clarity can **send** a space's transactions, one way, to a Firefly III serv
 
 A new row in Profile, **Firefly III**, under Backup and restore. It opens the Firefly III screen.
 
-1. **Server address** and **Personal access token**. Firefly III makes the token under Options, Profile, OAuth **(verify)**. It is sent as `Authorization: Bearer <token>` with `Accept: application/vnd.api+json` and `Content-Type: application/json` **(verify)**.
-2. **Check connection** calls `GET /api/v1/about` **(verify)**. Success shows "Connected to Firefly III 6.1.24" from the version it returns. It also calls `GET /api/v1/about/user` **(verify)** so a token for the wrong user or with no rights fails here, not later. Versions below 6.0 are refused with a plain message.
+1. **Server address** and **Personal access token**. Firefly III makes the token under Profile (the person's email at the top), **Remote access and tokens**, Personal Access Tokens (corrected: not Options, Profile, OAuth). It is sent as `Authorization: Bearer <token>` with `Accept: application/vnd.api+json` and `Content-Type: application/json`, on every request, a body or not **(verified)**: without a JSON `Accept`, a refused token answers with a redirect to `/login` instead of 401, and a `POST` with no `Content-Type` is refused with 415. A body is sent with its length: a chunked body did not reach Firefly III behind its own nginx.
+2. **Check connection** calls `GET /api/v1/about` **(verified)**. Success shows "Connected to Firefly III 6.7.9" from the version it returns. It also calls `GET /api/v1/about/user` **(verified)** so a token for the wrong user or with no rights fails here, not later. Versions below 6.0 are refused with a plain message.
 3. **What to send**: a switch per space, and **Send from**, a date (this month, this year, or everything). Transactions before that date are not sent; each account starts with its balance on that date as its opening balance (section 3).
 4. **Start sending.** The first send carries on while the app is open and picks up where it stopped on the next start.
 
 ### 2. What becomes what in Firefly III
 
-Firefly III has three kinds of transaction: a withdrawal (asset to expense), a deposit (revenue to asset) and a transfer (asset to asset) **(verify)**. Its accounts are asset, expense, revenue and liability **(verify)**.
+Firefly III has three kinds of transaction: a withdrawal (asset to expense), a deposit (revenue to asset) and a transfer (asset to asset) **(verified)**. Its accounts are asset, expense, revenue and liability **(verified; a liability is made with `type` `liability` and comes back as `liabilities`)**.
 
 | In Pesa Clarity | In Firefly III |
 | --- | --- |
-| An account: M-Pesa wallet, bank account, Cash | Asset account, `account_role` `defaultAsset` (Cash: `cashWalletAsset`) **(verify)** |
-| A savings account or M-Pesa savings member (0026), Chumz (0028) | Asset account, `account_role` `savingAsset` **(verify)** |
-| Fuliza, M-Shwari loan, KCB M-Pesa loan, a debt the person owes | Liability account, `liability_type` `loan` or `debt`, `liability_direction` `debit` (I owe) **(verify)** |
-| Money lent to someone | Liability account, `liability_direction` `credit` (owed to me) **(verify)** |
+| An account: M-Pesa wallet, bank account, Cash | Asset account, `account_role` `defaultAsset` (Cash: `cashWalletAsset`) **(verified)** |
+| A savings account or M-Pesa savings member (0026), Chumz (0028) | Asset account, `account_role` `savingAsset` **(verified)** |
+| Fuliza, M-Shwari loan, KCB M-Pesa loan, a debt the person owes | Liability account, `liability_type` `loan` or `debt`, `liability_direction` `debit` (I owe) **(verified; Firefly III shows what is owed as a negative balance)** |
+| Money lent to someone | Liability account, `liability_direction` `credit` (owed to me) **(verified)**. Not built yet: the journal has no account for money lent, so it is sent as its role says |
 | `spending`, `fee`, `tax` | Withdrawal to an expense account named after the payee |
 | `income` | Deposit from a revenue account named after the payer |
 | `ownTransfer`, `saving` | Transfer between the two asset accounts |
-| `borrowing` | Deposit from the liability account **(verify)** |
-| `debtRepayment` | Withdrawal to the liability account; the fee share (Fuliza, loan fees) is its own withdrawal to the "Fees" expense account **(verify)** |
+| `borrowing` | Deposit from the liability account **(verified)** |
+| `debtRepayment` | Withdrawal to the liability account; the fee share (Fuliza, loan fees) is its own withdrawal to the "Fees" expense account **(verified; a transfer to a liability is refused)** |
 | `awaitingPayee` | Deposit from a revenue account "Not named yet", tagged `pesaclarity-to-name`; changed when the person names it |
 | `reversal` | The opposite type, linked to the original by the notes |
-| `correction` | Firefly III's own reconciliation type if the API accepts it **(verify)**; otherwise a deposit or withdrawal under the category "Balance correction" |
-| Category | `category_name` (Firefly III makes it if new) **(verify)** |
+| `correction` | A deposit or withdrawal to "Balance correction" under the category "Balance correction" (corrected: `POST /api/v1/transactions` refuses the `reconciliation` type with 422) |
+| Category | `category_name` (Firefly III makes it if new) **(verified)** |
 | Payee | The expense or revenue account name, so Firefly III's reports by payee work |
 | Space | A tag with the space's name, plus `pesaclarity` (decision 1) |
-| Another currency | `currency_code` of the account; `foreign_amount` and `foreign_currency_code` when the money moved in another currency **(verify)** |
-| M-Pesa code, message time | `notes`: "M-Pesa SKL4X2Y9ZQ"; the date carries the time with the person's time zone (0010) **(verify)** |
+| Another currency | `currency_code` of the account; `foreign_amount` and `foreign_currency_code` when the money moved in another currency **(verified; required on a transfer between accounts in two currencies)**. Firefly III ships without KES: the app makes it (`POST /api/v1/currencies`) or turns it on before the first account |
+| M-Pesa code, message time | `notes`: "M-Pesa SKL4X2Y9ZQ"; the date carries the time with the person's time zone (0010) **(verified)** |
 
-- **Fees.** An M-Pesa or bank fee on a payment is sent as a second withdrawal to the "Fees" expense account, with its own id (`...:fee`). One Firefly III transaction group cannot mix a transfer and a withdrawal **(verify)**, so a transfer with a fee cannot be one group.
-- **Accounts first.** Before a transaction is sent, its accounts exist in Firefly III. The app makes each one with `POST /api/v1/accounts` **(verify)** and keeps its Firefly III id. An account already there with the same name and type is used, not made twice **(verify the search: `GET /api/v1/search/accounts?query=...&field=name`)**.
+- **Fees.** An M-Pesa or bank fee on a payment is sent as a second withdrawal to the "Fees" expense account, with its own id (`...:fee`). One Firefly III transaction group cannot mix a transfer and a withdrawal **(verified: "All splits must be of the same type.")**, so a transfer with a fee cannot be one group.
+- **Accounts first.** Before a transaction is sent, its accounts exist in Firefly III. The app makes each one with `POST /api/v1/accounts` **(verified; it answers 200, not 201, as every create does)** and keeps its Firefly III id. An account already there with the same name and type is used, not made twice **(verified: `GET /api/v1/search/accounts?query=...&field=name&type=...` matches parts of names, so the app checks the exact name)**. Firefly III keeps one account of each kind per name, so a space's own accounts carry its name after Personal's ("M-Pesa · Green Basket Grocers"), and payees are made as expense or revenue accounts and used by id: a name sent as `source_name` was matched to a liability of that name.
 - **Not sent:** message text (never kept anyway), balance checkpoints as such, review items that are not yet transactions, goals, budgets, invoices and stock. Reported balances are checked in section 8 instead.
 
 ### 3. Opening balances
 
-Each asset account is made with `opening_balance` and `opening_balance_date` **(verify)**: its balance in Pesa Clarity's journal at the start of the Send from day. A liability is made with what is owed on that day. When Send from is moved earlier, the opening balances are changed and the older transactions sent.
+Each asset account is made with `opening_balance` and `opening_balance_date` **(verified; changing it on a liability needs `liability_type`, `liability_direction`, `interest` and `interest_period` with it, or Firefly III fails with 500)**: its balance in Pesa Clarity's journal at the start of the Send from day. A liability is made with what is owed on that day. When Send from is moved earlier, the opening balances are changed and the older transactions sent.
 
 ### 4. No duplicates
 
-- **A stable id on every transaction**: `external_id` = `pesaclarity:<space id>:<transaction id>` **(verify the field)**. The space id is the space's own stable id, not its name.
-- **A map in the space's database**: Pesa Clarity transaction id to Firefly III transaction group id and journal id, the `external_id`, and a hash of what was last sent. The map is in backups, so a restored phone does not send everything again.
-- **Every create** sends `error_if_duplicate_hash: true` **(verify)**. If Firefly III answers that it is a duplicate (422 **(verify)**), the app looks the transaction up by its `external_id` (`GET /api/v1/search/transactions?query=external_id_is:"..."` or the form the running server accepts **(verify)**) and keeps that id. The same lookup rebuilds a lost map.
-- **Check** that Firefly III's duplicate hash includes `external_id` **(verify)**. If it does not, two real payments with the same amount, payee and day would be refused as duplicates; then the app sends `error_if_duplicate_hash: false` and relies on its own map and lookup.
-- **An edit** is `PUT /api/v1/transactions/{group id}` **(verify)** with only the fields Pesa Clarity owns. **A delete** is `DELETE /api/v1/transactions/{group id}` **(verify)**.
+- **A stable id on every transaction**: `external_id` = `pesaclarity:<space id>:<transaction id>`, and `:fee` and the like for a transaction sent as several **(verified)**. The space id is the space's own stable id, not its name.
+- **A map in the space's database**: Pesa Clarity transaction id to the Firefly III transaction group id of each part (one split per group, so an edit needs no journal id), the `external_id`, the fields last sent and a hash of them. The map is in backups, so a restored phone does not send everything again.
+- **Every create** sends `error_if_duplicate_hash: true` **(verified)**. If Firefly III answers that it is a duplicate (422, "Duplicate of transaction #<journal id>." **(verified)**), the app looks the transaction up by its `external_id` (`GET /api/v1/search/transactions?query=external_id_is:"..."`, with the quotes: without them nothing matches **(verified)**) and keeps that id. The hash is of what was first sent and is not changed by an edit, and `external_id` is not unique in Firefly III, so a send that may have arrived (a timeout) looks up its `external_id` before making it again; with no record at all (a first send or a lost record) one search for `external_id_starts:"pesaclarity:<space id>:"` finds what is there. The same lookup rebuilds a lost map.
+- **Check** that Firefly III's duplicate hash includes `external_id` **(verified: two identical payments with different `external_id` both arrive)**. Had it not, two real payments with the same amount, payee and day would be refused as duplicates; the app would have sent `error_if_duplicate_hash: false`.
+- **An edit** is `PUT /api/v1/transactions/{group id}` **(verified; a single split needs no journal id, the type can change with both accounts, and tags are replaced whole)** with only the fields that changed since the last send. **A delete** is `DELETE /api/v1/transactions/{group id}` **(verified: 204, then 404)**.
 - **Switching a transaction to another space** (0027) keeps its Firefly III transaction: the map entry moves with it and the transaction is retagged. If the new space is not being sent, it is deleted from Firefly III. Its `external_id` does not change once sent.
 - **Deleted in Firefly III by the person**: an edit that gets 404 is not sent again; the map marks it "removed there". "Send everything again" on the Firefly III screen (behind its menu) repairs on purpose.
 
@@ -83,18 +83,18 @@ Each asset account is made with `opening_balance` and `opening_balance_date` **(
 - **When it sends**: `FireflyWhenOnline`, the same pattern as `BackupWhenOnline`, after unlock and setup and on each return to the app. One cheap call (`GET /api/v1/about`) first; if that fails, it stops until next time. Then the outbox in order, accounts first, a few at a time with a short pause so a small home server is not flooded. Failed rows wait and back off.
 - **No errors elsewhere.** Nothing pops up, and Home and Profile show no warning. The Profile row says "Sending to firefly.example.home · last sent 2 min ago" in grey. The Firefly III screen shows **Last sent**, **Changes waiting**, and a problem when there is one:
   - Can't reach the server: changes wait on the phone.
-  - Token refused (401 **(verify)**): sending stops until a new token is saved.
-  - Firefly III refused a transaction (422 with a message **(verify)**): it is shown in a list under the count, with the reason, and skipped; the rest carry on.
+  - Token refused (401 **(verified)**): sending stops until a new token is saved.
+  - Firefly III refused a transaction (422 with a message and the field, such as `transactions.0.amount` **(verified)**): it is shown in a list under the count, with the reason, and skipped; the rest carry on.
 - **Turning off** removes the token and the waiting changes. What is already in Firefly III stays. Deleting a space stops sending it; what was sent stays in Firefly III, and the delete screen says so.
 
 ### 6. Security
 
 - **The token** is kept in `SecureStore` under one key for the phone, never in a space's database, never in a backup, never in logs or crash reports. It is shown only as dots, with a button to show it while typing.
-- **HTTPS is required.** Plain `http://` is allowed only for a local network address (10.x, 172.16-31.x, 192.168.x, `.local`, `.home.arpa`) and only after the person confirms "This connection is not encrypted. Use it only on your home network." (decision 3). iPhone needs the local network permission for this **(verify)**; Android's rule on plain connections must allow it for these addresses only **(verify how dart:io follows it)**.
+- **HTTPS is required.** Plain `http://` is allowed only for a local network address (10.x, 172.16-31.x, 192.168.x, `.local`, `.home.arpa`) and only after the person confirms "This connection is not encrypted. Use it only on your home network." (decision 3). iPhone needs the local network permission for this (`NSLocalNetworkUsageDescription` is added; still to try on a phone); Android's rule on plain connections must allow it for these addresses only (the app's network security file says Dart's client ignores it; still to try on a phone). The address check is in Dart and refuses plain http to any other address before a byte is sent.
 - **No redirects.** The client does not follow redirects, so the token is never sent to another host. A redirect shows as a problem with the address.
 - **Trust.** Our own servers pin certificate authorities (0005). The person's server cannot: we do not know who signs its certificate. So the Firefly III client is its own, separate from both of today's:
   - **By default it uses the phone's trusted authorities, for that one host only.** It is a new `HttpClientFactory.createForUserServer(host)` that refuses any other host, so it can never be used to reach something else with the token.
-  - **Option (recommended, decision 2): trust a self-signed certificate after showing its fingerprint once.** Many home servers use a self-signed certificate or their own home authority, which a phone does not trust; Android apps also ignore authorities the person added to the phone, by default **(verify for dart:io)**. When the handshake fails for that reason, Check connection shows the certificate's SHA-256 fingerprint and asks "Trust this certificate?". If the person says yes, the app keeps that fingerprint for that host and accepts exactly that certificate (`badCertificateCallback` compares it), nothing else. A changed certificate asks again; it is never accepted quietly. This trust is never used for our own hosts.
+  - **Option (recommended, decision 2): trust a self-signed certificate after showing its fingerprint once.** Many home servers use a self-signed certificate or their own home authority, which a phone does not trust; Android apps also ignore authorities the person added to the phone, by default (still to try on a phone; Dart loads the system store only). When the handshake fails for that reason, Check connection shows the certificate's SHA-256 fingerprint and asks "Trust this certificate?". If the person says yes, the app keeps that fingerprint for that host and accepts exactly that certificate (`badCertificateCallback` compares it), nothing else. A changed certificate asks again; it is never accepted quietly. This trust is never used for our own hosts.
 - **What it can reach.** The app's network rules are not widened for anything but the one host the person typed.
 
 ### 7. Privacy
@@ -112,7 +112,7 @@ Changes needed (not made here):
 
 ### 8. Checking it adds up
 
-After a send, the screen can compare each asset account's balance in Firefly III (`GET /api/v1/accounts/{id}`, `current_balance` **(verify)**) with Pesa Clarity's. A difference is shown under the count, as a balance check is (0018), never fixed silently. This is also the main test (section 10).
+After a send, the screen can compare each asset account's balance in Firefly III (`GET /api/v1/accounts/{id}`, `current_balance` **(verified; a liability the person owes shows negative)**) with Pesa Clarity's. A difference is shown under the count, as a balance check is (0018), never fixed silently. This is also the main test (section 10).
 
 ### 9. Later: two-way
 
@@ -163,9 +163,45 @@ The owner accepted every recommendation below on 21 November 2026.
 3. **Plain http on a home network.** Recommendation: **allow it only for local addresses, after a one-time warning**. Alternative: HTTPS only.
 4. **Send from.** Recommendation: **default to 1 January this year**, with opening balances on that day. Alternatives: this month, or everything.
 5. **Fees.** Recommendation: **a separate withdrawal to "Fees"** for every fee, so totals match Pesa Clarity. Alternative: add it to the payment's amount, which is simpler but hides fees.
-6. **Firefly III's own rules.** Recommendation: **let them run when a transaction is made** (`apply_rules: true` **(verify)**), and on an edit send only the fields Pesa Clarity changed, so a rule's change to another field stays. Alternative: turn rules off for our transactions.
+6. **Firefly III's own rules.** Recommendation: **let them run when a transaction is made** (`apply_rules: true` **(accepted)**), and on an edit send only the fields Pesa Clarity changed, so a rule's change to another field stays. Alternative: turn rules off for our transactions.
 7. **Removed in Firefly III by the person.** Recommendation: **not sent again**, unless they choose "Send everything again". Alternative: Pesa Clarity puts it back on its next edit.
 8. **Turning off and deleting a space.** Recommendation: **leave what was sent on the server** and say so. Alternative: offer "Also delete what was sent", which is more calls and can fail half-way.
 9. **Transactions not yet named.** Recommendation: **send them** under "Not named yet" with a tag, and change them when named, so Firefly III's balances stay right. Alternative: hold them back until named.
 10. **Who gets it.** Recommendation: **every build and everyone**, free, as everything else is (0015). Alternative: Android only first, since iPhone needs the local network permission.
 11. **Where it lives.** Recommendation: **a row in Profile under Backup and restore**, opening its own screen. Alternative: inside Backup and restore, which would mix a copy only you can open with data your server reads.
+
+
+## Appendix: what Firefly III 6.7.9 answered (stage 1)
+
+Tried on 21 November 2026 against `fireflyiii/core:latest` (Firefly III 6.7.9, API 6.7.9, PHP 8.5.12, SQLite, build 2306), run in Docker with a made-up user and a personal access token. The app's tests keep these answers in `test/fixtures/firefly/`.
+
+**Running it.** `docker run -p 8080:8080 -e APP_KEY=<32 characters> -e DB_CONNECTION=sqlite -e APP_URL=http://localhost:8080 -e TRUSTED_PROXIES=** fireflyiii/core`. On a host with no IPv6 its nginx does not start (`listen [::]:8080`); mounting `/etc/nginx/site-opts.d/http.conf.template` without that line fixes it. Docker Hub refused pulls (429) here; `mirror.gcr.io/fireflyiii/core` served the same image. A token for scripts can be made in the container with Laravel's `$user->createToken('name')->accessToken`; `artisan tinker` is not in the image.
+
+| Call | Answer |
+| --- | --- |
+| `GET /api/v1/about` | 200 `{"data":{"version":"6.7.9","api_version":"6.7.9","php_version":"8.5.12","os":"Linux","driver":"sqlite"}}` |
+| `GET /api/v1/about/user` | 200 `data.type` `users`, `attributes.email`, `attributes.role` `owner` |
+| Any call, wrong token, JSON `Accept` | 401 `{"message":"Unauthenticated.","exception":"AuthenticationException"}` |
+| Any call, wrong token, no JSON `Accept`; `/` and `/api/v1/about/` | 302 to `/login`: never follow, the token would go along |
+| `POST` with no `Content-Type` | 415 "Content-Type header cannot be empty." |
+| `POST /api/v1/accounts` asset in KES on a new install | 422 "The selected currency code is invalid.": KES does not exist. `POST /api/v1/currencies {code,name,symbol,decimal_places,enabled}` makes it (the symbol must be unique); `POST /api/v1/currencies/{code}/enable` turns one on. An account in a currency that exists but is off is accepted |
+| `POST /api/v1/accounts` asset | 200; `account_role` `defaultAsset`, `cashWalletAsset`, `savingAsset`; `opening_balance` "0" leaves none |
+| `POST /api/v1/accounts` liability `loan`, `debit`, opening 300 | 200; `type` `liabilities`, `opening_balance` "-300", `current_balance` "-300.00"; with `credit`, positive |
+| Same name and type twice | 422 "This account name is already in use."; an asset and a liability, or an asset and an expense account, may share a name |
+| `GET /api/v1/search/accounts?query=Fuliz&field=name&type=liabilities` | Finds "Fuliza": parts of names match; without `type`, the "Initial balance for" accounts come too |
+| `POST /api/v1/transactions` withdrawal, deposit, transfer | 200; `external_id`, `tags`, `category_name` (made if new), `notes`, `currency_code` kept; date offset kept (`2026-11-03T14:05:00+03:00`); amounts come back as `"450.000000000000"` |
+| Transfer KES to a USD account without `foreign_amount` | 422 on `transactions.0.foreign_amount`; with `foreign_amount` and `foreign_currency_code` it moves KES out and USD in |
+| Deposit from a liability; withdrawal to one; withdrawal from one; deposit into one | All accepted: borrowing, repaying, a charge added to what is owed, and what is owed going down. A transfer to a liability is refused |
+| `type` `reconciliation` | 422 "Created zero transaction journals." (and "No error yet." with a destination) |
+| Group with a transfer and a withdrawal | 422 "All splits must be of the same type." |
+| Same payload again, `error_if_duplicate_hash: true` | 422 `{"message":"Duplicate of transaction #8.","errors":{"transactions.0.description":[...]}}` (#8 is a journal id) |
+| Same payload, another `external_id` | 200: the hash includes `external_id` |
+| Same `external_id` after an edit to the first | 200: the hash is of the first payload; `external_id` is not unique |
+| `GET /api/v1/search/transactions?query=external_id_is:"pesaclarity:sp1:1"` | The one group. Without quotes: nothing. `external_id_starts:"..."` lists by prefix, with `meta.pagination` |
+| `PUT /api/v1/transactions/{id}` with one split, no journal id | 200; only the fields sent change; `type` with `source_id` and `destination_id` changes the kind; `tags` replace the old ones |
+| `DELETE /api/v1/transactions/{id}` | 204; again 404 `{"message":"Resource not found",...}`; `PUT` on it 404 |
+| `PUT /api/v1/accounts/{id}` opening balance | 200 on an asset; on a liability without `liability_direction` (and type, interest) 500 "Undefined array key" |
+| `GET /api/v1/accounts/{id}` | `current_balance` as a string; a liability owed shows negative |
+| Personal access tokens in the web interface | Profile, Remote access and tokens |
+
+Not tried here: the iPhone local network permission and Android's rule on plain connections (they need a phone), and a self-signed certificate on a real home server (the app's tests use a local server with a test certificate).
