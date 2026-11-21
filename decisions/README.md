@@ -30,3 +30,4 @@ Architecture decision records (ADRs): one short file per decision that is expens
 | [0024](0024-counting-installs-and-crash-reports.md) | Counting installs and crash reports without tracking | Accepted; admin sign-in amended by 0025 |
 | [0025](0025-admin-sign-in-password-and-second-factor.md) | Admin sign-in: a password and a second factor | Accepted |
 | [0026](0026-mpesa-family-of-accounts.md) | M-Pesa as a family of accounts | Accepted |
+| [0027](0027-money-between-spaces.md) | Money on one account that belongs to another space | Proposed |
