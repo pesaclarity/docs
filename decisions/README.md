@@ -32,4 +32,4 @@ Architecture decision records (ADRs): one short file per decision that is expens
 | [0026](0026-mpesa-family-of-accounts.md) | M-Pesa as a family of accounts | Accepted |
 | [0027](0027-money-between-spaces.md) | Money on one account that belongs to another space | Accepted |
 | [0028](0028-savings-apps.md) | Savings apps such as Chumz | Accepted |
-| [0029](0029-firefly-iii-sync.md) | Sending transactions to the person's own Firefly III | Proposed |
+| [0029](0029-firefly-iii-sync.md) | Sending transactions to the person's own Firefly III | Accepted |
