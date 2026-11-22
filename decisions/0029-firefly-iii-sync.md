@@ -43,6 +43,9 @@ Firefly III has three kinds of transaction: a withdrawal (asset to expense), a d
 | A savings account or M-Pesa savings member (0026), Chumz (0028) | Asset account, `account_role` `savingAsset` **(verified)** |
 | Fuliza, M-Shwari loan, KCB M-Pesa loan, a debt the person owes | Liability account, `liability_type` `loan` or `debt`, `liability_direction` `debit` (I owe) **(verified; Firefly III shows what is owed as a negative balance)** |
 | Money lent to someone | Liability account, `liability_direction` `credit` (owed to me) **(verified)**. Not built yet: the journal has no account for money lent, so it is sent as its role says |
+| Held for another space (0027): "Held for Vegetable stall", money on Personal's line that is the business's | Liability account, `liability_type` `debt`, `liability_direction` `debit`: the person holds it for that space, so they owe it. Its balance is the journal's Held for account |
+| A balance record (0027): what a payment switched to another space left where its account lives | A deposit from Held for into the account (money in) or a withdrawal from the account to Held for (money out, its fee with it), never income or spending. Its external id is `pesaclarity:<space>:-<record id>`, so it never meets a transaction's |
+| The owner's account in a business (0027): "On your M-Pesa" | Asset account, `defaultAsset`, read from the journal's owner's account. The switched payment is sent from the business on it, once |
 | `spending`, `fee`, `tax` | Withdrawal to an expense account named after the payee |
 | `income` | Deposit from a revenue account named after the payer |
 | `ownTransfer`, `saving` | Transfer between the two asset accounts |
@@ -203,5 +206,7 @@ Tried on 21 November 2026 against `fireflyiii/core:latest` (Firefly III 6.7.9, A
 | `PUT /api/v1/accounts/{id}` opening balance | 200 on an asset; on a liability without `liability_direction` (and type, interest) 500 "Undefined array key" |
 | `GET /api/v1/accounts/{id}` | `current_balance` as a string; a liability owed shows negative |
 | Personal access tokens in the web interface | Profile, Remote access and tokens |
+
+**Money between spaces (decision 0027), added after stage 1.** A payment switched from Personal to a business is sent as the two journals hold it: the business sends the sale, a deposit into the owner's account; Personal sends its balance record, a deposit from "Held for <business>" into M-Pesa. Firefly III's net worth counts the money once (the asset in each space, less the liability in Personal), income counts once (the business's), and every account ends at its balance in Pesa Clarity: the app's tests check this against a stand-in for the API that keeps balances as Firefly III does (`test/features/firefly/firefly_sender_test.dart`). Not yet tried against a real Firefly III: the integration test does it when `FIREFLY_URL` and `FIREFLY_TOKEN` are set. A liability of type `debt` with `debit` is the same call as the loans above, which were verified.
 
 Not tried here: the iPhone local network permission and Android's rule on plain connections (they need a phone), and a self-signed certificate on a real home server (the app's tests use a local server with a test certificate).
