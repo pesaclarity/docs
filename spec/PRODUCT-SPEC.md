@@ -121,7 +121,7 @@ The user ticks the institutions they transact with; each tick activates a parser
 
 ### Privacy
 
-Plain-language promises, the three consent switches (improve the app on, licensed models off, crash reports off), the full policy, and Email me a copy.
+Plain-language promises, the three consent switches (improve the app on, licensed models off, crash reports off), the full policy, and Email me a copy. Firefly III sync is not one of the switches: it has its own row in Profile, off until the person turns it on, and sends only to their own server.
 
 ### iPhone: connect M-Pesa
 
@@ -248,12 +248,14 @@ Apple does not let apps create automations, so the trigger step stays manual. Th
 | --- | --- |
 | Sign in with Apple | Required only if third-party sign-in is offered; the iPhone app has email sign-in only for now, so Apple sign-in comes with Google sign-in on iPhone |
 | In-app account deletion | Profile > Delete account |
-| Privacy nutrition labels | Declares sign-in details and encrypted backups only; no tracking |
+| Privacy nutrition labels | Declares sign-in details and encrypted backups only; no tracking. Firefly III sync changes nothing here: it sends only to the person's own server, which we cannot reach, so it is not data we collect |
 | Purpose of statement files | Explained in the import screen: used on the phone, never uploaded |
 | Encryption export compliance | Declared in App Store Connect; standard encryption, normally exempt |
 | No private APIs | Messages reach the app only through Shortcuts and user-shared files |
 
 Apple review should be simpler than Google's SMS permission review, since nothing needs a special entitlement.
+
+**Store labels and Firefly III ([0029](../decisions/0029-firefly-iii-sync.md)).** Neither Apple's privacy label nor Google Play's Data safety form needs a change for 0.5.4. Firefly III sync sends transactions only to a server the person runs, never to us or anyone we work with, so we cannot reach or keep that data: Apple counts data as collected only when the developer or its partners can access it, and the Play draft (`pesaclarity-app` `docs/play-console.md`) already says transactions are not collected. The iPhone app adds `NSLocalNetworkUsageDescription` ("Only if you turn on Firefly III: to send your transactions to your own Firefly III server on your home network."), which App Review reads with the first build that carries it; the review notes should say how to try it.
 
 ## Debt management
 
@@ -317,6 +319,7 @@ Infra (decided, [0004](../decisions/0004-eu-hosting-and-email-sign-in.md)): in t
 - **App lock:** PIN or biometric, auto-lock, hide balances on open, remote sign-out of devices.
 - **Hiding amounts:** one eye, the same on every screen, hides every amount across the app; it starts from "Hide balances on open". It sits at the right of a screen's title, or on the red card a screen leads with. The counter (Sell, Pay, tabs, Close the day, the record sheets), forms where an amount is typed, and receipts, invoices and statements chosen to share or print always show amounts.
 - **No analytics:** product decisions rely on interviews and opt-in feedback; an opt-in, anonymous crash report is the one exception.
+- **Firefly III:** if the person turns on Firefly III sync, their transactions are sent to the Firefly III server they choose, and never to ours. It is off until they turn it on, sends one way, tags each space, keeps the token on the phone and out of backups, and leaves what was sent on their server when turned off. It is free in every build. It needs HTTPS, or plain http to a home network address after a warning. See [0029](../decisions/0029-firefly-iii-sync.md).
 
 ### Mobile security
 
@@ -330,7 +333,7 @@ Target OWASP MASVS level 2 (the standard for apps handling financial data), veri
 | SMS handling | Only selected senders are read; raw message text is discarded after parsing, keeping fields and a hash for dedupe |
 | Permissions | SMS, notifications, restoring reminders after a restart, and the network (sign-in, backups, the privacy policy) only; no contacts, location or broad storage access. A test fails the build if the list changes |
 | OS backups | Android auto-backup off, so the database never lands in Google Drive; only the app's own end-to-end encrypted backup |
-| Network | TLS with cleartext off. Our servers are pinned to their certificate authorities, not their keys, because the hosts renew certificates with new keys every few months ([0005](../decisions/0005-pin-certificate-authorities.md)); Google Drive uses the phone's own authorities. No third-party SDKs or trackers |
+| Network | TLS with cleartext off, except plain http to the person's own Firefly III on a home network address after a warning. Our servers are pinned to their certificate authorities, not their keys, because the hosts renew certificates with new keys every few months ([0005](../decisions/0005-pin-certificate-authorities.md)); Google Drive uses the phone's own authorities. The person's own Firefly III server is not pinned: the phone's authorities for that host only, or one certificate whose fingerprint they confirmed ([0029](../decisions/0029-firefly-iii-sync.md)). No third-party SDKs or trackers |
 | Device integrity | A light root and tamper check warns once in Profile and never blocks use. Play builds attach a Play Integrity token, bound to the request, to backup uploads (and later model updates); the server refuses a token that fails. F-Droid builds cannot attest, so uploads without a token follow a server setting, set to allow |
 | Code | R8 and Flutter obfuscation; no secrets in the app; dependency scanning (OSV-Scanner) in `tool/check` before each push |
 | Updates | Parser packs and models signed (Ed25519) and verified on the phone before use |
