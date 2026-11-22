@@ -10,6 +10,8 @@ MASVS L2 expects certificate pinning. Our hosts (Cloud Run, Cloudflare) manage o
 
 Connections to our hosts trust only the root authorities named in the build (`PESACLARITY_PINNED_HOSTS` and `PESACLARITY_TRUSTED_ROOTS`, at least two roots). Third-party services such as Google Drive use the phone's authorities.
 
+A server the person runs themselves, such as their own Firefly III ([0029](0029-firefly-iii-sync.md)), is not one of our hosts and is not pinned: we do not know who signs its certificate. Its client reaches only that one server and trusts the phone's authorities, or exactly one certificate whose fingerprint the person confirmed.
+
 ## Consequences
 
 - Certificate renewals need no app update; a provider changing authority does, so ship a release trusting the new root before it switches.
