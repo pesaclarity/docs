@@ -1,8 +1,8 @@
 # 0031. Group budgets: one Household space on several phones
 
-Date: 2026-11-23 · Status: Proposed · Builds on [0004](0004-eu-hosting-and-email-sign-in.md), [0016](0016-spaces-kept-apart.md), [0018](0018-double-entry-journal.md), [0027](0027-money-between-spaces.md) and [0029](0029-firefly-iii-sync.md)
+Date: 2026-11-23 · Status: Accepted · Builds on [0004](0004-eu-hosting-and-email-sign-in.md), [0016](0016-spaces-kept-apart.md), [0018](0018-double-entry-journal.md), [0027](0027-money-between-spaces.md) and [0029](0029-firefly-iii-sync.md)
 
-This record proposes a direction and asks the decisions at the end. The owner must approve it before anything is built. Nothing here is built. Screens wait on an approved mockup.
+Accepted by the owner on 23 November 2026: option 1, built in stages, starting with the file stage, with the answers under Owner's decisions. Nothing here is built yet. Screens wait on an approved mockup.
 
 ## Context
 
@@ -137,3 +137,18 @@ Screens for stages 1 to 3 wait on approved mockups. Each stage gets its own spec
 8. Is a shared space backed up to the vault by each member, by the owner only, or not at all (the other phones being the backup)?
 9. Can a person be signed out and still take part, using the file-only stage, or must every member of a synced space have an account?
 10. Do you agree the privacy policy needs version 2.6 for stage 4, and a smaller note for stage 1?
+
+## Owner's decisions
+
+Answered by the owner on 23 November 2026.
+
+1. **Option 1, built in stages**, starting with the file stage (stage 1).
+2. **Household and Savings group (chama)** spaces can both be shared.
+3. **Member limit:** 6 for a Household, 30 for a chama.
+4. **Each transaction shows who added it** ("added by Achieng").
+5. **Roles:** Owner, Member and Viewer, plus Treasurer for chamas only.
+6. **Roles are enforced on the phones and on the server.** The server sees roles only, never amounts.
+7. **The server keeps changes for 90 days.** After that, a phone joins again from a fresh copy.
+8. **Each member backs up their own copy** of a shared space to the vault.
+9. **People without an account can take part** through the file stage.
+10. **A short privacy note ships with stage 1**, and privacy policy 2.6 ships before stage 4.
