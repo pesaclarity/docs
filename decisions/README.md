@@ -35,3 +35,4 @@ Architecture decision records (ADRs): one short file per decision that is expens
 | [0029](0029-firefly-iii-sync.md) | Sending transactions to the person's own Firefly III | Accepted |
 | [0030](0030-one-rule-against-double-entries.md) | One rule that stops double entries for every account | Accepted |
 | [0031](0031-group-budgets.md) | Group budgets: one Household space on several phones | Accepted |
+| [0032](0032-annual-licence.md) | Premium features with an annual licence | Proposed |
