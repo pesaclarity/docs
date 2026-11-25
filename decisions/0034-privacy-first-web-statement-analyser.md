@@ -1,6 +1,6 @@
 # 0034. Privacy-first web statement analyser
 
-Date: 2026-11-25 · Status: Proposed · Builds on [0003](0003-parsers-as-a-separate-package.md), [0007](0007-statement-engine-in-dart.md) and [0020](0020-rayo-our-own-inference-engine.md)
+Date: 2026-11-25 · Status: Accepted · Builds on [0003](0003-parsers-as-a-separate-package.md), [0007](0007-statement-engine-in-dart.md) and [0020](0020-rayo-our-own-inference-engine.md)
 
 Not agreed with the owner yet. A spike shows it can work; nothing is built for users.
 
