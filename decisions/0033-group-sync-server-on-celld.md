@@ -1,6 +1,6 @@
 # 0033. Group sync server on celld
 
-Date: 2026-11-25 · Status: Proposed · Builds on [0031](0031-group-budgets.md) and [0032](0032-annual-licence.md)
+Date: 2026-11-25 · Status: Accepted · Builds on [0031](0031-group-budgets.md) and [0032](0032-annual-licence.md)
 
 Not agreed with the owner yet. Nothing here is built.
 
