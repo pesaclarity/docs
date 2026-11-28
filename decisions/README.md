@@ -36,5 +36,6 @@ Architecture decision records (ADRs): one short file per decision that is expens
 | [0030](0030-one-rule-against-double-entries.md) | One rule that stops double entries for every account | Accepted |
 | [0031](0031-group-budgets.md) | Group budgets: one Household space on several phones | Accepted |
 | [0032](0032-annual-licence.md) | Premium features with an annual licence | Proposed |
-| [0033](0033-group-sync-server-on-celld.md) | Group sync server on celld | Accepted |
+| [0033](0033-group-sync-server-on-celld.md) | Group sync server on celld | Accepted; hosting replaced by 0035 |
 | [0034](0034-privacy-first-web-statement-analyser.md) | Privacy-first web statement analyser | Accepted |
+| [0035](0035-group-sync-through-the-backend.md) | Group sync through the backend, not a separate server | Accepted |
