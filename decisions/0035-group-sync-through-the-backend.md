@@ -2,7 +2,7 @@
 
 Date: 2026-11-28 · Status: Accepted · Replaces the hosting part of [0033](0033-group-sync-server-on-celld.md) · Builds on [0031](0031-group-budgets.md) and [0032](0032-annual-licence.md)
 
-The owner decided this on 28 November 2026. The routes are written and tested in [pesaclarity-backend #77](https://github.com/pesaclarity/pesaclarity-backend/pull/77), which is waiting for review. Nothing is deployed, and nobody can use it yet.
+The owner decided this on 28 November 2026. The routes are written, reviewed twice and merged into the backend's `dev` branch ([pesaclarity-backend #77](https://github.com/pesaclarity/pesaclarity-backend/pull/77)). Nothing is deployed, and nobody can use it yet.
 
 ## Context
 
@@ -63,7 +63,7 @@ So by reading what it stores, the server could learn how big each update really 
 
 ## Still needed before anyone can use it
 
-1. **Review and merge** of the backend pull request, then **the owner's `dev` → `main` approval and deploy**.
+1. **The owner's `dev` → `main` approval and deploy** of the backend. The pull request is reviewed and merged into `dev`.
 2. **Licence issuing (0032).** Nothing issues a licence yet. The server checks the planned format, and a small command mints test licences.
 3. **The app must hold a licence.** A test build with sync on sends the text `dev` today, which the server refuses.
 4. **By the owner, on the hosting:** set the licence public key; leave the sync routes out of Google's request log; move the vault's blob store to R2 first (the server reads from one store at a time); put the purge job on the new image.
