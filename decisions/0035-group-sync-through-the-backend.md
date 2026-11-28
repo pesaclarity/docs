@@ -23,17 +23,17 @@ Hosting it means new things to look after: two nodes of beta software, a domain,
 
 The protocol and every privacy rule:
 
-- The server stores and passes on **ciphertext only**. It has no keys, never parses a batch and merges nothing.
+- The server stores and passes on what the phones send and **never opens it**. It has no keys, never parses a batch and merges nothing. The entries in a batch are sealed. 0033 called this "ciphertext only"; that is not quite what the app sends today (see [What the server sees](#what-the-server-sees)).
 - Members sign each request with their space member key. A forged, stale or repeated request is refused.
 - The owner's licence (0032) is checked offline. Only "valid until" is kept. When it runs out the space is **read-only**: pulls work, pushes and new members are refused, and the owner can still remove a member.
 - Batches are padded to 1, 2, 4 … 1024 KiB.
 - A batch is deleted once every member it is for has pulled past it and it is at least 90 days old.
-- When the owner deletes a space, every row and stored batch of it goes.
+- When the owner deletes a space, every row that names it and every stored batch goes. What stays, for about ten minutes, is a digest of the nonce of each recent request. It does not name the space, and it is what refuses a copy of an old request if the owner makes the space again.
 - Rate limits per member key and per address. Our own logs hold no bodies and no addresses.
 
 ### How the backend does it
 
-- **Storage.** Spaces, members, the batch index, cursors and seen nonces are rows in the backend's Postgres. Batches are objects in the vault's blob store, under random keys.
+- **Storage.** Spaces, members, the batch index, cursors and seen nonces (as digests) are rows in the backend's Postgres. Batches are objects in the vault's blob store, under random keys.
 - **Kept apart from accounts.** The sync routes take no sign-in. The sync tables hold no account id or email, and nothing links them to the account tables.
 - **Several instances.** Cloud Run runs more than one copy of the server. Each change to a space locks that space's row, so batches get their cursors one at a time; a push can safely be sent twice; one signed request sent to two copies is accepted once.
 - **Off until wanted.** Until the licence public key is set, every licence is refused and no space can be made.
@@ -42,7 +42,15 @@ The protocol and every privacy rule:
 
 The same as in 0033: the space id, member key ids (who sent each batch and who it is for), batch sizes and times, and the address each request comes from. Ids and keys are random and not linked to an email or an account. The address is used for the flood limit, in memory only.
 
-**New here:** Google's request log for Cloud Run records each request's URL, which holds the space id, and the caller's address, for 30 days by default. 0033 allows no address in logs beyond 7 days. So these routes must be left out of that log before sync is turned on, as 0024 did for the update check and crash reports.
+**What can be read in a stored batch.** The server never reads a batch, but not all of what it stores is ciphertext. Checked in pesaclarity-app (`padForSync` and `ShareCodec`):
+
+- **The true size.** The app pads a batch to 1, 2, 4 … 1024 KiB, but writes the file's real length in the first 4 bytes, in clear. So the padding hides the size from someone watching the network, not from the server or anyone who reads its storage.
+- **The file's header.** A `.pcshare` file starts with a header in clear: the ids of the space, the file, the sender and the recipient (random ids; the member ids are not the signing keys), which space key sealed it (a number that goes up each time the owner replaces the key, which the app does after removing a member), and the phone's time when the update was made. When the key is replaced, the new key travels in the header too, sealed to the recipient.
+- **Sealed:** everything else. The entries themselves (transactions, amounts, names, categories, notes) are compressed and sealed with AES-256-GCM to the one member the file is for. The header cannot be changed without the file failing to open.
+
+So by reading what it stores, the server could learn how big each update really is, how often a space's key was replaced, and the members' ids inside the space, on top of what the list above already gives it. It cannot read an entry.
+
+**New here:** Google's request log for Cloud Run records each request's URL, which holds the space id (and a member's key when a member is added or removed), and the caller's address, for 30 days by default. 0033 allows no address in logs beyond 7 days. So these routes must be left out of that log before sync is turned on, as 0024 did for the update check and crash reports.
 
 ## What is given up
 
@@ -57,7 +65,8 @@ The same as in 0033: the space id, member key ids (who sent each batch and who i
 2. **Licence issuing (0032).** Nothing issues a licence yet. The server checks the planned format, and a small command mints test licences.
 3. **The app must hold a licence.** A test build with sync on sends the text `dev` today, which the server refuses.
 4. **By the owner, on the hosting:** set the licence public key; leave the sync routes out of Google's request log; move the vault's blob store to R2 first (the server reads from one store at a time); put the purge job on the new image.
-5. **Privacy policy 2.6** before sync is offered to anyone, as 0031 decided: our server gains a job and holds a new kind of data.
+5. **Privacy policy 2.6** before sync is offered to anyone, as 0031 decided: our server gains a job and holds a new kind of data. It must say what is readable in a stored batch, as above, unless that is changed first.
+6. **The owner's call: hide the size and the header, or accept them.** Hiding them needs a change to the app's format, not to the server: for example sealing the padded batch as a whole, so the length and the header are inside the seal. The server would store the new batches as it stores these.
 
 ## Consequences
 
