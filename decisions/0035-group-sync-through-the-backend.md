@@ -36,6 +36,8 @@ The protocol and every privacy rule:
 - **Storage.** Spaces, members, the batch index, cursors and seen nonces (as digests) are rows in the backend's Postgres. Batches are objects in the vault's blob store, under random keys.
 - **Kept apart from accounts.** The sync routes take no sign-in. The sync tables hold no account id or email, and nothing links them to the account tables.
 - **Several instances.** Cloud Run runs more than one copy of the server. Each change to a space locks that space's row, so batches get their cursors one at a time; a push can safely be sent twice; one signed request sent to two copies is accepted once.
+- **Turned off and on again.** The app makes a space again under the same id. Each time, the server starts the space's cursors at a new random number, so a phone that still holds a cursor from before is recognised and gets everything from the start, however often it asks.
+- **Slow uploads.** A body is cut off when nothing of it arrives for 10 seconds or it falls behind 4 KiB a second, and only a few slow bodies are taken at once, per address and per instance. So held or slow uploads cannot take the capacity sign-in and the vault need.
 - **Off until wanted.** Until the licence public key is set, every licence is refused and no space can be made.
 
 ## What the server sees
