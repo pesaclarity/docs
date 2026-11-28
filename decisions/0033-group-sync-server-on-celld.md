@@ -1,6 +1,6 @@
 # 0033. Group sync server on celld
 
-Date: 2026-11-25 · Status: Accepted · Builds on [0031](0031-group-budgets.md) and [0032](0032-annual-licence.md)
+Date: 2026-11-25 · Status: Accepted; hosting replaced by [0035](0035-group-sync-through-the-backend.md) · Builds on [0031](0031-group-budgets.md) and [0032](0032-annual-licence.md)
 
 Not agreed with the owner yet. Nothing here is built.
 
@@ -82,3 +82,7 @@ The server sees the space id, member key ids, batch sizes and times, and IP addr
 - Paid owners get live sync without our server ever seeing transactions.
 - New things to run: celld nodes, a bucket, monitoring.
 - The app needs a sync client alongside the file import/export from 0031.
+
+## Amendment, 2026-11-28
+
+Group sync is not hosted on celld. The owner decided that it goes through the existing backend: [0035](0035-group-sync-through-the-backend.md) replaces the hosting in this record. There are no celld nodes, no separate domain and no separate bucket, so Operations, the celld risks and the stages above no longer apply, and alternative 2 is what was chosen. The protocol and the privacy rules stay as written here: ciphertext only, signed requests, the licence check, read-only on expiry, padding, retention, deleting a space and what the server sees. The WebSocket for live updates and the snapshots are not built yet.
